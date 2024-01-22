@@ -46,6 +46,7 @@ int	main(int argc, char *argv[], char *envp[])
 			4. Free memory
 				-> xd
 	*/
+	manage(data);
 
 	/* Liberar toda la memoria */
 	free_msh(data);
