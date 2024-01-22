@@ -15,7 +15,8 @@ CFLAGS =-Wall -Werror -Wextra
 LIB = libft/libft.a
 
 SRC =	main.c 	\
-		init.c
+		init.c	\
+		manage.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
