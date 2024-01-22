@@ -1,5 +1,6 @@
 .vscode
 .DS_Store
-*.o
 obj/
+*.o
 minishell
+libft/libft.a
