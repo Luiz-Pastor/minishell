@@ -20,9 +20,6 @@ static void	*clean_env(char *envp[], int max)
 
 void	*free_msh(t_msh *data)
 {
-	int	i;
-
-	i = 0;
 	if (!data)
 		return (NULL);
 	if (data->envp)
