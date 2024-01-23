@@ -75,6 +75,9 @@ t_msh	*init_msh(char *envp[]);
 void	*free_msh(t_msh *data);
 
 /* Bucle */
-void	manage(t_msh *data);
+int		manage(t_msh *data);
+
+/* Parser */
+char	*check_quots(char *input);
 
 #endif

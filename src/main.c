@@ -1,7 +1,7 @@
 #include "../inc/minishell.h"
 
 # define ERROR_MSG "Bad use: ./minishell"
-# define MALLOC_MSG "Malloc error"
+# define MALLOC_MSG C_RED"Malloc error"CLEAR
 
 int	print_error(char *msg)
 {
@@ -46,7 +46,8 @@ int	main(int argc, char *argv[], char *envp[])
 			4. Free memory
 				-> xd
 	*/
-	manage(data);
+	if (manage(data))
+		return (print_error(MALLOC_MSG));
 
 	/* Liberar toda la memoria */
 	free_msh(data);
