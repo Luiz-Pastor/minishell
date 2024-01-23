@@ -2,7 +2,6 @@
 
 #define	QUOTE_MSG C_CYAN"dquote> "CLEAR
 
-/* TODO: proteger los strjoin */
 static char	*dquote(char *input)
 {
 	char	*new_line;
@@ -11,13 +10,16 @@ static char	*dquote(char *input)
 
 	new_line = readline(QUOTE_MSG);
 	if (!new_line)
-	{
-		free(input);
-		return (NULL);
-	}
+		return (ft_mfree(1, &input));
+
 	inter = ft_strjoin(input, "\n");
+	if (!inter)
+		return (ft_mfree(1, &input));
+
 	full = ft_strjoin(inter, new_line);
-	
+	if (!full)
+		return (ft_mfree(2, &input, &new_line));
+
 	ft_mfree(3, &input, &inter, &new_line);
 
 	return (full);
