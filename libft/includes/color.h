@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angela <angela@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 11:55:37 by abarrio-          #+#    #+#             */
-/*   Updated: 2023/12/20 16:31:48 by angela           ###   ########.fr       */
+/*   Updated: 2024/01/23 10:51:51 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@
 
 // text color
 
-// #define RED				"\x1B[31m"
+#define C_RED				"\x1B[31m"
 // #define GREEN			"\x1B[32m"
-// #define GREENFOSFI		"\x1B[38;2;17;245;120m"
+#define C_GREENFOSFI		"\x1B[38;2;17;245;120m"
 // #define	PURPLE			"\033[0;35m"
 // #define BLACK  			"\x1B[30m"
 // #define YELLOW 			"\x1b[33m"
 // #define BLUE   			"\x1b[34m"
 // #define MAGENTA			"\x1b[35m"
-// #define CYAN   			"\x1b[36m"
+#define C_CYAN   			"\x1b[36m"
 // #define WHITE  			"\x1B[37m"
 // #define ORANGE 			"\x1B[38;2;255;128;0m"
 // #define ROSE   			"\x1B[38;2;255;151;203m"
