@@ -14,8 +14,10 @@ CFLAGS =-Wall -Werror -Wextra
 # librarys
 LIB = libft/libft.a
 
-SRC =	main.c 	\
-		init.c
+# SRC =	main.c 	\
+# 		init.c
+
+SRC = echo.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
