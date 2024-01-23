@@ -6,7 +6,7 @@
 /*   By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 11:13:20 by lpastor-          #+#    #+#             */
-/*   Updated: 2024/01/23 11:55:29 by lpastor-         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:56:25 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_mfree(int count, ...)
 	{
 		pointer = va_arg(args, void **);
 		free(*pointer);
-g		*pointer = NULL;
+		*pointer = NULL;
 		index++;
 	}
 	va_end(args);
