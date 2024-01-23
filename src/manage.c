@@ -1,8 +1,9 @@
 #include "../inc/minishell.h"
 #include <string.h>
 
+#define MINISHELL_MSG C_GREENFOSFI"minishell> "CLEAR
 
-void	manage(t_msh *data)
+int	manage(t_msh *data)
 {
 	(void)data;
 	char	*input;
@@ -12,24 +13,39 @@ void	manage(t_msh *data)
 	while (1)
 	{
 		/* TODO: Leemos comandos y añadirlos al historial */
-		input = readline("minishell> ");
-		printf("=> [%s]\n", input); /* Si se quita no compila porque no se usa en ningun otro lugar */
-
+		input = readline(MINISHELL_MSG);
+		if (!input)
+		{
+			printf("\n");
+			continue ;
+		}
 		/* TODO: parseo */
 
-		/* TODO: Mirar comillas y pedir mas data si hace falta */
+		/* Mirar comillas y pedir mas data si hace falta */
+		input = check_quots(input);
+		if (!input)
+		{
+			printf("msh: syntax error: unexpected end of file\n");
+			continue ;
+		}
+
 		/* TODO: Expandir variables */
+
+		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
+		printf("\t=> [%s]\n", input);
 
 		/* TODO: paso intermedio */
 
 		/* TODO: ejecutor */
 
 		/* TODO: liberamos memoria */
-		if (!strcmp("exit", input))
+		if (input && !strcmp("exit", input))
 			end = 1;
-		free(input);
+		if (input)
+			free(input);
 
 		if (end)
 			break ;
 	}
+	return (0);
 }
