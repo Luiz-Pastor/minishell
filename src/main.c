@@ -19,7 +19,7 @@ int	main(int argc, char *argv[], char *envp[])
 	(void) argv;
 	t_msh	*data;
 
-	/* atexit(leaks); */
+	atexit(leaks);
 
 	/* Test de argumentos: no se requiere ninguno */
 	if (argc != 1)

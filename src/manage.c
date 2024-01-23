@@ -6,7 +6,9 @@ void	manage(t_msh *data)
 {
 	(void)data;
 	char	*input;
+	int		end;
 
+	end = 0;
 	while (1)
 	{
 		/* TODO: Leemos comandos y añadirlos al historial */
@@ -15,11 +17,19 @@ void	manage(t_msh *data)
 
 		/* TODO: parseo */
 
+		/* TODO: Mirar comillas y pedir mas data si hace falta */
+		/* TODO: Expandir variables */
+
 		/* TODO: paso intermedio */
 
 		/* TODO: ejecutor */
 
 		/* TODO: liberamos memoria */
+		if (!strcmp("exit", input))
+			end = 1;
+		free(input);
 
+		if (end)
+			break ;
 	}
 }
