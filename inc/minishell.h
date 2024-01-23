@@ -77,4 +77,6 @@ void	*free_msh(t_msh *data);
 /* Bucle */
 void	manage(t_msh *data);
 
+char	*expand(char *input, t_msh *data);
+
 #endif

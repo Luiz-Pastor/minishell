@@ -33,4 +33,12 @@
 - [] Parseo<br>
 	- [] Mirar que esten bien las comillas
 	- [] Expandir las variables del input
+		- tener en cuenta las comillas si esta dentro de comillas simples no expande
+		- 
 - [] Built-ins
+
+
+
+No hay nada abierto ->			     Se interpreta ->     /Users…
+Hay comillas dobles abiertas->    Se interpreta ->      /Users/…
+Hay comillas simples abiertas -> No se interpreta -> $PATH
