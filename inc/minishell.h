@@ -1,6 +1,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "../libft/includes/libft.h"
 
 /*
@@ -18,6 +21,9 @@ typedef struct s_msh	t_msh;
 */
 typedef struct s_cmd	t_cmd;
 
+/*
+ * brief	Information about the infiles and outfiles
+*/
 typedef struct s_io_file	t_io_file;
 
 
@@ -37,6 +43,9 @@ struct s_msh
 
 	/* Futuras señales */
 	/*...*/
+
+	/* Salida del ultimo comando */
+	int		last_out;
 };
 
 struct s_cmd
@@ -61,8 +70,11 @@ struct s_io_file
 };
 
 
-// init msh
+/* Init struct msh */
 t_msh	*init_msh(char *envp[]);
 void	*free_msh(t_msh *data);
+
+/* Bucle */
+void	manage(t_msh *data);
 
 #endif

@@ -8,6 +8,8 @@
 	- Leer los comandos y guardarlos en la estructura
 		- Mirar que las comillas esten bien puestas (" && ')
 
+		- Expandir las variable --> $HOME = /Users/...
+
 		- Guardar el comando
 		- Guardar las flags
 		- Guardar los infiles
@@ -18,7 +20,7 @@
 		- Abrir los outfiles useless
 
 	- Ejecutor
-		- Mirar si es build-in
+		- Mirar si es built-in
 			- Si sí que es, ejecutarlo
 			- Sino, pipex
 
@@ -26,3 +28,9 @@
 		- Liberar toda la reserva de memoria
 
 3. Liberar toda la memoria
+
+# TAREAS
+- [] Parseo<br>
+	- [] Mirar que esten bien las comillas
+	- [] Expandir las variables del input
+- [] Built-ins

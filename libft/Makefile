@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: angela <angela@student.42.fr>              +#+  +:+       +#+         #
+#    By: lpastor- <lpastor-@student.42madrid.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/12 11:55:51 by abarrio-          #+#    #+#              #
-#    Updated: 2023/12/20 16:10:00 by angela           ###   ########.fr        #
+#    Updated: 2024/01/22 20:18:41 by lpastor-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,7 @@ STRUCT_FUNC =	ft_lstnew.c \
 				ft_lstiter.c \
 				ft_lstmap.c
 
-OBJ_DIR = objs
+OBJ_DIR = obj
 OBJ=	$(BASICS_FUNC:%.c=$(OBJ_DIR)/%.o) \
 		$(STR_FUNC:%.c=$(OBJ_DIR)/%.o) \
 		$(MEM_FUNC:%.c=$(OBJ_DIR)/%.o) \

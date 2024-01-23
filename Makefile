@@ -9,15 +9,14 @@ CLEAR	=	\033[0m
 NAME =minishell
 
 CC = gcc
-CFLAGS =-Wall -Werror -Wextra
+CFLAGS =-Wall -Werror -Wextra -g3
 
 # librarys
 LIB = libft/libft.a
 
-# SRC =	main.c 	\
-# 		init.c
-
-SRC = echo.c
+SRC =	main.c 	\
+		init.c	\
+		manage.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
@@ -29,7 +28,7 @@ $(NAME): $(OBJ)
 	$(MAKE) -sC ./libft
 	@echo "$(GREEN)librarys compiled correctly\n$(CLEAR)"
 	@echo "$(PINK)Compiling the minishell.$(CLEAR)"
-	$(CC) $(OBJ) $(LIB) -o $(NAME)
+	$(CC) $(OBJ) $(LIB) -o $(NAME) -lreadline
 	@echo "$(GREEN)[OK]\n$(CLEAR)$(GREEN)Success!$(CLEAR)\n"
 
 $(OBJ_DIR)%.o: src/%.c
