@@ -20,8 +20,6 @@ int	manage(t_msh *data)
 			continue ;
 		}
 
-		/* TODO: parseo */
-
 		/* Mirar comillas y pedir mas data si hace falta */
 		input = check_quots(input);
 		if (!input)
@@ -35,6 +33,8 @@ int	manage(t_msh *data)
 
 		/* TODO: Expandir variables */
 
+		/* TODO: parseo */
+
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
 		printf("\t=> [%s]\n", input);
 
@@ -43,11 +43,12 @@ int	manage(t_msh *data)
 		/* TODO: ejecutor */
 
 		/* TODO: liberamos memoria */
+		
+		/********************************** Temporal para poder salir de la terminal bien **********************************/
 		if (input && !strcmp("exit", input))
 			end = 1;
 		if (input)
 			free(input);
-
 		if (end)
 			break ;
 	}
