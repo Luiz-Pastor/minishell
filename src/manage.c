@@ -13,21 +13,25 @@ int	manage(t_msh *data)
 	while (1)
 	{
 		/* TODO: Leemos comandos y añadirlos al historial */
-		input = readline(MINISHELL_MSG);
+		input = readline("minishell> ");
 		if (!input)
 		{
 			printf("\n");
 			continue ;
 		}
+
 		/* TODO: parseo */
 
 		/* Mirar comillas y pedir mas data si hace falta */
 		input = check_quots(input);
 		if (!input)
 		{
-			printf("msh: syntax error: unexpected end of file\n");
+			printf(C_RED"\nmsh: syntax error: unexpected end of file\n"CLEAR);
 			continue ;
 		}
+
+		/* Guardamos en el historial el comando que se ha intentado ejecutar */
+		add_history(input);
 
 		/* TODO: Expandir variables */
 
