@@ -49,7 +49,12 @@ fclean: clean
 	@$(MAKE) fclean -sC ./libft
 	@echo "$(GREEN)Exec. files removed correctly\nSuccess!\n$(CLEAR)"
 
-run: all
+###############################################################################
+
+clear:
+	@clear
+
+run: clear all
 	@./$(NAME)
 
 env: all
