@@ -31,7 +31,7 @@ static char	*get_part(char *str, int *i, char del)
 	add = 0;
 	if (del == '\'' || del == '\"')
 		add = 1;
-	new = ft_substr(str, start, *i - start + add);
+	new = ft_substr(str, start + add, *i - start - add);
 	return (new);
 }
 
