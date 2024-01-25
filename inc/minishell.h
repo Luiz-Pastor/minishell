@@ -80,4 +80,6 @@ int		manage(t_msh *data);
 /* Parser */
 char	*check_quots(char *input);
 
+char	**divide_command(char *input);
+
 #endif

@@ -17,7 +17,8 @@ LIB = libft/libft.a
 SRC =	main.c 		\
 		init.c		\
 		manage.c	\
-		quots.c
+		quots.c		\
+		divide_args.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
