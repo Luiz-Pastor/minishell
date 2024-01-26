@@ -5,38 +5,37 @@
 
 int	manage(t_msh *data)
 {
-	(void)data;
-	char	*input;
 	int		end;
 
 	end = 0;
 	while (1)
 	{
 		/* TODO: Leemos comandos y añadirlos al historial */
-		input = readline("minishell> ");
-		if (!input)
+		data->input = readline("minishell> ");
+		if (!data->input)
 		{
 			printf("\n");
 			continue ;
 		}
 
 		/* Mirar comillas y pedir mas data si hace falta */
-		input = check_quots(input);
-		if (!input)
+		data->input = check_quots(data->input);
+		if (!data->input)
 		{
 			printf(C_RED"\nmsh: syntax error: unexpected end of file\n"CLEAR);
 			continue ;
 		}
 
 		/* Guardamos en el historial el comando que se ha intentado ejecutar */
-		add_history(input);
+		add_history(data->input);
 
 		/* TODO: Expandir variables */
 
 		/* TODO: parseo */
+		parse(data);
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
-		printf("\t=> [%s]\n", input);
+		printf("\t=> [%s]\n", data->input);
 
 		/* TODO: paso intermedio */
 
@@ -45,10 +44,10 @@ int	manage(t_msh *data)
 		/* TODO: liberamos memoria */
 		
 		/********************************** Temporal para poder salir de la terminal bien **********************************/
-		if (input && !strcmp("exit", input))
+		if (data->input && !strcmp("exit", data->input))
 			end = 1;
-		if (input)
-			free(input);
+		if (data->input)
+			free(data->input);
 		if (end)
 			break ;
 	}
