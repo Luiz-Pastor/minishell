@@ -82,6 +82,15 @@ void	*free_msh(t_msh *data);
 void	manage(t_msh *data);
 
 /* Expand */
+# define FIRST_LETTER 1
+# define MID_LETTER 2
+
+typedef struct	s_quotes
+{
+	int		flag;
+	char	type;
+}				t_quotes;
+
 char	*expand(t_msh *data);
 
 #endif

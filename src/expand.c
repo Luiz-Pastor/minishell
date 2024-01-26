@@ -1,14 +1,11 @@
 #include "../inc/minishell.h"
 
-# define FIRST_LETTER 1
-# define MID_LETTER 2
-
-typedef struct	s_quotes
+void	*free_expand(char *str1, char *str2)
 {
-	int		flag;
-	char	type;
-}				t_quotes;
-
+	free(str1);
+	free(str2);
+	return (NULL);
+}
 char	*content_var(char *variable, t_msh *data)
 {
 	int i;
@@ -26,7 +23,8 @@ char	*content_var(char *variable, t_msh *data)
 	}
 	if (data->envp[i])
 	{
-		content = ft_substr(data->envp[i], ft_strlen(variable), ft_strlen(data->envp[i]) - ft_strlen(variable));
+		content = ft_substr(data->envp[i], ft_strlen(variable),
+				ft_strlen(data->envp[i]) - ft_strlen(variable));
 		if (!content)
 			return (NULL);
 	}
@@ -53,11 +51,12 @@ int	ft_correct_var_char(char c, int flag) // esta funcion esta duplicada en el e
 
 // NOTE: prblemmas angie futuro: algun $ mas?¿?¿?
 // flag de si estan abiertas las comillas  no 
-// {} bro no 
+// {} bro no se gestiona
 // $ espacio
 // $?
 // variables solo pueden empezar por letra y tener numeros
 // al generar la variable mete el =
+
 char	*mod_infile_expand(t_msh *data, char *content, char *variable, int i)
 {
 	// variable + $ es el valor a sustituir por content en el input
@@ -98,13 +97,13 @@ static char	*last_state(t_msh *data, int *i)
 	if (!variable)
 		return (NULL);
 	content = ft_itoa(data->last_out);
-	printf("?? contenido ---> %s\n", content);
 	if (!content)
-		return (NULL); // malloc error 
+		return (free_expand(variable, NULL)); // malloc error 
 	data->input = mod_infile_expand(data, content, variable, *i);
+	if (!data->input)
+		return(free_expand(variable, content));
 	*i += ft_strlen(content) - ft_strlen(variable);
-	free(content);
-	free(variable);
+	free_expand(variable, content);
 	return (data->input);
 }
 
@@ -114,7 +113,6 @@ static char	*expand_manage(t_msh *data, t_quotes *quotes, int *i)
 	char	*content;
 	int		aux;
 
-	// tengo que quitar los corchetes de mierda
 	if (quotes->flag == 1 && quotes->type == '\'' )
 		return(data->input);
 	aux = *i;
@@ -134,14 +132,13 @@ static char	*expand_manage(t_msh *data, t_quotes *quotes, int *i)
 		// buscar variable si no esta nada ignorar ni el siguiente espacio
 		content = content_var(variable, data);
 		if (!content)
-			return (NULL); // error
+			return (free_expand(variable, NULL)); // error
 		data->input = mod_infile_expand(data, content, variable, aux);
 		if (!data->input)
-			return (NULL);
+			return (free_expand(variable, content));
 		// puede haber cosas justo despues pero solo un puntoo 
 		*i += ft_strlen(content) - ft_strlen(variable);
-		free(content);
-		free(variable);
+		free_expand(variable, content);
 	}
 	//  la i cambia actualizarla a la ueva posicion donde seguir iterando en la funcion expand
 	return (data->input);
