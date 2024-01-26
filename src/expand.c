@@ -31,7 +31,7 @@ char	*content_var(char *variable, t_msh *data)
 			return (NULL);
 	}
 	else
-		return (NULL);
+		return (ft_strdup(""));
 	return (content);
 }
 
@@ -50,9 +50,10 @@ int	ft_correct_var_char(char c, int flag) // esta funcion esta duplicada en el e
 	// los numeros son validos siempre y cuando no esten el primero 
 }
 
+
 // NOTE: prblemmas angie futuro: algun $ mas?¿?¿?
 // flag de si estan abiertas las comillas  no 
-// {}
+// {} bro no 
 // $ espacio
 // $?
 // variables solo pueden empezar por letra y tener numeros
@@ -70,31 +71,16 @@ char	*mod_infile_expand(t_msh *data, char *content, char *variable, int i)
 	new_input = malloc (sizeof(char) * size + 1);
 	if (!new_input)
 		return (NULL);
-	printf("size --> %d\n", size);
 	j = 0;
 	z = 0;
 	aux = 0;
 	while (aux < i - 1)
-	{
-		new_input[j] = data->input[aux];
-		aux++;
-		j++;
-	}
+		new_input[j++] = data->input[aux++];
 	while (content[z] != '\0')
-	{
-		new_input[j] = content[z];
-		j++;
-		z++;
-
-	}
-	aux += ft_strlen(variable) + 1;
+		new_input[j++] = content[z++];
+	aux += ft_strlen(variable);
 	 while (data->input[aux] != '\0')
-	{
-		new_input[j] = data->input[aux];
-		aux++;
-		j++;
-	}
-	printf("owo\n");
+		new_input[j++] = data->input[aux++];
 	new_input[j] = '\0';
 	free(data->input);
 	return(new_input);
@@ -108,7 +94,11 @@ static char	*last_state(t_msh *data, int *i)
 	variable = ft_strdup("?");
 	if (!variable)
 		return (NULL); // malloc error 
+	variable = ft_gnl_strjoin(variable, "=");
+	if (!variable)
+		return (NULL);
 	content = ft_itoa(data->last_out);
+	printf("?? contenido ---> %s\n", content);
 	if (!content)
 		return (NULL); // malloc error 
 	data->input = mod_infile_expand(data, content, variable, *i);
@@ -135,29 +125,23 @@ static char	*expand_manage(t_msh *data, t_quotes *quotes, int *i)
 		(*i)++;
 		while(ft_correct_var_char(data->input[*i], MID_LETTER) == 1)
 			(*i)++;
-		printf("i - aux ----> %d\n", *i - aux);
 		variable = ft_substr(data->input, aux, (size_t)*i - aux); // guardar en variable el = antes de mirarlo
 		if (!variable)
 			return (NULL); // malloc error
 		variable = ft_gnl_strjoin(variable, "=");
 		if(!variable)
 			return (NULL);
-		printf("variable ---> %s\n", variable);
 		// buscar variable si no esta nada ignorar ni el siguiente espacio
 		content = content_var(variable, data);
 		if (!content)
 			return (NULL); // error
-		printf("contenido ---> %s\n", content);
 		data->input = mod_infile_expand(data, content, variable, aux);
 		if (!data->input)
 			return (NULL);
-		printf("supuesto resultado final %s\n", data->input);
-		printf("bxbbuwu\n");
 		// puede haber cosas justo despues pero solo un puntoo 
 		*i += ft_strlen(content) - ft_strlen(variable);
 		free(content);
 		free(variable);
-		printf(" i---> %d\n", *i);
 	}
 	//  la i cambia actualizarla a la ueva posicion donde seguir iterando en la funcion expand
 	return (data->input);
