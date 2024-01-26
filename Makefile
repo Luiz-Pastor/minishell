@@ -18,7 +18,11 @@ SRC =	main.c 		\
 		init.c		\
 		manage.c	\
 		quots.c		\
-		divide_args.c
+		divide_args.c	\
+		matrix_utils.c	\
+		quot_utils.c	\
+		utils.c			\
+		parse.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)

@@ -1,14 +1,5 @@
 #include "../inc/minishell.h"
 
-static int	is_space(char ch)
-{
-	if (ch == ' ' || ch == '\n' || ch == '\t')
-		return (1);
-	if (ch == '\v' || ch == '\f' || ch == '\r')
-		return (1);
-	return (0);
-}
-
 static char	*get_part(char *str, int *i, char del)
 {
 	char	*new;
@@ -35,45 +26,6 @@ static char	*get_part(char *str, int *i, char del)
 	return (new);
 }
 
-static char	**add_part(char *str, char **mtx)
-{
-	char	**res;
-	int		index;
-
-
-	index = 0;
-	while (mtx && mtx[index])
-		index++;
-	res = ft_calloc(index + 2, sizeof(char **));
-	if (!res)
-		return (NULL);
-	index = 0;
-	while (mtx && mtx[index])
-	{
-		res[index] = mtx[index];
-		index++;
-	}
-	res[index] = str;
-	free(mtx);
-	return (res);
-}
-
-static void	*free_parts(char *part, char **args)
-{
-	int	index;
-
-	index = 0;
-	if (part)
-		free(part);
-	if (args)
-	{
-		while (args[index])
-			free(args[index++]);
-		free(args);
-	}
-	return (NULL);
-}
-
 char	**divide_command(char *input)
 {
 	int	index;
@@ -94,7 +46,7 @@ char	**divide_command(char *input)
 			return (free_parts(new, res));
 		res = add_part(new, res);
 		if (!res)
-			return (free_parts(new, res));
+			return (free_parts(new, NULL));
 		index++;
 	}
 	return (res);

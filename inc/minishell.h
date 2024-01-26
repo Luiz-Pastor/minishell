@@ -35,6 +35,9 @@ enum e_bool
 
 struct s_msh
 {
+
+	char	*input;
+
 	/* Variables de entorno. Se acualiza */
 	char	**envp;
 
@@ -52,6 +55,9 @@ struct s_cmd
 {
 	/* Comando con flags */
 	char	*main;
+
+	/* Argumentos (y flags) del comando*/
+	char	**arguments;
 
 	/* Archivos infile */
 	t_io_file *infiles;
@@ -81,5 +87,18 @@ int		manage(t_msh *data);
 char	*check_quots(char *input);
 
 char	**divide_command(char *input);
+
+/* Matrix utils*/
+char	**add_part(char *str, char **mtx);
+void	*free_parts(char *part, char **args);
+
+/* Quot utils */
+int	is_quot(char *input, int index);
+
+/* Utils */
+int	is_space(char ch);
+
+/* Parser */
+void	parse(t_msh *data);
 
 #endif
