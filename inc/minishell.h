@@ -38,6 +38,10 @@ struct s_msh
 	/* Variables de entorno. Se acualiza */
 	char	**envp;
 
+	/* Input del usuario */
+	char 	*input;
+
+
 	/* Lista de comandos */
 	t_cmd	*cmds;
 
@@ -77,6 +81,7 @@ void	*free_msh(t_msh *data);
 /* Bucle */
 void	manage(t_msh *data);
 
-char	*expand(char *input, t_msh *data);
+/* Expand */
+char	*expand(t_msh *data);
 
 #endif
