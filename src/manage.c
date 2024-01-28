@@ -35,7 +35,7 @@ int	manage(t_msh *data)
 		parse(data);
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
-		printf("\t=> [%s]\n", data->input);
+		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
 
 		/* TODO: paso intermedio */
 
