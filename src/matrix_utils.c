@@ -38,3 +38,13 @@ void	*free_parts(char *part, char **args)
 	}
 	return (NULL);
 }
+
+int	matrix_length(char **mtx)
+{
+	int	i;
+
+	i = 0;
+	while (mtx && mtx[i])
+		i++;
+	return (i);
+}
