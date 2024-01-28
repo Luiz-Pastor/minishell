@@ -22,7 +22,9 @@ SRC =	main.c 		\
 		matrix_utils.c	\
 		quot_utils.c	\
 		utils.c			\
-		parse.c
+		parse.c			\
+		init_cmds.c		\
+		add_io_files.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
@@ -62,6 +64,7 @@ clear:
 run: clear all
 	@./$(NAME)
 
+ruin: env
 env: all
 	@env -i ./$(NAME)
 

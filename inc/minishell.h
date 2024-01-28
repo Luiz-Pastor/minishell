@@ -33,6 +33,21 @@ enum e_bool
 	TRUE
 };
 
+enum
+{
+	WITH_QUOT = 0,
+	WITHOUT_QUOT
+};
+
+typedef enum
+{
+	INFILE = 0,
+	HERE_DOC,
+	TRUNC,
+	ADD
+} t_file_type;
+
+
 struct s_msh
 {
 
@@ -43,6 +58,7 @@ struct s_msh
 
 	/* Lista de comandos */
 	t_cmd	*cmds;
+	int		cmds_count;
 
 	/* Futuras señales */
 	/*...*/
@@ -53,7 +69,10 @@ struct s_msh
 
 struct s_cmd
 {
-	/* Comando con flags */
+	/* Input divisido por bloques */
+	char **input;
+
+	/* Comando sin flags */
 	char	*main;
 
 	/* Argumentos (y flags) del comando*/
@@ -61,12 +80,11 @@ struct s_cmd
 
 	/* Archivos infile */
 	t_io_file *infiles;
+	int			infiles_count;
 
 	/* Archivos outfile */
 	t_io_file *outfiles;
-
-	/* Next command with pipe */
-	t_bool	pipe;
+	int			outfiles_count;
 };
 
 struct s_io_file
@@ -86,11 +104,12 @@ int		manage(t_msh *data);
 /* Parser */
 char	*check_quots(char *input);
 
-char	**divide_command(char *input);
+char	**divide_cmd_args(char *input, int);
 
 /* Matrix utils*/
 char	**add_part(char *str, char **mtx);
 void	*free_parts(char *part, char **args);
+int	matrix_length(char **mtx);
 
 /* Quot utils */
 int	is_quot(char *input, int index);
@@ -99,6 +118,9 @@ int	is_quot(char *input, int index);
 int	is_space(char ch);
 
 /* Parser */
-void	parse(t_msh *data);
+void	*parse(t_msh *msh);
+void	*create_commands(t_msh *msh);
+
+void	add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
 
 #endif
