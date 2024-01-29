@@ -14,10 +14,19 @@ CFLAGS =-Wall -Werror -Wextra -g3
 # librarys
 LIB = libft/libft.a
 
-SRC =	main.c 	\
-		init.c	\
-		manage.c \
-		expand.c
+SRC =	main.c 		\
+		init.c		\
+		manage.c	\
+    expand.c  \
+		quots.c		\
+		divide_args.c	\
+		matrix_utils.c	\
+		quot_utils.c	\
+		utils.c			\
+		parse.c			\
+		init_cmds.c		\
+		add_io_files.c	\
+		errors.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
@@ -49,9 +58,15 @@ fclean: clean
 	@$(MAKE) fclean -sC ./libft
 	@echo "$(GREEN)Exec. files removed correctly\nSuccess!\n$(CLEAR)"
 
-run: all
+###############################################################################
+
+clear:
+	@clear
+
+run: clear all
 	@./$(NAME)
 
+ruin: env
 env: all
 	@env -i ./$(NAME)
 
