@@ -44,7 +44,7 @@ typedef enum
 	INFILE = 0,
 	HERE_DOC,
 	TRUNC,
-	ADD
+	APPEND
 } t_file_type;
 
 
@@ -122,5 +122,8 @@ void	*parse(t_msh *msh);
 void	*create_commands(t_msh *msh);
 
 void	add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
+void	add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
+void	check_command(char *input, t_cmd *cmd, t_msh *msh);
+void	check_argument(char *input, t_cmd* cmd, t_msh *msh);
 
 #endif

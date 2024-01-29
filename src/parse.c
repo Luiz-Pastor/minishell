@@ -79,7 +79,7 @@ void	*check_infile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 
 	if (input[*index][i])
 	{
-		/* TODO: si hay algo en el siguiente caracter despues del <, es el nombre del archivo/del */
+		/* Si hay algo en el siguiente caracter despues del <, es el nombre del archivo/del */
 		/* Miramos si hay comillas, entonces tendriamos que quitar las del final tambien*/
 		if (input[*index][i] == '\"' || input[*index][i] == '\'')
 			name = ft_substr(input[*index], i + 1, ft_strlen(input[*index]) - i - 2);
@@ -88,13 +88,53 @@ void	*check_infile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 	}
 	else
 	{
-		/* TODO: el nombre es el siguiente argumento */
-		(*index)++;
+		/* El nombre es el siguiente argumento */
 		/* Miramos si hay comillas, entonces tendriamos que quitar las del final tambien*/
-
+		(*index)++;
 		if (input[*index][0] == '>' || input[*index][0] == '<')
 		{
-			/* TODO: error */
+			/* TODO: syntax error */
+		}
+		if (input[*index][0] == '\"' || input[*index][0] == '\'')
+			name = ft_substr(input[*index], 1, ft_strlen(input[*index]) - 2);
+		else
+			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
+	}
+	// printf("\t=> Encontrado infile: {[%s], %d}\n", name, tp);
+	add_infile(tp, name, cmd, msh);
+	return (msh);
+}
+
+void	*check_outfile(int *index, char **input, t_cmd *cmd, t_msh *msh)
+{
+	t_file_type	tp;
+	char	*name;
+	int		i = 1;
+
+	tp = TRUNC;
+	if (input[*index][1] == '>')
+	{
+		tp = APPEND;
+		i++;
+	}
+
+	if (input[*index][i])
+	{
+		/* Si hay algo en el siguiente caracter despues del <, es el nombre del archivo/del */
+		/* Miramos si hay comillas, entonces tendriamos que quitar las del final tambien*/
+		if (input[*index][i] == '\"' || input[*index][i] == '\'')
+			name = ft_substr(input[*index], i + 1, ft_strlen(input[*index]) - i - 2);
+		else
+			name = ft_substr(input[*index], i, ft_strlen(input[*index]) - 1);
+	}
+	else
+	{
+		/* El nombre es el siguiente argumento */
+		/* Miramos si hay comillas, entonces tendriamos que quitar las del final tambien*/
+		(*index)++;
+		if (input[*index][0] == '>' || input[*index][0] == '<')
+		{
+			/* TODO: sintax error */
 		}
 
 		if (input[*index][0] == '\"' || input[*index][0] == '\'')
@@ -102,8 +142,8 @@ void	*check_infile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 		else
 			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
 	}
-	printf("###> Encontrado infile: {[%s], %d}\n", name, tp);
-	add_infile(tp, name, cmd, msh);
+	// printf("\t=> Encontrado outfile: {[%s], %d}\n", name, tp);
+	add_outfile(tp, name, cmd, msh);
 	return (msh);
 }
 
@@ -124,18 +164,27 @@ void	analize_input(t_msh *msh, int index)
 	{
 		if (cmd.input[i][0] == '<')
 		{
-			/* TODO: Si empieza por '<', es infile o él o la siguiente parte */
+			/* Si empieza por '<', es infile o él o la siguiente parte */
 			check_infile(&i, cmd.input, &cmd, msh);
 		}
 		else if (cmd.input[i][0] == '>')
 		{
-			/* TODO: Si empieza por '>', es outfile o él o la siguiente parte */
-
+			/* Si empieza por '>', es outfile o él o la siguiente parte */
+			check_outfile(&i, cmd.input, &cmd, msh);
 		}
 		else
 		{
 			/* TODO: Si no es nada de lo anterior, es o comando o algumento/flag */
-
+			if (!cmd.main)
+			{
+				/* Es el comando */
+				check_command(cmd.input[i], &cmd, msh);
+			}
+			else
+			{
+				/* Es un argumento/flag we */
+				check_argument(cmd.input[i], &cmd, msh);
+			}
 		}
 
 		i++;
@@ -174,8 +223,6 @@ void	*parse(t_msh *msh)
 		index++;
 		printf("\n\n");
 	}
-
-	
 
 	return (msh);
 }
