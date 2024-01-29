@@ -17,6 +17,7 @@ LIB = libft/libft.a
 SRC =	main.c 		\
 		init.c		\
 		manage.c	\
+    expand.c  \
 		quots.c		\
 		divide_args.c	\
 		matrix_utils.c	\

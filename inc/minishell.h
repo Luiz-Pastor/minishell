@@ -64,6 +64,10 @@ struct s_msh
 	/* Variables de entorno. Se acualiza */
 	char	**envp;
 
+	/* Input del usuario */
+	char 	*input;
+
+
 	/* Lista de comandos */
 	t_cmd	*cmds;
 	int		cmds_count;
@@ -142,5 +146,17 @@ void	*check_argument(char *input, t_cmd* cmd, t_msh *msh);
 void	*set_error(t_error error, t_msh *msh);
 void	check_error(t_msh *msh);
 int		is_error(t_msh *msh);
+
+/* Expand */
+# define FIRST_LETTER 1
+# define MID_LETTER 2
+
+typedef struct	s_quotes
+{
+	int		flag;
+	char	type;
+}				t_quotes;
+
+char	*expand(t_msh *data);
 
 #endif
