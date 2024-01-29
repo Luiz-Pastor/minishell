@@ -181,7 +181,8 @@ void	*parse(t_msh *msh)
 	char	**cmds;
 	int		index;
 
-	/* TODO: Expandimos las variables ue hacen falta */
+	/* TODO: Expandimos las variables que hacen falta */
+	msh->input = expand(msh);
 
 	/* Dividir cada parte en los comandos que tengan */
 	cmds = split_commands(msh);

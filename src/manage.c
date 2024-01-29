@@ -30,8 +30,6 @@ int	manage(t_msh *data)
 		/* Guardamos en el historial el comando que se ha intentado ejecutar */
 		add_history(data->input);
 
-		/* TODO: Expandir variables */
-
 		/* Parseo */
 		if (!parse(data))
 		{

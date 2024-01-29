@@ -58,15 +58,11 @@ typedef	enum
 
 struct s_msh
 {
-
-	char	*input;
-
 	/* Variables de entorno. Se acualiza */
 	char	**envp;
 
 	/* Input del usuario */
 	char 	*input;
-
 
 	/* Lista de comandos */
 	t_cmd	*cmds;
