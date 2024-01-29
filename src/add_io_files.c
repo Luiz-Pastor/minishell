@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-void	add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
+void	*add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 {
 	(void)msh;
 	int			index;
@@ -10,7 +10,7 @@ void	add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 	if (!new)
 	{
 		/* TODO: malloc error */
-		return ;
+		return (NULL);
 	}
 
 	/* Copiamos toda la info que teniamos a la nueva estructura */
@@ -28,9 +28,10 @@ void	add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 	/* Eliminamos la anterior lista y la actualizamos por la nueva */
 	free(cmd->infiles);
 	cmd->infiles = new;
+	return (msh);
 }
 
-void	add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
+void	*add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 {
 	(void)msh;
 	int			index;
@@ -40,7 +41,7 @@ void	add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 	if (!new)
 	{
 		/* TODO: malloc error */
-		return ;
+		return (NULL);
 	}
 
 	/* Copiamos toda la info que teniamos a la nueva estructura */
@@ -58,9 +59,11 @@ void	add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 	/* Eliminamos la anterior lista y la actualizamos por la nueva */
 	free(cmd->outfiles);
 	cmd->outfiles = new;
+
+	return (msh);
 }
 
-void	check_command(char *input, t_cmd *cmd, t_msh *msh)
+void	*check_command(char *input, t_cmd *cmd, t_msh *msh)
 {
 	char	*new;
 	(void)msh;
@@ -74,15 +77,16 @@ void	check_command(char *input, t_cmd *cmd, t_msh *msh)
 	if (!new)
 	{
 		/* TODO: test de errores */
-
+		return (NULL);
 	}
 
 	/* Adjuntamos el comando */
 	cmd->main = new;
-	// printf("\t=> Comando principal: [%s]\n", cmd->main);
+	printf("\t=> Comando principal: [%s]\n", cmd->main);
+	return (msh);
 }
 
-void	check_argument(char *input, t_cmd* cmd, t_msh *msh)
+void	*check_argument(char *input, t_cmd* cmd, t_msh *msh)
 {
 	(void)msh;
 	char	*new;
@@ -98,6 +102,8 @@ void	check_argument(char *input, t_cmd* cmd, t_msh *msh)
 	if (!cmd->arguments)
 	{
 		/* TODO: malloc error */
+		return (NULL);
 	}
-	// printf("\t=> Argumento del programa: [%s]\n", new);
+	printf("\t=> Argumento del programa: [%s]\n", new);
+	return (msh);
 }

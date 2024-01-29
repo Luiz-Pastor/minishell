@@ -1,38 +1,43 @@
 #include "../inc/minishell.h"
 
-static char	**add_command(int start, int end, char *input, char **res)
+static char	**add_command(int start, int end, t_msh *msh, char **res)
 {
 	char	*cmd;
 	
 	/* Ajustamos el start y en end para quitar los espacios */
-	while (input[start] && is_space(input[start]))
+	while (msh->input[start] && is_space(msh->input[start]))
 		start++;
-	while (end >= 0 && input[end] && is_space(input[end]))
+	while (end >= 0 && msh->input[end] && is_space(msh->input[end]))
 		end--;
 	
 	/* TODO: mirar que al quitar espacios haya un problema de sintaxis (ej: | ls)*/
 	if (end < start)
 	{
 		/* Error: mala sintaxis */
-		printf("Mala sintaxis.\n");
+		set_error(SYNTAX, msh);
 		free_parts(NULL, res);
 		return (NULL);
 	}
 
 	/* Sabiendo el inicio y el final correctos, sacamos este texto */
-	cmd = ft_substr(input, start, end - start + 1);
+	cmd = ft_substr(msh->input, start, end - start + 1);
 	if (!cmd)
-		return (free_parts(NULL, res));
+	{
+		free_parts(NULL, res);
+		return (set_error(MALLOC, msh));
+	}
 
 	/* Añadimos el elemento a la array de strings */
 	res = add_part(cmd, res);
 	if (!res)
-		return (free_parts(cmd, NULL));
-	
+	{
+		free_parts(cmd, NULL);
+		return (set_error(MALLOC, msh));
+	}
 	return (res);
 }
 
-static char	**split_commands(char *input)
+static char	**split_commands(t_msh *msh)
 {
 	int		index;
 	char	quot;
@@ -43,25 +48,25 @@ static char	**split_commands(char *input)
 	start = 0;
 	quot = 0;
 	res = NULL;
-	while (input[index])
+	while (msh->input[index])
 	{
-		if (quot && input[index] == quot && is_quot(input, index))
+		if (quot && msh->input[index] == quot && is_quot(msh->input, index))
 			quot = 0; /* Se cierra el quot */
-		else if (!quot && is_quot(input, index))
-			quot = input[index]; /* Se abre el quot */
+		else if (!quot && is_quot(msh->input, index))
+			quot = msh->input[index]; /* Se abre el quot */
 
 		/* Si encontramos una barra y no esta entre comillas, hemos encaontrado un comando */
-		if (input[index] == '|' && !quot)
+		if (msh->input[index] == '|' && !quot)
 		{
-			/* TODO: Añadir comando */
-			res = add_command(start, index - 1, input, res);
+			/* Añadir comando */
+			res = add_command(start, index - 1, msh, res);
 			if (!res)
 				return (NULL);
 			start = index + 1;
 		}
 		index++;
 	}
-	return (add_command(start, index - 1, input, res));
+	return (add_command(start, index - 1, msh, res));
 }
 
 void	*check_infile(int *index, char **input, t_cmd *cmd, t_msh *msh)
@@ -79,8 +84,6 @@ void	*check_infile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 
 	if (input[*index][i])
 	{
-		/* Si hay algo en el siguiente caracter despues del <, es el nombre del archivo/del */
-		/* Miramos si hay comillas, entonces tendriamos que quitar las del final tambien*/
 		if (input[*index][i] == '\"' || input[*index][i] == '\'')
 			name = ft_substr(input[*index], i + 1, ft_strlen(input[*index]) - i - 2);
 		else
@@ -88,20 +91,20 @@ void	*check_infile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 	}
 	else
 	{
-		/* El nombre es el siguiente argumento */
-		/* Miramos si hay comillas, entonces tendriamos que quitar las del final tambien*/
 		(*index)++;
 		if (input[*index][0] == '>' || input[*index][0] == '<')
-		{
-			/* TODO: syntax error */
-		}
+			return (set_error(SYNTAX, msh));
 		if (input[*index][0] == '\"' || input[*index][0] == '\'')
 			name = ft_substr(input[*index], 1, ft_strlen(input[*index]) - 2);
 		else
 			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
 	}
-	// printf("\t=> Encontrado infile: {[%s], %d}\n", name, tp);
-	add_infile(tp, name, cmd, msh);
+	if (!name || !add_outfile(tp, name, cmd, msh))
+	{
+		set_error(MALLOC, msh);
+		return (NULL);
+	}
+	printf("\t=> Encontrado infile: {[%s], %d}\n", name, tp);
 	return (msh);
 }
 
@@ -120,8 +123,6 @@ void	*check_outfile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 
 	if (input[*index][i])
 	{
-		/* Si hay algo en el siguiente caracter despues del <, es el nombre del archivo/del */
-		/* Miramos si hay comillas, entonces tendriamos que quitar las del final tambien*/
 		if (input[*index][i] == '\"' || input[*index][i] == '\'')
 			name = ft_substr(input[*index], i + 1, ft_strlen(input[*index]) - i - 2);
 		else
@@ -129,66 +130,50 @@ void	*check_outfile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 	}
 	else
 	{
-		/* El nombre es el siguiente argumento */
-		/* Miramos si hay comillas, entonces tendriamos que quitar las del final tambien*/
 		(*index)++;
 		if (input[*index][0] == '>' || input[*index][0] == '<')
-		{
-			/* TODO: sintax error */
-		}
-
+			return (set_error(SYNTAX, msh));
 		if (input[*index][0] == '\"' || input[*index][0] == '\'')
 			name = ft_substr(input[*index], 1, ft_strlen(input[*index]) - 2);
 		else
 			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
 	}
-	// printf("\t=> Encontrado outfile: {[%s], %d}\n", name, tp);
-	add_outfile(tp, name, cmd, msh);
+	if (!name || !add_outfile(tp, name, cmd, msh))
+	{
+		set_error(MALLOC, msh);
+		return (NULL);
+	}
+	printf("\t=> Encontrado outfile: {[%s], %d}\n", name, tp);
 	return (msh);
 }
 
-void	analize_input(t_msh *msh, int index)
+void	*analize_input(t_msh *msh, int index)
 {
 	int		i;
 	t_cmd	cmd;
 
 	cmd = msh->cmds[index];
-	// i = 0;
-	// while (cmd.input[i])
-	// 	printf("\t-> [%s]\n", cmd.input[i++]);
-	// printf("\n\n");
 
-	/* TODO: nos recorremos toda la array con los elementos del comando ([wc] [-l] [NULL])*/
+	/* Nos recorremos toda la array con los elementos del comando ([wc] [-l] [NULL])*/
 	i = 0;
 	while (cmd.input[i])
 	{
 		if (cmd.input[i][0] == '<')
-		{
-			/* Si empieza por '<', es infile o él o la siguiente parte */
 			check_infile(&i, cmd.input, &cmd, msh);
-		}
 		else if (cmd.input[i][0] == '>')
-		{
-			/* Si empieza por '>', es outfile o él o la siguiente parte */
 			check_outfile(&i, cmd.input, &cmd, msh);
-		}
 		else
 		{
-			/* TODO: Si no es nada de lo anterior, es o comando o algumento/flag */
 			if (!cmd.main)
-			{
-				/* Es el comando */
 				check_command(cmd.input[i], &cmd, msh);
-			}
 			else
-			{
-				/* Es un argumento/flag we */
 				check_argument(cmd.input[i], &cmd, msh);
-			}
 		}
-
+		if (is_error(msh))
+			return (NULL);
 		i++;
 	}
+	return (msh);
 }
 
 void	*parse(t_msh *msh)
@@ -198,20 +183,16 @@ void	*parse(t_msh *msh)
 
 	/* TODO: Expandimos las variables ue hacen falta */
 
-	/* TODO: dividir cada parte en los comandos que tengan */
-	cmds = split_commands(msh->input);
+	/* Dividir cada parte en los comandos que tengan */
+	cmds = split_commands(msh);
 	if (!cmds)
 		return (NULL);
-
-	// int index = -1;
-	// while (cmds && cmds[++index])
-	// 	printf("=> CMD(%d): [%s]\n", index, cmds[index]);
 
 	/* Sabiendo el numero de comandos, creamos la array, y guardamos la info de cada comando */
 	/* Inicializamos la estructura */
 	msh->cmds_count = matrix_length(cmds);
 	if (!create_commands(msh))
-		return (NULL);
+		return (set_error(MALLOC, msh));
 	
 	/* Para cada comando, miramos sus tokens */
 	index = 0;
@@ -219,10 +200,14 @@ void	*parse(t_msh *msh)
 	{
 		printf("{Mirando: [%s]}\n", cmds[index]);
 		msh->cmds[index].input = divide_cmd_args(cmds[index], WITH_QUOT);
-		analize_input(msh, index);
+		if (!analize_input(msh, index))
+			return (free_parts(NULL, cmds));
 		index++;
 		printf("\n\n");
 	}
+
+	/* Liberar cmds */
+	free_parts(NULL, cmds);
 
 	return (msh);
 }

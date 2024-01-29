@@ -2,7 +2,8 @@
 
 #define	QUOTE_MSG C_CYAN"dquote> "CLEAR
 
-static char	*dquote(char *input)
+/*  NOTE: si hay problema de lineas, sacar a funcion auxiliar aparte */
+static char	*dquote(t_msh *msh)
 {
 	char	*new_line;
 	char	*inter;
@@ -11,20 +12,29 @@ static char	*dquote(char *input)
 	/* Leemos linea: si devueve NULL (ctr+D), liberamos memoria */
 	new_line = readline("dquote> ");
 	if (!new_line)
-		return (ft_mfree(1, &input));
+	{
+		ft_mfree(1, &msh->input);
+		return (set_error(CTR_D, msh));
+	}
 
 	/* Metemos un salto de linea a la info que teniamos */
-	inter = ft_strjoin(input, "\n");
+	inter = ft_strjoin(msh->input, "\n");
 	if (!inter)
-		return (ft_mfree(1, &input));
+	{
+		ft_mfree(1, &msh->input);
+		return (set_error(MALLOC, msh));
+	}
 
 	/* Juntamos la linea+\n con ell nuevo texto */
 	full = ft_strjoin(inter, new_line);
 	if (!full)
-		return (ft_mfree(2, &input, &new_line));
+	{
+		ft_mfree(2, &msh->input, &new_line);
+		return (set_error(MALLOC, msh));
+	}
 
 	/* Liberamos la memoria auxiliar */
-	ft_mfree(3, &input, &inter, &new_line);
+	ft_mfree(3, &msh->input, &inter, &new_line);
 
 	/* Devolvemos la linea anterior + \n + la nueva lectura */
 	return (full);
@@ -47,31 +57,21 @@ static int	next_quot(char *input, int i)
 /*
 	- Id. A: al encontrar una comilla iterar hasta encontrar la otra
 */
-char	*check_quots(char *input)
+char	*check_quots(t_msh *msh)
 {
 	int	i;
 	int next;
 
 	i = 0;
-	if (!input)
-		return (NULL);
-	while (input[i])
+	while (msh->input[i])
 	{
-		/* Para cada caracter miramos si es un quot */
-		if (is_quot(input, i))
+		if (is_quot(msh->input, i))
 		{
-			/*
-				Si es quot, buscamos la siguiente ocurrecia:
-					- Si no tiene ocurrencias, le pedimos al usuario mas texto y volvemos a comprobar
-					- Si encontramos ocurrencia, miramos mas quots a partir del quot que finaliza
-			*/
-			next = next_quot(input, i);
-
+			next = next_quot(msh->input, i);
 			if (next == -1)
 			{
-				input = dquote(input); 
-				/* ctl+D a la hora de leer mas info, o error de memoria */
-				if (!input)
+				msh->input = dquote(msh); 
+				if (!msh->input)
 					return (NULL);
 				i--;
 			}
@@ -80,6 +80,5 @@ char	*check_quots(char *input)
 		}
 		i++;
 	}
-	/* Devolvemos la linea con las quots bien puestas */
-	return (input);
+	return (msh->input);
 }

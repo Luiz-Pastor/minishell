@@ -14,15 +14,16 @@ int	manage(t_msh *data)
 		data->input = readline("minishell> ");
 		if (!data->input)
 		{
+			/* TODO: Esto es el ctr+d */
 			printf("\n");
 			continue ;
 		}
 
 		/* Mirar comillas y pedir mas data si hace falta */
-		data->input = check_quots(data->input);
+		data->input = check_quots(data);
 		if (!data->input)
 		{
-			printf(C_RED"\nmsh: syntax error: unexpected end of file\n"CLEAR);
+			check_error(data);
 			continue ;
 		}
 
@@ -31,8 +32,13 @@ int	manage(t_msh *data)
 
 		/* TODO: Expandir variables */
 
-		/* TODO: parseo */
-		parse(data);
+		/* Parseo */
+		if (!parse(data))
+		{
+			/* TODO: liberar toda la memoria reservada */
+			check_error(data);
+			continue ;
+		}
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
 		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);

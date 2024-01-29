@@ -47,6 +47,14 @@ typedef enum
 	APPEND
 } t_file_type;
 
+typedef	enum
+{
+	NONE = 0,
+	MALLOC,
+	CTR_D,
+	SYNTAX
+} t_error;
+
 
 struct s_msh
 {
@@ -65,6 +73,9 @@ struct s_msh
 
 	/* Salida del ultimo comando */
 	int		last_out;
+
+	/* Último error */
+	t_error	error;
 };
 
 struct s_cmd
@@ -102,7 +113,7 @@ void	*free_msh(t_msh *data);
 int		manage(t_msh *data);
 
 /* Parser */
-char	*check_quots(char *input);
+char	*check_quots(t_msh *msh);
 
 char	**divide_cmd_args(char *input, int);
 
@@ -121,9 +132,15 @@ int	is_space(char ch);
 void	*parse(t_msh *msh);
 void	*create_commands(t_msh *msh);
 
-void	add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
-void	add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
-void	check_command(char *input, t_cmd *cmd, t_msh *msh);
-void	check_argument(char *input, t_cmd* cmd, t_msh *msh);
+void	*add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
+void	*add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
+void	*check_command(char *input, t_cmd *cmd, t_msh *msh);
+void	*check_argument(char *input, t_cmd* cmd, t_msh *msh);
+
+
+/* Errores */
+void	*set_error(t_error error, t_msh *msh);
+void	check_error(t_msh *msh);
+int		is_error(t_msh *msh);
 
 #endif

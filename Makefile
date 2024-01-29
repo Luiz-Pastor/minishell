@@ -24,7 +24,8 @@ SRC =	main.c 		\
 		utils.c			\
 		parse.c			\
 		init_cmds.c		\
-		add_io_files.c
+		add_io_files.c	\
+		errors.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
