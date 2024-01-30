@@ -103,7 +103,8 @@ int	manage(t_msh *data)
 		print_data(data);
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
-		// printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
+		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
+		ft_export(data);
 
 		/* TODO: paso intermedio */
 

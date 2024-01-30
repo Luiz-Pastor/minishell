@@ -17,7 +17,7 @@ LIB = libft/libft.a
 SRC =	main.c 		\
 		init.c		\
 		manage.c	\
-    expand.c  \
+   		expand.c  \
 		quots.c		\
 		divide_args.c	\
 		matrix_utils.c	\
@@ -26,7 +26,8 @@ SRC =	main.c 		\
 		parse.c			\
 		init_cmds.c		\
 		add_io_files.c	\
-		errors.c
+		errors.c \
+		built-ins/export.c
 
 OBJ_DIR = obj/
 OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
