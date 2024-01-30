@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 #define	QUOTE_MSG C_CYAN"dquote> "CLEAR
 

@@ -1,5 +1,4 @@
-#include "../inc/minishell.h"
-#include <string.h>
+#include "../../inc/minishell.h"
 
 # define FIRST_LETTER 1
 # define MID_LETTER 2
@@ -87,6 +86,7 @@ void	export_alone(t_msh *msh)
 			write(1, &order_envp[i][j], 1);
 			j++;
 		}
+		write(1, &order_envp[i][j++], 1);
 		write(1, "\"", 1);
 		while (order_envp[i][j] != '\0')
 		{

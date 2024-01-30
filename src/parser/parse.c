@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static char	**add_command(int start, int end, t_msh *msh, char **res)
 {

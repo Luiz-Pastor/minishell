@@ -6,6 +6,7 @@
 #include <readline/history.h>
 #include "../libft/includes/libft.h"
 #include <signal.h>
+#include <string.h>
 
 /*
  * brief	Bool type

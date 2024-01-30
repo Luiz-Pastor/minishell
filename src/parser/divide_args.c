@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 static char	*get_part(char *str, int *i, char del, int limit)
 {

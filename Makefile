@@ -14,23 +14,35 @@ CFLAGS =-Wall -Werror -Wextra -g3
 # librarys
 LIB = libft/libft.a
 
-SRC =	main.c 		\
-		init.c		\
-		manage.c	\
-   		expand.c  \
-		quots.c		\
-		divide_args.c	\
-		matrix_utils.c	\
-		quot_utils.c	\
-		utils.c			\
-		parse.c			\
-		init_cmds.c		\
-		add_io_files.c	\
-		errors.c \
-		built-ins/export.c
+PATH_SRC=src/
+SRC =		main.c 		\
+			manage.c	\
+			errors.c	
+
+PATH_BUILT_INS=src/built-ins
+BUILT_INS =	export.c
+
+PATH_PARSER=src/parser
+PARSER =	expand.c  \
+			quots.c		\
+			divide_args.c	\
+			matrix_utils.c	\
+			quot_utils.c	\
+			utils.c			\
+			parse.c			\
+			init_cmds.c		\
+			init.c		\
+			add_io_files.c	\
+
+PATH_SIGNALS=src/signals
+SIGNALS =	signals.c
+
 
 OBJ_DIR = obj/
-OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
+OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \
+		$(BUILT_INS:%.c=$(OBJ_DIR)/%.o) \
+		$(PARSER:%.c=$(OBJ_DIR)/%.o) \
+		$(SIGNALS:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
@@ -42,7 +54,25 @@ $(NAME): $(OBJ)
 	$(CC) $(OBJ) $(LIB) -o $(NAME) -lreadline
 	@echo "$(GREEN)[OK]\n$(CLEAR)$(GREEN)Success!$(CLEAR)\n"
 
-$(OBJ_DIR)%.o: src/%.c
+$(OBJ_DIR)%.o: $(PATH_SRC)%.c
+	@echo "$(PINK)Compiling Object.$(CLEAR)"
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "\n"
+
+$(OBJ_DIR)%.o: $(PATH_BUILT_INS)%.c
+	@echo "$(PINK)Compiling Object.$(CLEAR)"
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "\n"
+
+$(OBJ_DIR)%.o: $(PATH_SIGNALS)%.c
+	@echo "$(PINK)Compiling Object.$(CLEAR)"
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "\n"
+
+$(OBJ_DIR)%.o: $(PATH_PARSER)%.c
 	@echo "$(PINK)Compiling Object.$(CLEAR)"
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@

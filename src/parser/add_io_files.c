@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	*add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 {
