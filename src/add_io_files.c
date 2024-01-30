@@ -82,7 +82,7 @@ void	*check_command(char *input, t_cmd *cmd, t_msh *msh)
 
 	/* Adjuntamos el comando */
 	cmd->main = new;
-	printf("\t=> Comando principal: [%s]\n", cmd->main);
+	// printf("\t=> Comando principal: [%s]\n", cmd->main);
 	return (msh);
 }
 
@@ -104,6 +104,6 @@ void	*check_argument(char *input, t_cmd* cmd, t_msh *msh)
 		/* TODO: malloc error */
 		return (NULL);
 	}
-	printf("\t=> Argumento del programa: [%s]\n", new);
+	// printf("\t=> Argumento del programa: [%s]\n", new);
 	return (msh);
 }
