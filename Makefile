@@ -63,6 +63,7 @@ fclean: clean
 clear:
 	@clear
 
+r: run
 run: clear all
 	@./$(NAME)
 

@@ -99,12 +99,12 @@ void	*check_infile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 		else
 			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
 	}
-	if (!name || !add_outfile(tp, name, cmd, msh))
+	if (!name || !add_infile(tp, name, cmd, msh))
 	{
 		set_error(MALLOC, msh);
 		return (NULL);
 	}
-	printf("\t=> Encontrado infile: {[%s], %d}\n", name, tp);
+	// printf("\t=> Encontrado infile: {[%s], %d}\n", name, tp);
 	return (msh);
 }
 
@@ -143,31 +143,31 @@ void	*check_outfile(int *index, char **input, t_cmd *cmd, t_msh *msh)
 		set_error(MALLOC, msh);
 		return (NULL);
 	}
-	printf("\t=> Encontrado outfile: {[%s], %d}\n", name, tp);
+	// printf("\t=> Encontrado outfile: {[%s], %d}\n", name, tp);
 	return (msh);
 }
 
 void	*analize_input(t_msh *msh, int index)
 {
 	int		i;
-	t_cmd	cmd;
+	t_cmd	*cmd;
 
-	cmd = msh->cmds[index];
+	cmd = &msh->cmds[index];
 
 	/* Nos recorremos toda la array con los elementos del comando ([wc] [-l] [NULL])*/
 	i = 0;
-	while (cmd.input[i])
+	while (cmd->input[i])
 	{
-		if (cmd.input[i][0] == '<')
-			check_infile(&i, cmd.input, &cmd, msh);
-		else if (cmd.input[i][0] == '>')
-			check_outfile(&i, cmd.input, &cmd, msh);
+		if (cmd->input[i][0] == '<')
+			check_infile(&i, cmd->input, cmd, msh);
+		else if (cmd->input[i][0] == '>')
+			check_outfile(&i, cmd->input, cmd, msh);
 		else
 		{
-			if (!cmd.main)
-				check_command(cmd.input[i], &cmd, msh);
+			if (!cmd->main)
+				check_command(cmd->input[i], cmd, msh);
 			else
-				check_argument(cmd.input[i], &cmd, msh);
+				check_argument(cmd->input[i], cmd, msh);
 		}
 		if (is_error(msh))
 			return (NULL);
@@ -199,12 +199,13 @@ void	*parse(t_msh *msh)
 	index = 0;
 	while (cmds[index])
 	{
-		printf("{Mirando: [%s]}\n", cmds[index]);
+		// printf("{Mirando: [%s]}\n", cmds[index]);
 		msh->cmds[index].input = divide_cmd_args(cmds[index], WITH_QUOT);
 		if (!analize_input(msh, index))
 			return (free_parts(NULL, cmds));
+			
 		index++;
-		printf("\n\n");
+		// printf("\n\n");
 	}
 
 	/* Liberar cmds */
