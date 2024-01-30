@@ -58,25 +58,21 @@ $(OBJ_DIR)%.o: $(PATH_SRC)%.c
 	@echo "$(PINK)Compiling Object.$(CLEAR)"
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-	@echo "\n"
 
 $(OBJ_DIR)%.o: $(PATH_BUILT_INS)%.c
 	@echo "$(PINK)Compiling Object.$(CLEAR)"
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-	@echo "\n"
 
 $(OBJ_DIR)%.o: $(PATH_SIGNALS)%.c
 	@echo "$(PINK)Compiling Object.$(CLEAR)"
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-	@echo "\n"
 
 $(OBJ_DIR)%.o: $(PATH_PARSER)%.c
 	@echo "$(PINK)Compiling Object.$(CLEAR)"
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-	@echo "\n"
 
 clean:
 	@echo "$(PINK)Removing compiled files.$(CLEAR)"
