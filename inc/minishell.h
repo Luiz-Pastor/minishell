@@ -5,6 +5,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "../libft/includes/libft.h"
+#include <signal.h>
 
 /*
  * brief	Bool type
@@ -154,5 +155,8 @@ typedef struct	s_quotes
 }				t_quotes;
 
 char	*expand(t_msh *data);
+
+/* build ins*/
+void	ft_export(t_msh *msh);
 
 #endif
