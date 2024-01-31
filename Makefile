@@ -19,10 +19,10 @@ SRC =		main.c 		\
 			manage.c	\
 			errors.c	
 
-PATH_BUILT_INS=src/built-ins
+PATH_BUILT_INS=src/built-ins/
 BUILT_INS =	export.c
 
-PATH_PARSER=src/parser
+PATH_PARSER=src/parser/
 PARSER =	expand.c  \
 			quots.c		\
 			divide_args.c	\
@@ -34,15 +34,15 @@ PARSER =	expand.c  \
 			init.c		\
 			add_io_files.c	\
 
-PATH_SIGNALS=src/signals
+PATH_SIGNALS=src/signals/
 SIGNALS =	signals.c
 
 
 OBJ_DIR = obj/
 OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \
-		$(BUILT_INS:%.c=$(OBJ_DIR)/%.o) \
-		$(PARSER:%.c=$(OBJ_DIR)/%.o) \
-		$(SIGNALS:%.c=$(OBJ_DIR)/%.o)
+		$(BUILT_INS:%.c=$(OBJ_DIR)%.o) \
+		$(PARSER:%.c=$(OBJ_DIR)%.o) \
+		$(SIGNALS:%.c=$(OBJ_DIR)%.o)
 
 all: $(NAME)
 
