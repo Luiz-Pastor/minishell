@@ -3,51 +3,12 @@
 # define FIRST_LETTER 1
 # define MID_LETTER 2
 
-// int	ft_correct_var_char(char c, int flag)
-// {
-// 	if (c == 'º')
-// 		return (1);
-// 	else if (c == '\\')
-// 		return (1);
-// 	else if (c == 'ª')
-// 		return (1);
-// 	else if (c == '_')
-// 		return (1);
-// 	else if (ft_isalpha(c) == 1)
-// 		return (1);
-// 	if (flag == MID_LETTER && ft_isdigit(c) == 1)
-// 		return (1);
-// 	if (flag == MID_LETTER && c == '$')
-// 		return (1);
-// 	// los numeros son validos siempre y cuando no esten el primero 
-	
-// 	return (0);
-// }
-
-char	**order_alf_envp(char **envp)
+char	**order_alf_envp2(char **new_envp)
 {
-	char	**new_envp;
-	int		lines;
-	int	i;
-	int	j;
-
-	i = 0;
-	lines = 0;
-	while (envp[i])
-	{
-		lines++;
-		i++;
-	}
-	new_envp = malloc(sizeof(char*) * lines + 1);
-	if (!new_envp)
-		return (NULL);
-	i = 0;
-	while (envp[i])
-	{
-		new_envp[i] = envp[i];
-		i++;
-	}
 	char	*aux;
+	int		i;
+	int		j;
+
 	i = 0;
 	while (new_envp[i])
 	{
@@ -64,6 +25,31 @@ char	**order_alf_envp(char **envp)
 		}
 		i++;
 	}
+	return(new_envp);
+}
+
+char	**order_alf_envp(char **envp)
+{
+	char	**new_envp;
+	int		lines;
+	int	i;
+
+	i = -1;
+	lines = 0;
+	while (envp[++i])
+		lines++;
+	new_envp = malloc(sizeof(char*) * lines + 1);
+	if (!new_envp)
+		return (NULL);
+	i = 0;
+	while (envp[i])
+	{
+		new_envp[i] = envp[i];
+		i++;
+	}
+	new_envp[i] = NULL;
+	new_envp = order_alf_envp2(new_envp);
+	new_envp[i] = NULL;
 	return (new_envp);
 }
 
@@ -73,50 +59,80 @@ void	export_alone(t_msh *msh)
 	int	j;
 	char	**order_envp;
 
-	i = 0;
+	i = -1;
 	order_envp = order_alf_envp(msh->envp);
 	if (!order_envp)
 		return ; // malloc error
-	while (order_envp[i])
+	while (order_envp[++i])
 	{
 		j = 0;
-		write(1, "declare -x ", 12);
+		printf("declare -x ");
 		while (order_envp[i][j] != '=' && order_envp[i][j] != '\0')
 		{
-			write(1, &order_envp[i][j], 1);
+			printf("%c", order_envp[i][j]);
 			j++;
 		}
-		write(1, &order_envp[i][j++], 1);
-		write(1, "\"", 1);
+		printf("%c\"", order_envp[i][j++]);
 		while (order_envp[i][j] != '\0')
 		{
-			write(1, &order_envp[i][j], 1);
+			printf("%c", order_envp[i][j]);
 			j++;
 		}
-		write(1, "\"", 1);
-		write(1, "\n", 1);
-		i++;
+		printf("\"\n");
 	}
 }
 
-void	ft_export(t_msh *msh)
+char	*get_variable(t_cmd	cmds)
+{
+
+}
+char	*get_content(char *arguments)
+{
+	int i;
+
+	i = 0;
+	while (arguments[i] != '=')
+	{
+		if (arguments[i] = '\0')
+			return (NULL);
+	}
+}
+
+void	bd_export(t_msh *msh, int nb_comand)
 {
 	// int		i;
 	// char	*aux;
 	// int		size;
 
-	/* ============================= */
-	char *str = malloc(7);
-	strcpy(str, "export");
-	msh->cmds[0].main = str;
-	/* ============================= */
-
-	printf("=> [%s]\n", msh->cmds[0].main);
-	if (!ft_strcmp(msh->cmds[0].main, "export") && msh->cmds->arguments == NULL)
+	printf("1 comando => [%s]\n", msh->cmds[nb_comand].main);
+	if (!ft_strcmp(msh->cmds[nb_comand].main, "export") && msh->cmds->arguments == NULL)
 	{
-		printf("uwu\n");
+		// hay que tener cuidado luego al imprimir e envp por q puede ser que no tenga cntenido 
 		export_alone(msh);
+		return ;
 	}
+	else if (!ft_strcmp(msh->cmds[nb_comand].main, "export") && msh->cmds->arguments != NULL)
+	{
+		char 	*variable;
+		char	*content;
+		int		i;
+
+		i = 0;
+		// si es export a a sale en export normal pero no en el env
+		while (msh->cmds[nb_comand].arguments[i] != NULL)
+		{
+			variable = get_variable(msh->cmds[nb_comand]->arguments[i]);
+			content = get_conntent(msh->cmds[nb_comand]);
+			msh->envp = add_to_envp(msh, variable, content);
+			i++;
+		}
+		// mirar si existe esa variable en ell caso de que exista hay que sobrescribir
+		// hay que tener cuidado luego al imprimir e envp por q puede ser que no tenga cntenido y las variablles qe no tengan un = no se imrimen en ell envp
+
+
+	}
+	else
+		return ; // no es export el comando;
 	// i = 0;
 	// aux = NULL;
 	// // export
@@ -156,3 +172,4 @@ void	ft_export(t_msh *msh)
 	// 	// no pueden tener ningun tipo de caracter especial en ningun momento
 	// }
 }
+

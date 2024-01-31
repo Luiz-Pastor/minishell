@@ -57,7 +57,7 @@ int	ft_correct_var_char(char c, int flag) // esta funcion esta duplicada en el e
 // variables solo pueden empezar por letra y tener numeros
 // al generar la variable mete el =
 
-char	*mod_infile_expand(t_msh *data, char *content, char *variable, int i)
+static char	*mod_infile_expand(t_msh *data, char *content, char *variable, int i)
 {
 	// variable + $ es el valor a sustituir por content en el input
 	int		size;

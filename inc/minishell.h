@@ -122,13 +122,13 @@ char	**divide_cmd_args(char *input, int);
 /* Matrix utils*/
 char	**add_part(char *str, char **mtx);
 void	*free_parts(char *part, char **args);
-int	matrix_length(char **mtx);
+int		matrix_length(char **mtx);
 
 /* Quot utils */
-int	is_quot(char *input, int index);
+int		is_quot(char *input, int index);
 
 /* Utils */
-int	is_space(char ch);
+int		is_space(char ch);
 
 /* Parser */
 void	*parse(t_msh *msh);
@@ -138,12 +138,6 @@ void	*add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
 void	*add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
 void	*check_command(char *input, t_cmd *cmd, t_msh *msh);
 void	*check_argument(char *input, t_cmd* cmd, t_msh *msh);
-
-
-/* Errores */
-void	*set_error(t_error error, t_msh *msh);
-void	check_error(t_msh *msh);
-int		is_error(t_msh *msh);
 
 /* Expand */
 # define FIRST_LETTER 1
@@ -157,7 +151,19 @@ typedef struct	s_quotes
 
 char	*expand(t_msh *data);
 
+/* Errores */
+void	*set_error(t_error error, t_msh *msh);
+void	check_error(t_msh *msh);
+int		is_error(t_msh *msh);
+
 /* build ins*/
-void	ft_export(t_msh *msh);
+void	built_ins(t_msh *msh, int nb_comand);
+void	bd_export(t_msh *msh, int nb_comand);
+void	bd_env(t_msh *msh, int nb_comand);
+void	bd_echo(t_msh *msh, int nb_comand);
+void	*bd_pwd(t_msh *msh, int nb_comand);
+void	bd_cd(t_msh *msh, int nb_comand);
+void	bd_exit(t_msh *msh, int nb_comand);
+void	bd_unset(t_msh *msh, int nb_comand);
 
 #endif

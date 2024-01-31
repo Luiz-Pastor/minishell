@@ -20,7 +20,14 @@ SRC =		main.c 		\
 			errors.c	
 
 PATH_BUILT_INS=src/built-ins
-BUILT_INS =	export.c
+BUILT_INS =	built_ins.c \
+			export.c \
+			cd.c \
+			unset.c \
+			pwd.c \
+			env.c \
+			exit.c \
+			echo.c
 
 PATH_PARSER=src/parser
 PARSER =	expand.c  \

@@ -100,17 +100,17 @@ int	manage(t_msh *data)
 			continue ;
 		}
 
-		print_data(data);
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
 		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
-		ft_export(data);
 
 		/* TODO: paso intermedio */
 
 		/* TODO: ejecutor */
+		built_ins(data, 0); // el 0 es el numero de comando en el que estamos esta asi para probarlo
 
 		/* TODO: liberamos memoria */
+		print_data(data);
 		free_cmds(data);
 		
 		/********************************** Temporal para poder salir de la terminal bien **********************************/
