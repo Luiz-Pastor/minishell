@@ -109,15 +109,14 @@ int	manage(t_msh *data)
 		/* TODO: paso intermedio */
 
 		/* TODO: ejecutor */
-
-		/* TODO: liberamos memoria */
-		free_cmds(data);
 		
 		/********************************** Temporal para poder salir de la terminal bien **********************************/
 		if (data->input && !strcmp("exit", data->input))
 			end = 1;
-		if (data->input)
-			free(data->input);
+
+		/* TODO: liberamos memoria */
+		free_cmds(data);
+
 		if (end)
 			break ;
 	}
