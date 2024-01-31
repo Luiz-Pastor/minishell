@@ -104,6 +104,7 @@ struct s_io_file
 {
 	char	*name;
 	int		type;
+	g
 };
 
 

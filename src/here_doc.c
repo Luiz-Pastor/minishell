@@ -96,3 +96,8 @@ char	*here_doc(char *del)
 	close(fd);
 	return (name);
 }
+
+int main()
+{
+	here_doc("del");
+}
