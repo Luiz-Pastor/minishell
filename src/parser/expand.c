@@ -1,11 +1,35 @@
 #include "../../inc/minishell.h"
 
-void	*free_expand(char *str1, char *str2)
-{
-	free(str1);
-	free(str2);
-	return (NULL);
-}
+// void	*free_expand(char *str1, char *str2)
+// {
+// 	free(str1);
+// 	free(str2);
+// 	return (NULL);
+// }
+
+// int	ft_correct_var_char(char c, int flag)
+// {
+// 	if (c == '\\')
+// 		return (1);
+// 	else if (c == '_')
+// 		return (1);
+// 	else if (ft_isalpha(c) == 1)
+// 		return (1);
+// 	else if (flag == MID_LETTER && ft_isdigit(c) == 1)
+// 		return (1);
+// 	else
+// 		return (0);
+// 	// los numeros son validos siempre y cuando no esten el primero 
+// }
+
+// NOTE: prblemmas angie futuro: algun $ mas?¿?¿?
+// flag de si estan abiertas las comillas  no 
+// {} bro no se gestiona
+// $ espacio
+// $?
+// variables solo pueden empezar por letra y tener numeros
+// al generar la variable mete el =
+
 char	*content_var(char *variable, t_msh *data)
 {
 	int i;
@@ -32,30 +56,6 @@ char	*content_var(char *variable, t_msh *data)
 		return (ft_strdup(""));
 	return (content);
 }
-
-int	ft_correct_var_char(char c, int flag) // esta funcion esta duplicada en el export
-{
-	if (c == '\\')
-		return (1);
-	else if (c == '_')
-		return (1);
-	else if (ft_isalpha(c) == 1)
-		return (1);
-	else if (flag == MID_LETTER && ft_isdigit(c) == 1)
-		return (1);
-	else
-		return (0);
-	// los numeros son validos siempre y cuando no esten el primero 
-}
-
-
-// NOTE: prblemmas angie futuro: algun $ mas?¿?¿?
-// flag de si estan abiertas las comillas  no 
-// {} bro no se gestiona
-// $ espacio
-// $?
-// variables solo pueden empezar por letra y tener numeros
-// al generar la variable mete el =
 
 static char	*mod_infile_expand(t_msh *data, char *content, char *variable, int i)
 {
@@ -144,12 +144,12 @@ static char	*expand_manage(t_msh *data, t_quotes *quotes, int *i)
 	return (data->input);
 }
 
-char	*expand(t_msh *data)
-{
-	t_quotes	quotes; // flag para saber si hay comillas o no 
 	// No hay nada abierto ->			 Se interpreta ->    /Users… 0
 	// Hay comillas dobles abiertas->    Se interpreta ->    /Users/… 0
 	// Hay comillas simples abiertas ->  No se interpreta -> $PATH  1
+char	*expand(t_msh *data)
+{
+	t_quotes	quotes; // flag para saber si hay comillas o no 
 	int		i;
 
 	i = 0;

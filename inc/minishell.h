@@ -8,6 +8,8 @@
 #include <signal.h>
 #include <string.h>
 
+#define BAD_SYNTAX_EXPORT "Bad syntax on export command"
+
 /*
  * brief	Bool type
 */
@@ -158,12 +160,24 @@ int		is_error(t_msh *msh);
 
 /* build ins*/
 void	built_ins(t_msh *msh, int nb_comand);
+/* export */
 void	bd_export(t_msh *msh, int nb_comand);
+void	export_alone(t_msh *msh);
+t_bool	check_if_variable_ok(char *arguments);
+char	**replace_content(t_msh *msh, char *variable, char *content);
+t_bool	check_if_var_exist(t_msh *msh, char *variable);
+char	*get_variable(char *arguments);
+char	*get_content(char *arguments);
+/* */
 void	bd_env(t_msh *msh, int nb_comand);
 void	bd_echo(t_msh *msh, int nb_comand);
 void	*bd_pwd(t_msh *msh, int nb_comand);
 void	bd_cd(t_msh *msh, int nb_comand);
 void	bd_exit(t_msh *msh, int nb_comand);
 void	bd_unset(t_msh *msh, int nb_comand);
+
+/* variables utils */
+int		ft_correct_var_char(char c, int flag);
+void	*free_expand(char *str1, char *str2);
 
 #endif
