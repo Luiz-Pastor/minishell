@@ -62,10 +62,11 @@ void	bd_export(t_msh *msh, int nb_comand)
 {
 	/* TODO: hay que esperar a ver como gestionamos las comillas ahora mismo se guardan y no deberia*/
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
-		&& msh->cmds->arguments == NULL)
+		&& msh->cmds[nb_comand].arguments == NULL)
 		export_alone(msh);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
-			&& msh->cmds->arguments != NULL)
+			&& msh->cmds[nb_comand].arguments != NULL)
 		manage_export(msh, nb_comand, 0);
 	return ; // se sale si no es export el comando
 }
+/* TODO: el export solo el path no lo imprime gestionar lo de variables sin =??¿?*/
