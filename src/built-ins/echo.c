@@ -2,36 +2,43 @@
 
 void	bd_echo(t_msh *msh, int nb_comand)
 {
-	(void)msh;
-	(void)nb_comand;
+	int	i;
+
+	i = 0;
+	if (msh->cmds[nb_comand].arguments == NULL)
+	{
+		printf("\n");
+		return ;
+	}
+	else if (msh->cmds[nb_comand].arguments != NULL)
+	{
+		if (!ft_strcmp(msh->cmds[nb_comand].arguments[0], "-n"))
+		{
+			i++;
+			if (!msh->cmds[nb_comand].arguments[i])
+				return ;
+			else
+			{
+				while (msh->cmds[nb_comand].arguments[i])
+				{
+					printf("%s", msh->cmds[nb_comand].arguments[i]);
+					if (msh->cmds[nb_comand].arguments[i + 1] != NULL)
+					printf(" ");
+					i++;
+				}
+			}
+		}
+		else
+		{
+			while (msh->cmds[nb_comand].arguments[i])
+			{
+				printf("%s", msh->cmds[nb_comand].arguments[i]);
+				if (msh->cmds[nb_comand].arguments[i + 1] != NULL)
+					printf(" ");
+				i++;
+			}
+			printf("\n");
+		}
+	}
 	return ;
 }
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	if (argc < 4)
-// 		return(write(1, "invalid argrs\n", 15));
-// 	if (ft_strcmp(argv[1], "echo"))
-// 		return (1);
-// 	char **cmd;
-
-// 	cmd = malloc (sizeof(char*) * argc);
-// 	if (!cmd)
-// 	return (0);
-// 	printf("## [%s]\n", cmd[0]);
-// 	int i = 1;
-// 	int j = 0;
-// 	while (argv[i])
-// 	{
-// 		cmd[j] = ft_strdup(argv[i]);
-// 		i++;
-// 		j++;
-// 	}
-// 	cmd[j] = NULL;
-// 	int x = 0;
-
-// 	while (cmd[x])
-// 		printf("=> [%s]\n", cmd[x++]);
-// 	execve("/bin/echo", cmd, envp);
-// 	return (0);
-	
-// }

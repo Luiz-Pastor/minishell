@@ -5,7 +5,7 @@ void	built_ins(t_msh *msh, int nb_comand)
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export"))
 		bd_export(msh, nb_comand); /*TODO: solo falta gestinar el uso de comillas */
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "echo"))
-		bd_echo(msh, nb_comand); /*TODO: enpezdo*/
+		bd_echo(msh, nb_comand); /*TODO: normi  revisar si falta algo*/
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "env"))
 		bd_env(msh, nb_comand); /*TODO: enpezdo*/
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "pwd"))
