@@ -6,6 +6,12 @@ void	*create_commands(t_msh *msh)
 	return (msh->cmds);
 }
 
+static void	delete_io_files(t_io_file *file)
+{
+	free(file->name);
+	free(file);
+}
+
 void	*delete_commands(t_msh *msh)
 {
 	int	i;
@@ -15,14 +21,11 @@ void	*delete_commands(t_msh *msh)
 	while (msh && msh->cmds && i < msh->cmds_count)
 	{
 		j = -1;
-		/* Eliminamos el infile y el outfile */
 		while (msh->cmds[i].infiles && ++j < msh->cmds[i].infiles_count)
-			ft_mfree(2, &msh->cmds[i].infiles[j].name, &msh->cmds[i].infiles[j]);
+			delete_io_files(&msh->cmds[i].infiles[j]);
 		j = -1;
 		while (msh->cmds[i].outfiles && ++j < msh->cmds[i].outfiles_count)
-			ft_mfree(2, &msh->cmds[i].outfiles[j].name, &msh->cmds[i].outfiles[j]);
-		
-		/* Eliminamos el comando y argumentos */
+			delete_io_files(&msh->cmds[i].outfiles[j]);
 		free(msh->cmds[i].main);
 		free_parts(NULL, msh->cmds[i].input);
 		j = -1;

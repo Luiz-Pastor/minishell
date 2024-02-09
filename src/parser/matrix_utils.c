@@ -5,7 +5,6 @@ char	**add_part(char *str, char **mtx)
 	char	**res;
 	int		index;
 
-
 	index = 0;
 	while (mtx && mtx[index])
 		index++;
