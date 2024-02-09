@@ -13,7 +13,7 @@ void	check_error(t_msh *msh)
 
 	error = msh->error;
 	if (error == MALLOC)
-		printf("Memory error\n");
+		perror("Memory error");
 	else if (error == SYNTAX)
 		printf(C_RED"\nmsh: syntax error\n"CLEAR);
 	else if (error == CTR_D)

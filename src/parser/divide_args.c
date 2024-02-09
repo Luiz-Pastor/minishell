@@ -15,7 +15,11 @@ static char	*get_part(char *str, int *i, char del, int limit)
 			continue ;
 		}
 		if (str[*i] == del)
+		{
+			while (str[*i + 1] && str[*i] != ' ' && str[*i + 1] != ' ')
+				(*i)++;
 			break ;
+		}
 		(*i)++;
 	}
 	add[0] = 0;

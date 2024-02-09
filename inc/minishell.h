@@ -130,6 +130,8 @@ int	is_quot(char *input, int index);
 
 /* Utils */
 int	is_space(char ch);
+char	*string_add(char *str, char ch);
+int	is_redirection(char ch);
 
 /* Parser */
 void	*parse(t_msh *msh);
@@ -137,8 +139,10 @@ void	*create_commands(t_msh *msh);
 
 void	*add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
 void	*add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
-void	*check_command(char *input, t_cmd *cmd, t_msh *msh);
-void	*check_argument(char *input, t_cmd* cmd, t_msh *msh);
+void	*check_command(int *index, t_cmd *cmd, t_msh *msh);
+void	*check_argument(int *index, t_cmd* cmd, t_msh *msh);
+void	*check_infile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh);
+void	*check_outfile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh);
 
 
 /* Errores */
@@ -154,7 +158,7 @@ typedef struct	s_quotes
 {
 	int		flag;
 	char	type;
-}				t_quotes;
+} t_quotes;
 
 char	*expand(t_msh *data);
 

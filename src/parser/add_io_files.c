@@ -63,39 +63,66 @@ void	*add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 	return (msh);
 }
 
-void	*check_command(char *input, t_cmd *cmd, t_msh *msh)
+
+/*
+	> Iterar mientras haya texto
+	> Si encuentra " o ', copiar todo lo de dentro, sea lo que sea
+	> Si encuentra un '<' o un '>', parar, ejecutar funcion del in/outfile
+*/
+void	*check_command(int *index, t_cmd *cmd, t_msh *msh)
 {
 	char	*new;
-	(void)msh;
+	char	*input;
+	int		i;
+	int		in_qt;
 
-	/* Si empieza y termina por comillas, se las quitamos */
-	if (input[0] == '\"' || input[0] == '\'')
-		new = ft_substr(input, 1, ft_strlen(input) - 2);
-	else
-		new = ft_substr(input, 0, ft_strlen(input));
-	
-	if (!new)
+	input = cmd->input[*index];
+	i = 0;
+	in_qt = 0;
+	new = NULL;
+	while (input[i])
 	{
-		/* TODO: test de errores */
-		return (NULL);
+		if (!in_qt && (input[i] == '<' || input[i] == '>'))
+			break ;
+		if (is_quot(input, i))
+			in_qt = !in_qt;
+		if ((in_qt && !is_quot(input, i)) || (!in_qt && !is_quot(input, i)))
+			new = string_add(new, input[i]);
+		i++;
 	}
 
 	/* Adjuntamos el comando */
 	cmd->main = new;
-	// printf("\t=> Comando principal: [%s]\n", cmd->main);
+
+	/* Miramos si hay una redireccion */
+	if (input[i] == '<')
+		check_infile(i + 1, index, cmd->input, cmd, msh);
+	else if (input[i] == '>')
+		check_infile(i + 1, index, cmd->input, cmd, msh);
 	return (msh);
 }
 
-void	*check_argument(char *input, t_cmd* cmd, t_msh *msh)
+void	*check_argument(int *index, t_cmd* cmd, t_msh *msh)
 {
-	(void)msh;
 	char	*new;
-	
-	/* Si emieza y termina por cmillas se las quitamos */
-	if (input[0] == '\"' || input[0] == '\'')
-		new = ft_substr(input, 1, ft_strlen(input) - 2);
-	else
-		new = ft_substr(input, 0, ft_strlen(input));
+	char	*input;
+	int		i;
+	int		in_qt;
+
+	input = cmd->input[*index];
+	i = 0;
+	in_qt = 0;
+	new = NULL;
+	while (input[i])
+	{
+		if (!in_qt && (input[i] == '<' || input[i] == '>'))
+			break ;
+		if (is_quot(input, i))
+			in_qt = !in_qt;
+		if ((in_qt && !is_quot(input, i)) || (!in_qt && !is_quot(input, i)))
+			new = string_add(new, input[i]);
+		i++;
+	}
 
 	/* Añadimos el elemento a la array de argumentos */
 	cmd->arguments = add_part(new, cmd->arguments);
@@ -104,6 +131,12 @@ void	*check_argument(char *input, t_cmd* cmd, t_msh *msh)
 		/* TODO: malloc error */
 		return (NULL);
 	}
-	// printf("\t=> Argumento del programa: [%s]\n", new);
+	
+	/* Miramos si hay una redireccion */
+	if (input[i] == '<')
+		check_infile(i + 1, index, cmd->input, cmd, msh);
+	else if (input[i] == '>')
+		check_infile(i + 1, index, cmd->input, cmd, msh);
+
 	return (msh);
 }
