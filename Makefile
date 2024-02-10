@@ -47,12 +47,17 @@ PARSER =	expand.c  \
 PATH_SIGNALS=src/signals/
 SIGNALS =	signals.c
 
+PATH_EXECUTOR=src/executor/
+EXECUTOR =	executor.c \
+			exe_one_cmd.c
 
 OBJ_DIR = obj/
 OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \
 		$(BUILT_INS:%.c=$(OBJ_DIR)%.o) \
 		$(PARSER:%.c=$(OBJ_DIR)%.o) \
-		$(SIGNALS:%.c=$(OBJ_DIR)%.o)
+		$(SIGNALS:%.c=$(OBJ_DIR)%.o) \
+		$(EXECUTOR:%.c=$(OBJ_DIR)%.o)
+		
 
 all: $(NAME)
 
@@ -84,6 +89,11 @@ $(OBJ_DIR)%.o: $(PATH_PARSER)%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJ_DIR)%.o: $(PATH_EXECUTOR)%.c
+	@echo "$(PINK)Compiling Object.$(CLEAR)"
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
 	@echo "$(PINK)Removing compiled files.$(CLEAR)"
 	@rm -rf $(OBJ_DIR)
@@ -110,3 +120,6 @@ env: all
 
 re: fclean all
 .PHONY: clean fclean re all run
+
+del: 
+	@echo $(OBJ)

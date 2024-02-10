@@ -1,5 +1,25 @@
 #include "../../inc/minishell.h"
 
+int	is_builtin(char *cmds)
+{
+	if (!ft_strcmp(cmds, "export"))
+		return (1);
+	else if (!ft_strcmp(cmds, "echo"))
+		return (1);
+	else if (!ft_strcmp(cmds, "env"))
+		return (1);
+	else if (!ft_strcmp(cmds, "pwd"))
+		return (1);
+	else if (!ft_strcmp(cmds, "cd")) 
+		return (1);
+	else if (!ft_strcmp(cmds, "unset"))
+		return (1);
+	else if (!ft_strcmp(cmds, "exit"))
+		return (1);
+	else
+		return (0);
+}
+
 void	built_ins(t_msh *msh, int nb_comand)
 {
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export"))

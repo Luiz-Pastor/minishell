@@ -107,7 +107,7 @@ int	manage(t_msh *data)
 		/* TODO: paso intermedio */
 
 		/* TODO: ejecutor */
-		built_ins(data, 0); // el 0 es el numero de comando en el que estamos esta asi para probarlo
+		executor(data);
 
 		/* TODO: liberamos memoria */
 		print_data(data);

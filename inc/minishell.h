@@ -160,6 +160,7 @@ int		is_error(t_msh *msh);
 
 /* build ins*/
 void	built_ins(t_msh *msh, int nb_comand);
+int		is_builtin(char *cmds);
 /* export */
 void	bd_export(t_msh *msh, int nb_comand);
 void	export_alone(t_msh *msh);
@@ -179,5 +180,9 @@ void	bd_unset(t_msh *msh, int nb_comand);
 /* variables utils */
 int		ft_correct_var_char(char c, int flag);
 void	*free_expand(char *str1, char *str2);
+
+/* executor */
+int		executor(t_msh *msh);
+void    exe_built_ins(t_msh *msh);
 
 #endif
