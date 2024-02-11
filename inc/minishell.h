@@ -42,7 +42,7 @@ enum
 
 typedef enum e_file_type
 {
-	INFILE = 0,
+	INFILE,
 	HERE_DOC,
 	TRUNC,
 	APPEND

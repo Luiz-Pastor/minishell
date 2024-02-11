@@ -74,7 +74,7 @@ void	*check_command(int *index, t_cmd *cmd, t_msh *msh)
 	char	*new;
 	char	*input;
 	int		i;
-	int		in_qt;
+	char	in_qt;
 
 	input = cmd->input[*index];
 	i = 0;
@@ -84,9 +84,12 @@ void	*check_command(int *index, t_cmd *cmd, t_msh *msh)
 	{
 		if (!in_qt && (input[i] == '<' || input[i] == '>'))
 			break ;
-		if (is_quot(input, i))
+		/* Cambios de quots */
+		if (!in_qt && is_quot(input, i))
+			in_qt = input[i];
+		else if (in_qt == input[i] && is_quot(input, i))
 			in_qt = !in_qt;
-		if ((in_qt && !is_quot(input, i)) || (!in_qt && !is_quot(input, i)))
+		if ((in_qt && (!is_quot(input, i) || input[i] != in_qt)) || (!in_qt && !is_quot(input, i)))
 			new = string_add(new, input[i]);
 		i++;
 	}
@@ -107,7 +110,7 @@ void	*check_argument(int *index, t_cmd* cmd, t_msh *msh)
 	char	*new;
 	char	*input;
 	int		i;
-	int		in_qt;
+	char		in_qt;
 
 	input = cmd->input[*index];
 	i = 0;
@@ -117,9 +120,11 @@ void	*check_argument(int *index, t_cmd* cmd, t_msh *msh)
 	{
 		if (!in_qt && (input[i] == '<' || input[i] == '>'))
 			break ;
-		if (is_quot(input, i))
+		if (!in_qt && is_quot(input, i))
+			in_qt = input[i];
+		else if (in_qt == input[i] && is_quot(input, i))
 			in_qt = !in_qt;
-		if ((in_qt && !is_quot(input, i)) || (!in_qt && !is_quot(input, i)))
+		if ((in_qt && (!is_quot(input, i) || input[i] != in_qt)) || (!in_qt && !is_quot(input, i)))
 			new = string_add(new, input[i]);
 		i++;
 	}
