@@ -76,7 +76,7 @@ void	*check_infile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 	int		i = start;
 
 	tp = INFILE;
-	if (input[*index][1] == '<')
+	if (input[*index][i] == '<')
 	{
 		tp = HERE_DOC;
 		i++;
@@ -115,7 +115,7 @@ void	*check_outfile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 	int		i = start;
 
 	tp = TRUNC;
-	if (input[*index][1] == '>')
+	if (input[*index][i] == '>')
 	{
 		tp = APPEND;
 		i++;

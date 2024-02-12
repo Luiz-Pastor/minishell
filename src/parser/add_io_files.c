@@ -101,7 +101,7 @@ void	*check_command(int *index, t_cmd *cmd, t_msh *msh)
 	if (input[i] == '<')
 		check_infile(i + 1, index, cmd->input, cmd, msh);
 	else if (input[i] == '>')
-		check_infile(i + 1, index, cmd->input, cmd, msh);
+		check_outfile(i + 1, index, cmd->input, cmd, msh);
 	return (msh);
 }
 
@@ -141,7 +141,7 @@ void	*check_argument(int *index, t_cmd* cmd, t_msh *msh)
 	if (input[i] == '<')
 		check_infile(i + 1, index, cmd->input, cmd, msh);
 	else if (input[i] == '>')
-		check_infile(i + 1, index, cmd->input, cmd, msh);
+		check_outfile(i + 1, index, cmd->input, cmd, msh);
 
 	return (msh);
 }
