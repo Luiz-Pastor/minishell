@@ -104,10 +104,8 @@ int	manage(t_msh *data)
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
 		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
-		// ft_export(data);
 
 		/* TODO: ejecutor */
-
 
 		/********************************** Temporal para poder salir de la terminal bien **********************************/
 		if (data->input && !strcmp("exit", data->input))

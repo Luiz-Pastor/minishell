@@ -1,8 +1,5 @@
 #include "../inc/minishell.h"
 
-# define ERROR_MSG "Bad use: ./minishell"
-# define MALLOC_MSG C_RED"Malloc error"CLEAR
-
 int	print_error(char *msg)
 {
 	printf("UwU: %s\n", msg);
@@ -28,7 +25,7 @@ int	main(int argc, char *argv[], char *envp[])
 	/* Inicializar la estructura */
 	data = init_msh(envp);
 	if (!data)
-		return (print_error(MALLOC_MSG));
+		exit_malloc();
 
 	/*	TODO: bucle de comandos
 			1. Parseo
@@ -47,7 +44,7 @@ int	main(int argc, char *argv[], char *envp[])
 				-> xd
 	*/
 	if (manage(data))
-		return (print_error(MALLOC_MSG));
+		exit_malloc();
 
 	/* Liberar toda la memoria */
 	free_msh(data);

@@ -16,18 +16,10 @@ static char	*dquote(t_msh *msh)
 	}
 	inter = ft_strjoin(msh->input, "\n");
 	if (!inter)
-	{
-		/* TODO: malloc error */
-		ft_mfree(1, &msh->input);
-		return (set_error(MALLOC, msh));
-	}
+		exit_malloc();
 	full = ft_strjoin(inter, new_line);
 	if (!full)
-	{
-		/* TODO: malloc error */
-		ft_mfree(2, &msh->input, &new_line);
-		return (set_error(MALLOC, msh));
-	}
+		exit_malloc();
 	ft_mfree(3, &msh->input, &inter, &new_line);
 	return (full);
 }

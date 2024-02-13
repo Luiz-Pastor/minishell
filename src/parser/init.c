@@ -81,10 +81,7 @@ t_msh	*init_msh(char *envp[])
 
 	data = malloc (sizeof(t_msh));
 	if (!data)
-	{
-		/* TODO: malloc error */
 		return (NULL);
-	}
 	ft_memset(data, 0, sizeof(t_msh));
 	data->envp = copy_env(envp);
 	if (!data->envp)

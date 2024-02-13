@@ -8,6 +8,9 @@
 # include <signal.h>
 # include <string.h>
 
+# define MALLOC_MSG C_RED"Malloc error"CLEAR
+# define ERROR_MSG "Bad use: ./minishell"
+
 /*
  * brief	Bool type
 */
@@ -51,7 +54,6 @@ typedef enum e_file_type
 typedef enum e_error
 {
 	NONE = 0,
-	MALLOC,
 	CTR_D,
 	SYNTAX
 }			t_error;
@@ -148,6 +150,7 @@ void	*check_outfile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 void	*set_error(t_error error, t_msh *msh);
 void	check_error(t_msh *msh);
 int		is_error(t_msh *msh);
+void	exit_malloc(void);
 
 /* Expand */
 # define FIRST_LETTER 1

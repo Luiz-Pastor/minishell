@@ -4,36 +4,20 @@ static char	**add_command(int start, int end, t_msh *msh, char **res)
 {
 	char	*cmd;
 	
-	/* Ajustamos el start y en end para quitar los espacios */
 	while (msh->input[start] && is_space(msh->input[start]))
 		start++;
 	while (end >= 0 && msh->input[end] && is_space(msh->input[end]))
 		end--;
-	
-	/* TODO: mirar que al quitar espacios haya un problema de sintaxis (ej: | ls)*/
 	if (end < start)
 	{
-		/* Error: mala sintaxis */
 		set_error(SYNTAX, msh);
 		free_parts(NULL, res);
 		return (NULL);
 	}
-
-	/* Sabiendo el inicio y el final correctos, sacamos este texto */
 	cmd = ft_substr(msh->input, start, end - start + 1);
 	if (!cmd)
-	{
-		free_parts(NULL, res);
-		return (set_error(MALLOC, msh));
-	}
-
-	/* Añadimos el elemento a la array de strings */
+		exit_malloc();
 	res = add_part(cmd, res);
-	if (!res)
-	{
-		free_parts(cmd, NULL);
-		return (set_error(MALLOC, msh));
-	}
 	return (res);
 }
 
@@ -51,14 +35,11 @@ static char	**split_commands(t_msh *msh)
 	while (msh->input[index])
 	{
 		if (quot && msh->input[index] == quot && is_quot(msh->input, index))
-			quot = 0; /* Se cierra el quot */
+			quot = 0;
 		else if (!quot && is_quot(msh->input, index))
-			quot = msh->input[index]; /* Se abre el quot */
-
-		/* Si encontramos una barra y no esta entre comillas, hemos encaontrado un comando */
+			quot = msh->input[index];
 		if (msh->input[index] == '|' && !quot)
 		{
-			/* Añadir comando */
 			res = add_command(start, index - 1, msh, res);
 			if (!res)
 				return (NULL);
@@ -100,11 +81,7 @@ void	*check_infile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
 	}
 	if (!name || !add_infile(tp, name, cmd, msh))
-	{
-		set_error(MALLOC, msh);
-		return (NULL);
-	}
-	// printf("\t=> Encontrado infile: {[%s], %d}\n", name, tp);
+		exit_malloc();
 	return (msh);
 }
 
@@ -139,11 +116,7 @@ void	*check_outfile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
 	}
 	if (!name || !add_outfile(tp, name, cmd, msh))
-	{
-		set_error(MALLOC, msh);
-		return (NULL);
-	}
-	// printf("\t=> Encontrado outfile: {[%s], %d}\n", name, tp);
+		exit_malloc();
 	return (msh);
 }
 
@@ -193,7 +166,7 @@ void	*parse(t_msh *msh)
 	/* Inicializamos la estructura */
 	msh->cmds_count = matrix_length(cmds);
 	if (!create_commands(msh))
-		return (set_error(MALLOC, msh));
+		exit_malloc();
 	
 	/* Para cada comando, miramos sus tokens */
 	index = 0;
@@ -208,11 +181,9 @@ void	*parse(t_msh *msh)
 			return (free_parts(NULL, cmds));
 			
 		index++;
-		// printf("\n\n");
 	}
 
 	/* Liberar cmds */
 	free_parts(NULL, cmds);
-
 	return (msh);
 }
