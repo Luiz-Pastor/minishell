@@ -154,6 +154,8 @@ typedef struct	s_quotes
 }				t_quotes;
 
 char	*expand(t_msh *data);
+char	*last_state(t_msh *data, int *i);
+void	*expand_var(t_msh *msh, int *i, int aux);
 
 /* Errores */
 void	*set_error(t_error error, t_msh *msh);

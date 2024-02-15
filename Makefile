@@ -43,6 +43,7 @@ PARSER =	expand.c  \
 			init_cmds.c		\
 			init.c		\
 			add_io_files.c	\
+			expand_2.c
 
 PATH_SIGNALS=src/signals/
 SIGNALS =	signals.c
