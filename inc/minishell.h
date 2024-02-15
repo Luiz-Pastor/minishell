@@ -78,6 +78,8 @@ struct s_msh
 	/* Salida del ultimo comando */
 	int		last_out;
 
+	int		end;
+
 	/* Último error */
 	t_error	error;
 };
@@ -184,5 +186,8 @@ void	*free_expand(char *str1, char *str2);
 /* executor */
 int		executor(t_msh *msh);
 void    exe_built_ins(t_msh *msh);
+
+/* signals */
+void	signals_manage(t_msh *msh);
 
 #endif

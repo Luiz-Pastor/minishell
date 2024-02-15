@@ -41,7 +41,7 @@ void	free_cmds(t_msh *data)
 	int	index;
 	int	j;
 
-	printf("Liberando memoria\n");
+	// printf("Liberando memoria\n");
 	index = -1;
 	while (++index < data->cmds_count)
 	{
@@ -72,6 +72,7 @@ int	manage(t_msh *data)
 	end = 0;
 	while (1)
 	{
+		signals_manage(data);
 		/* TODO: Leemos comandos y añadirlos al historial */
 		data->input = readline("minishell> ");
 		if (!data->input)
@@ -80,6 +81,8 @@ int	manage(t_msh *data)
 			printf("\n");
 			continue ;
 		}
+		// if (is_empty(data->input)) /*TODO: uwu*/
+		// 	continue ;
 
 		/* Mirar comillas y pedir mas data si hace falta */
 		data->input = check_quots(data);
