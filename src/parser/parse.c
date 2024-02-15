@@ -3,7 +3,7 @@
 static char	**add_command(int start, int end, t_msh *msh, char **res)
 {
 	char	*cmd;
-	
+
 	while (msh->input[start] && is_space(msh->input[start]))
 		start++;
 	while (end >= 0 && msh->input[end] && is_space(msh->input[end]))
@@ -53,22 +53,25 @@ static char	**split_commands(t_msh *msh)
 void	*check_infile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 {
 	t_file_type	tp;
-	char	*name;
-	int		i = start;
+	char		*name;
 
 	tp = INFILE;
-	if (input[*index][i] == '<')
+	if (input[*index][start] == '<')
 	{
 		tp = HERE_DOC;
-		i++;
+		start++;
 	}
-
-	if (input[*index][i])
+	if (!input[*index][start] && !input[*index + 1])
 	{
-		if (input[*index][i] == '\"' || input[*index][i] == '\'')
-			name = ft_substr(input[*index], i + 1, ft_strlen(input[*index]) - i - 2);
+		set_error(SYNTAX, msh);
+		return (msh);
+	}
+	if (input[*index][start])
+	{
+		if (input[*index][start] == '\"' || input[*index][start] == '\'')
+			name = ft_substr(input[*index], start + 1, ft_strlen(input[*index]) - start - 2);
 		else
-			name = ft_substr(input[*index], i, ft_strlen(input[*index]) - 1);
+			name = ft_substr(input[*index], start, ft_strlen(input[*index]) - 1);
 	}
 	else
 	{
@@ -80,7 +83,7 @@ void	*check_infile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 		else
 			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
 	}
-	if (!name || !add_infile(tp, name, cmd, msh))
+	if (!name || !add_infile(tp, name, cmd))
 		exit_malloc();
 	return (msh);
 }
@@ -88,22 +91,25 @@ void	*check_infile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 void	*check_outfile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 {
 	t_file_type	tp;
-	char	*name;
-	int		i = start;
+	char		*name;
 
 	tp = TRUNC;
-	if (input[*index][i] == '>')
+	if (input[*index][start] == '>')
 	{
 		tp = APPEND;
-		i++;
+		start++;
 	}
-
-	if (input[*index][i])
+	if (!input[*index])
 	{
-		if (input[*index][i] == '\"' || input[*index][i] == '\'')
-			name = ft_substr(input[*index], i + 1, ft_strlen(input[*index]) - i - 2);
+		set_error(SYNTAX, msh);
+		return (msh);
+	}
+	if (input[*index][start])
+	{
+		if (input[*index][start] == '\"' || input[*index][start] == '\'')
+			name = ft_substr(input[*index], start + 1, ft_strlen(input[*index]) - start - 2);
 		else
-			name = ft_substr(input[*index], i, ft_strlen(input[*index]) - 1);
+			name = ft_substr(input[*index], start, ft_strlen(input[*index]) - 1);
 	}
 	else
 	{
@@ -115,7 +121,7 @@ void	*check_outfile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh)
 		else
 			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
 	}
-	if (!name || !add_outfile(tp, name, cmd, msh))
+	if (!name || !add_outfile(tp, name, cmd))
 		exit_malloc();
 	return (msh);
 }
@@ -126,8 +132,6 @@ void	*analize_input(t_msh *msh, int index)
 	t_cmd	*cmd;
 
 	cmd = &msh->cmds[index];
-
-	/* Nos recorremos toda la array con los elementos del comando ([wc] [-l] [NULL]) */
 	i = 0;
 	while (cmd->input[i])
 	{
@@ -154,36 +158,21 @@ void	*parse(t_msh *msh)
 	char	**cmds;
 	int		index;
 
-	/* TODO: Expandimos las variables que hacen falta */
 	msh->input = expand(msh);
-
-	/* Dividir cada parte en los comandos que tengan */
 	cmds = split_commands(msh);
 	if (!cmds)
 		return (NULL);
-
-	/* Sabiendo el numero de comandos, creamos la array, y guardamos la info de cada comando */
-	/* Inicializamos la estructura */
 	msh->cmds_count = matrix_length(cmds);
 	if (!create_commands(msh))
 		exit_malloc();
-	
-	/* Para cada comando, miramos sus tokens */
 	index = 0;
 	while (cmds[index])
 	{
-		printf("{Mirando: [%s]}\n", cmds[index]);
 		msh->cmds[index].input = divide_cmd_args(cmds[index], WITH_QUOT);
-		int	i = 0;
-		while (msh->cmds[index].input[i])
-			printf("\t=> [%s]\n", msh->cmds[index].input[i++]);
 		if (!analize_input(msh, index))
 			return (free_parts(NULL, cmds));
-			
 		index++;
 	}
-
-	/* Liberar cmds */
 	free_parts(NULL, cmds);
 	return (msh);
 }

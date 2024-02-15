@@ -139,8 +139,8 @@ int		is_redirection(char ch);
 void	*parse(t_msh *msh);
 void	*create_commands(t_msh *msh);
 
-void	*add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
-void	*add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh);
+void	*add_infile(t_file_type type, char *name, t_cmd *cmd);
+void	*add_outfile(t_file_type type, char *name, t_cmd *cmd);
 void	*check_command(int *index, t_cmd *cmd, t_msh *msh);
 void	*check_argument(int *index, t_cmd *cmd, t_msh *msh);
 void	*check_infile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh);

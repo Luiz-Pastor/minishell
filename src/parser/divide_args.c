@@ -1,5 +1,16 @@
 #include "../../inc/minishell.h"
 
+static void	set_calc(int *add, int limit, char del)
+{
+	add[0] = 0;
+	add[1] = 0;
+	if (del == '\'' || del == '\"')
+	{
+		add[0] = limit;
+		add[1] = (-2 * limit) + 1;
+	}
+}
+
 static char	*get_part(char *str, int *i, char del, int limit)
 {
 	int		start;
@@ -22,19 +33,13 @@ static char	*get_part(char *str, int *i, char del, int limit)
 		}
 		(*i)++;
 	}
-	add[0] = 0;
-	add[1] = 0;
-	if (del == '\'' || del == '\"')
-	{
-		add[0] = limit;
-		add[1] =  (-2 * limit) + 1;
-	}
+	set_calc(add, limit, del);
 	return (ft_substr(str, start + add[0], *i - start + add[1]));
 }
 
 char	**divide_cmd_args(char *input, int limit)
 {
-	int	index;
+	int		index;
 	char	*new;
 	char	**res;
 
@@ -44,7 +49,8 @@ char	**divide_cmd_args(char *input, int limit)
 	{
 		while (is_space(input[index]))
 			index++;
-		if (input [index] == '\'' || (input[index] == '\"' && (!index || input[index - 1] != '\\')))
+		if (input [index] == '\'' || (input[index] == '\"' && (!index || \
+			input[index - 1] != '\\')))
 			new = get_part(input, &index, input[index], limit);
 		else
 			new = get_part(input, &index, ' ', limit);

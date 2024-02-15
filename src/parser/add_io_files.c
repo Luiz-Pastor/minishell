@@ -1,20 +1,14 @@
 #include "../../inc/minishell.h"
 
-void	*add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
+void	*add_infile(t_file_type type, char *name, t_cmd *cmd)
 {
-	(void)msh;
 	int			index;
 	t_io_file	*new;
 
+	index = 0;
 	new = ft_calloc(cmd->infiles_count + 1, sizeof(t_io_file));
 	if (!new)
-	{
-		/* TODO: malloc error */
-		return (NULL);
-	}
-
-	/* Copiamos toda la info que teniamos a la nueva estructura */
-	index = 0;
+		exit_malloc();
 	while (index < cmd->infiles_count)
 	{
 		new[index].name = cmd->infiles[index].name;
@@ -24,28 +18,20 @@ void	*add_infile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 	new[index].name = name;
 	new[index].type = type;
 	cmd->infiles_count++;
-
-	/* Eliminamos la anterior lista y la actualizamos por la nueva */
 	free(cmd->infiles);
 	cmd->infiles = new;
-	return (msh);
+	return (cmd);
 }
 
-void	*add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
+void	*add_outfile(t_file_type type, char *name, t_cmd *cmd)
 {
-	(void)msh;
 	int			index;
 	t_io_file	*new;
 
+	index = 0;
 	new = ft_calloc(cmd->outfiles_count + 1, sizeof(t_io_file));
 	if (!new)
-	{
-		/* TODO: malloc error */
-		return (NULL);
-	}
-
-	/* Copiamos toda la info que teniamos a la nueva estructura */
-	index = 0;
+		exit_malloc();
 	while (index < cmd->outfiles_count)
 	{
 		new[index].name = cmd->outfiles[index].name;
@@ -55,49 +41,42 @@ void	*add_outfile(t_file_type type, char *name, t_cmd *cmd, t_msh *msh)
 	new[index].name = name;
 	new[index].type = type;
 	cmd->outfiles_count++;
-
-	/* Eliminamos la anterior lista y la actualizamos por la nueva */
 	free(cmd->outfiles);
 	cmd->outfiles = new;
-
-	return (msh);
+	return (cmd);
 }
 
+char	*sub_arguments(char *input, int *i)
+{
+	char	in_qt;
+	char	*new;
 
-/*
-	> Iterar mientras haya texto
-	> Si encuentra " o ', copiar todo lo de dentro, sea lo que sea
-	> Si encuentra un '<' o un '>', parar, ejecutar funcion del in/outfile
-*/
+	new = NULL;
+	in_qt = 0;
+	while (input[*i])
+	{
+		if (!in_qt && (input[*i] == '<' || input[*i] == '>'))
+			break ;
+		if (!in_qt && is_quot(input, *i))
+			in_qt = input[*i];
+		else if (in_qt == input[*i] && is_quot(input, *i))
+			in_qt = !in_qt;
+		if ((in_qt && (!is_quot(input, *i) || input[*i] != in_qt)) || \
+			(!in_qt && !is_quot(input, *i)))
+			new = string_add(new, input[*i]);
+		(*i)++;
+	}
+	return (new);
+}
+
 void	*check_command(int *index, t_cmd *cmd, t_msh *msh)
 {
-	char	*new;
 	char	*input;
 	int		i;
-	char	in_qt;
 
-	input = cmd->input[*index];
 	i = 0;
-	in_qt = 0;
-	new = NULL;
-	while (input[i])
-	{
-		if (!in_qt && (input[i] == '<' || input[i] == '>'))
-			break ;
-		/* Cambios de quots */
-		if (!in_qt && is_quot(input, i))
-			in_qt = input[i];
-		else if (in_qt == input[i] && is_quot(input, i))
-			in_qt = !in_qt;
-		if ((in_qt && (!is_quot(input, i) || input[i] != in_qt)) || (!in_qt && !is_quot(input, i)))
-			new = string_add(new, input[i]);
-		i++;
-	}
-
-	/* Adjuntamos el comando */
-	cmd->main = new;
-
-	/* Miramos si hay una redireccion */
+	input = cmd->input[*index];
+	cmd->main = sub_arguments(input, &i);
 	if (input[i] == '<')
 		check_infile(i + 1, index, cmd->input, cmd, msh);
 	else if (input[i] == '>')
@@ -105,43 +84,19 @@ void	*check_command(int *index, t_cmd *cmd, t_msh *msh)
 	return (msh);
 }
 
-void	*check_argument(int *index, t_cmd* cmd, t_msh *msh)
+void	*check_argument(int *index, t_cmd *cmd, t_msh *msh)
 {
-	char	*new;
 	char	*input;
 	int		i;
-	char		in_qt;
 
-	input = cmd->input[*index];
 	i = 0;
-	in_qt = 0;
-	new = NULL;
-	while (input[i])
-	{
-		if (!in_qt && (input[i] == '<' || input[i] == '>'))
-			break ;
-		if (!in_qt && is_quot(input, i))
-			in_qt = input[i];
-		else if (in_qt == input[i] && is_quot(input, i))
-			in_qt = !in_qt;
-		if ((in_qt && (!is_quot(input, i) || input[i] != in_qt)) || (!in_qt && !is_quot(input, i)))
-			new = string_add(new, input[i]);
-		i++;
-	}
-
-	/* Añadimos el elemento a la array de argumentos */
-	cmd->arguments = add_part(new, cmd->arguments);
+	input = cmd->input[*index];
+	cmd->arguments = add_part(sub_arguments(input, &i), cmd->arguments);
 	if (!cmd->arguments)
-	{
-		/* TODO: malloc error */
-		return (NULL);
-	}
-	
-	/* Miramos si hay una redireccion */
+		exit_malloc();
 	if (input[i] == '<')
 		check_infile(i + 1, index, cmd->input, cmd, msh);
 	else if (input[i] == '>')
 		check_outfile(i + 1, index, cmd->input, cmd, msh);
-
 	return (msh);
 }

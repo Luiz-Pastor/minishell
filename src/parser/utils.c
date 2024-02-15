@@ -17,7 +17,7 @@ char	*string_add(char *str, char ch)
 	i = 0;
 	new = malloc(ft_strlen(str) + 2);
 	if (!new)
-		return (ft_mfree(1, &str));
+		exit_malloc();
 	while (str && str[i])
 	{
 		new[i] = str[i];
