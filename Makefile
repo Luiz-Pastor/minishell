@@ -20,6 +20,7 @@ SRC =		main.c 		\
 			errors.c	
 
 PATH_BUILT_INS=src/built-ins/
+
 BUILT_INS =	built_ins.c \
 			export.c \
 			cd.c \
@@ -43,7 +44,9 @@ PARSER =	expand.c  \
 			init_cmds.c		\
 			init.c		\
 			add_io_files.c	\
-			expand_2.c
+			expand_2.c \
+			check_cmd_arg.c	\
+			add_elements.c
 
 PATH_SIGNALS=src/signals/
 SIGNALS =	signals.c
@@ -58,7 +61,6 @@ OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \
 		$(PARSER:%.c=$(OBJ_DIR)%.o) \
 		$(SIGNALS:%.c=$(OBJ_DIR)%.o) \
 		$(EXECUTOR:%.c=$(OBJ_DIR)%.o)
-		
 
 all: $(NAME)
 
