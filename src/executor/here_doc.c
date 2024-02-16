@@ -44,6 +44,7 @@ static int	get_data(int fd, char *filename, char *del)
 	char	*full_del;
 	char	*buffer;
 
+	(void)filename;
 	/* Unimos un salto de linea al delimitador, para que el gnl lo detecte bien */
 	full_del = ft_strjoin(del, "\n");
 	if (!full_del)

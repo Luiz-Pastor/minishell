@@ -30,7 +30,7 @@ void	bd_exit(t_msh *msh, int nb_comand)
 	msh->end = 1;
 	if (matrix_length(msh->cmds[nb_comand].arguments))
 	{
-		/* TODO: Si no es un numero completo, exit de 255 */
+		/* Si no es un numero completo, exit de 255 */
 		if (check_if_nb(msh, nb_comand) == 1)
 			return ;
 		else /* Sino, el numero que sea */

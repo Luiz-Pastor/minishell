@@ -55,7 +55,8 @@ PATH_EXECUTOR=src/executor/
 EXECUTOR =	executor.c		\
 			exe_one_cmd.c	\
 			manage_io_files.c	\
-			here_doc.c
+			here_doc.c \
+			path.c
 
 OBJ_DIR = obj/
 OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \
