@@ -1,158 +1,72 @@
 #include "../../inc/minishell.h"
 
-# define FIRST_LETTER 1
-# define MID_LETTER 2
-
-// int	ft_correct_var_char(char c, int flag)
-// {
-// 	if (c == 'º')
-// 		return (1);
-// 	else if (c == '\\')
-// 		return (1);
-// 	else if (c == 'ª')
-// 		return (1);
-// 	else if (c == '_')
-// 		return (1);
-// 	else if (ft_isalpha(c) == 1)
-// 		return (1);
-// 	if (flag == MID_LETTER && ft_isdigit(c) == 1)
-// 		return (1);
-// 	if (flag == MID_LETTER && c == '$')
-// 		return (1);
-// 	// los numeros son validos siempre y cuando no esten el primero 
-	
-// 	return (0);
-// }
-
-char	**order_alf_envp(char **envp)
+char	**add_to_envp(t_msh *msh, char *variable, char *content)
 {
+	char	*new_line;
 	char	**new_envp;
-	int		lines;
-	int	i;
-	int	j;
+	int		i;
 
+	new_envp = NULL;
+	new_line = ft_strjoin(variable, content);
+	if (!new_line)
+		return (NULL);
 	i = 0;
-	lines = 0;
-	while (envp[i])
-	{
-		lines++;
+	while (msh->envp[i] != NULL)
 		i++;
-	}
-	new_envp = malloc(sizeof(char*) * lines + 1);
+	new_envp = malloc(sizeof(char *) * (i + 2));
 	if (!new_envp)
 		return (NULL);
 	i = 0;
-	while (envp[i])
+	while (msh->envp[i] != NULL)
 	{
-		new_envp[i] = envp[i];
+		new_envp[i] = msh->envp[i];
 		i++;
 	}
-	char	*aux;
-	i = 0;
-	while (new_envp[i])
-	{
-		j = i + 1;
-		while (new_envp[j])
-		{
-			if (ft_strcmp(new_envp[i], new_envp[j]) > 0)
-			{
-				aux = new_envp[i];
-				new_envp[i] = new_envp[j];
-				new_envp[j] = aux;
-			}
-			j++;
-		}
-		i++;
-	}
+	new_envp[i] = new_line;
+	i++;
+	new_envp[i] = NULL;
+	free(msh->envp);
 	return (new_envp);
 }
 
-void	export_alone(t_msh *msh)
+void	manage_export(t_msh *msh, int nb_comand, int i)
 {
-	int	i;
-	int	j;
-	char	**order_envp;
+	char	*variable;
+	char	*content;
 
-	i = 0;
-	order_envp = order_alf_envp(msh->envp);
-	if (!order_envp)
-		return ; // malloc error
-	while (order_envp[i])
+	while (msh->cmds[nb_comand].arguments[i] != NULL)
 	{
-		j = 0;
-		write(1, "declare -x ", 12);
-		while (order_envp[i][j] != '=' && order_envp[i][j] != '\0')
+		if (check_if_variable_ok(msh->cmds[nb_comand].arguments[i]) == TRUE)
 		{
-			write(1, &order_envp[i][j], 1);
-			j++;
+			variable = get_variable(msh->cmds[nb_comand].arguments[i]);
+			if (!variable)
+				return ; // liberar cosas
+			content = get_content(msh->cmds[nb_comand].arguments[i]);
+			if (!content)
+				return ; // liberar cosas
+			if (check_if_var_exist(msh, variable) == TRUE)
+				msh->envp = replace_content(msh, variable, content);
+			else
+				msh->envp = add_to_envp(msh, variable, content);
 		}
-		write(1, &order_envp[i][j++], 1);
-		write(1, "\"", 1);
-		while (order_envp[i][j] != '\0')
+		else
 		{
-			write(1, &order_envp[i][j], 1);
-			j++;
+			printf("%s", BAD_SYNTAX_EXPORT);
+			break ;
 		}
-		write(1, "\"", 1);
-		write(1, "\n", 1);
 		i++;
 	}
 }
 
-void	ft_export(t_msh *msh)
+void	bd_export(t_msh *msh, int nb_comand)
 {
-	// int		i;
-	// char	*aux;
-	// int		size;
-
-	/* ============================= */
-	char *str = malloc(7);
-	strcpy(str, "export");
-	msh->cmds[0].main = str;
-	/* ============================= */
-
-	printf("=> [%s]\n", msh->cmds[0].main);
-	if (!ft_strcmp(msh->cmds[0].main, "export") && msh->cmds->arguments == NULL)
-	{
-		printf("uwu\n");
+	/* TODO: hay que esperar a ver como gestionamos las comillas ahora mismo se guardan y no deberia*/
+	if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
+		&& msh->cmds[nb_comand].arguments == NULL)
 		export_alone(msh);
-	}
-	// i = 0;
-	// aux = NULL;
-	// // export
-	// while (input[i] != '\0')
-	// {
-	// 	size = 0;
-	// 	while (input[i] == ' ') // ignoramos los espacios
-	// 		i++;
-	// 	while (input[i] != ' ' && input[i] != '=') // tenemos que leer hasta encontrar un espacio o un = 
-	// 	{
-	// 		i++;
-	// 		size++;
-	// 	}
-	// 	aux = ft_substr(input, i, size); // una temporal para ver si va a ser variable o no 
-	// 	if (!aux)
-	// 		return ; // malloc error
-	// 	int j = 0;
-	// 	if (aux && input[i] == '=')
-	// 	{
-	// 		if (ft_correct_var_char(aux[j], FIRST_LETTER) == 0);
-	// 				perror("bash: export: (lo que ese mal) not a valid identifier");
-	// 		i++;
-	// 		while(aux[j] != '\0')
-	// 		{
-	// 			if (ft_correct_var_char(aux[j], MID_LETTER) == 0);
-	// 				perror("bash: export: (lo que ese mal) not a valid identifier");
-	// 			j++;
-	// 		}
-	// 		// si llega aqui es que lo siguiente que este justo pegado con o sin comillas va a ser el contenido de la variable 
-	// 	}
-	// 	else
-	// 	{
-	// 		free(aux);
-	// 		aux = NULL;
-	// 	}
-	// 	// ª º \ $ _ letra_min letra_mayus
-	// 	// no pueden tener ningun tipo de caracter especial en ningun momento
-	// }
+	else if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
+			&& msh->cmds[nb_comand].arguments != NULL)
+		manage_export(msh, nb_comand, 0);
+	return ; // se sale si no es export el comando
 }
+/* TODO: el export solo el path no lo imprime gestionar lo de variables sin =??¿?*/

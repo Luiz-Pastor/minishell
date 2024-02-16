@@ -1,10 +1,11 @@
 #include "../../inc/minishell.h"
 
-void	bd_env(t_msh *data)
+void	bd_env(t_msh *msh, int nb_comand)
 {
 	int	index;
+	(void)nb_comand;
 
 	index = 0;
-	while (data->envp[index])
-		printf("%s\n", data->envp[index++]);
+	while (msh->envp[index])
+		printf("%s\n", msh->envp[index++]);
 }

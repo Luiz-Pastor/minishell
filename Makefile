@@ -20,7 +20,18 @@ SRC =		main.c 		\
 			errors.c	
 
 PATH_BUILT_INS=src/built-ins/
-BUILT_INS =	export.c
+
+BUILT_INS =	built_ins.c \
+			export.c \
+			cd.c \
+			unset.c \
+			pwd.c \
+			env.c \
+			exit.c \
+			echo.c \
+			variables_utils.c \
+			export_alone.c \
+			export_2.c
 
 PATH_PARSER=src/parser/
 PARSER =	expand.c  \
@@ -33,18 +44,23 @@ PARSER =	expand.c  \
 			init_cmds.c		\
 			init.c		\
 			add_io_files.c	\
+			expand_2.c \
 			check_cmd_arg.c	\
 			add_elements.c
 
 PATH_SIGNALS=src/signals/
 SIGNALS =	signals.c
 
+PATH_EXECUTOR=src/executor/
+EXECUTOR =	executor.c \
+			exe_one_cmd.c
 
 OBJ_DIR = obj/
 OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \
 		$(BUILT_INS:%.c=$(OBJ_DIR)%.o) \
 		$(PARSER:%.c=$(OBJ_DIR)%.o) \
-		$(SIGNALS:%.c=$(OBJ_DIR)%.o)
+		$(SIGNALS:%.c=$(OBJ_DIR)%.o) \
+		$(EXECUTOR:%.c=$(OBJ_DIR)%.o)
 
 all: $(NAME)
 
@@ -76,6 +92,11 @@ $(OBJ_DIR)%.o: $(PATH_PARSER)%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJ_DIR)%.o: $(PATH_EXECUTOR)%.c
+	@echo "$(PINK)Compiling Object.$(CLEAR)"
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
 	@echo "$(PINK)Removing compiled files.$(CLEAR)"
 	@rm -rf $(OBJ_DIR)
@@ -102,3 +123,6 @@ env: all
 
 re: fclean all
 .PHONY: clean fclean re all run
+
+del: 
+	@echo $(OBJ)

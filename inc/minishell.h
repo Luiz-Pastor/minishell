@@ -11,6 +11,8 @@
 # define MALLOC_MSG C_RED"Malloc error"CLEAR
 # define ERROR_MSG "Bad use: ./minishell"
 
+#define BAD_SYNTAX_EXPORT "Bad syntax on export command"
+
 /*
  * brief	Bool type
 */
@@ -72,6 +74,8 @@ struct s_msh
 
 	/* Salida del ultimo comando */
 	int		last_out;
+
+	int		end;
 
 	/* Último error */
 	t_error	error;
@@ -158,9 +162,43 @@ void	exit_malloc(void);
 # define MID_LETTER 2
 
 char	*expand(t_msh *data);
+char	*last_state(t_msh *data, int *i);
+void	*expand_var(t_msh *msh, int *i, int aux);
+
+/* Errores */
+void	*set_error(t_error error, t_msh *msh);
+void	check_error(t_msh *msh);
+int		is_error(t_msh *msh);
 
 /* build ins*/
-void	ft_export(t_msh *msh);
+void	built_ins(t_msh *msh, int nb_comand);
+int		is_builtin(char *cmds);
+/* export */
+void	bd_export(t_msh *msh, int nb_comand);
+void	export_alone(t_msh *msh);
+t_bool	check_if_variable_ok(char *arguments);
+char	**replace_content(t_msh *msh, char *variable, char *content);
+t_bool	check_if_var_exist(t_msh *msh, char *variable);
+char	*get_variable(char *arguments);
+char	*get_content(char *arguments);
+/* */
+void	bd_env(t_msh *msh, int nb_comand);
+void	bd_echo(t_msh *msh, int nb_comand);
+void	*bd_pwd(t_msh *msh, int nb_comand);
+void	bd_cd(t_msh *msh, int nb_comand);
+void	bd_exit(t_msh *msh, int nb_comand);
+void	bd_unset(t_msh *msh, int nb_comand);
+
+/* variables utils */
+int		ft_correct_var_char(char c, int flag);
+void	*free_expand(char *str1, char *str2);
+
+/* executor */
+int		executor(t_msh *msh);
+void    exe_built_ins(t_msh *msh);
+
+/* signals */
+void	signals_manage(t_msh *msh);
 
 /* Executer */
 int	ejecuter(t_msh *msh);

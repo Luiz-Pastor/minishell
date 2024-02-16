@@ -1,31 +1,74 @@
 #include "../../inc/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+static int	check_flag(char *argument)
 {
-	if (argc < 4)
-		return(write(1, "invalid argrs\n", 15));
-	if (ft_strcmp(argv[1], "echo"))
-		return (1);
-	char **cmd;
+	int i;
 
-	cmd = malloc (sizeof(char*) * argc);
-	if (!cmd)
-	return (0);
-	printf("## [%s]\n", cmd[0]);
-	int i = 1;
-	int j = 0;
-	while (argv[i])
-	{
-		cmd[j] = ft_strdup(argv[i]);
+	i = 0;
+	if (argument[i] == '-')
 		i++;
-		j++;
+	else
+		return (0);
+	while (argument[i] != '\0')
+	{
+		if (argument[i] != 'n')
+			return (0);
+		i++;
 	}
-	cmd[j] = NULL;
-	int x = 0;
+	return (1);
+}
 
-	while (cmd[x])
-		printf("=> [%s]\n", cmd[x++]);
-	execve("/bin/echo", cmd, envp);
-	return (0);
-	
+static void	echo_flag_n(char **arguments, int i)
+{
+	if (!arguments[i])
+		return ;
+	else
+	{
+		while (arguments[i])
+		{
+			printf("%s", arguments[i]);
+			if (arguments[i + 1] != NULL)
+			printf(" ");
+			i++;
+		}
+	}
+}
+
+static void	echo_no_flag(char **arguments, int i)
+{
+	while (arguments[i])
+	{
+		printf("%s", arguments[i]);
+		if (arguments[i + 1] != NULL)
+			printf(" ");
+		i++;
+	}
+	printf("\n");
+}
+
+void	bd_echo(t_msh *msh, int nb_comand)
+{
+	int	i;
+	int	flag;
+
+	flag = 0;
+	i = 0;
+	if (msh->cmds[nb_comand].arguments == NULL)
+	{
+		printf("\n");
+		return ;
+	}
+	else if (msh->cmds[nb_comand].arguments != NULL)
+	{
+		while (check_flag(msh->cmds[nb_comand].arguments[i]) == 1)
+		{
+			flag = 1;
+			i++;
+		}
+		if (flag == 1)
+			echo_flag_n(msh->cmds[nb_comand].arguments, i);
+		else
+			echo_no_flag(msh->cmds[nb_comand].arguments, i);
+	}
+	return ;
 }

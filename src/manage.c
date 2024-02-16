@@ -40,7 +40,6 @@ void	free_cmds(t_msh *data)
 {
 	int	index;
 	int	j;
-
 	/* printf("Liberando memoria\n"); */
 	index = -1;
 	while (++index < data->cmds_count)
@@ -72,7 +71,8 @@ int	manage(t_msh *data)
 	end = 0;
 	while (1)
 	{
-		/* Leemos comandos y añadirlos al historial */
+		// signals_manage(data);
+		/* TODO: Leemos comandos y añadirlos al historial */
 		data->input = readline("minishell> ");
 		if (!data->input)
 		{
@@ -80,6 +80,8 @@ int	manage(t_msh *data)
 			printf("\n");
 			continue ;
 		}
+		// if (is_empty(data->input)) /*TODO: uwu*/
+		// 	continue ;
 
 		/* Mirar comillas y pedir mas data si hace falta */
 		data->input = check_quots(data);
@@ -100,13 +102,17 @@ int	manage(t_msh *data)
 			continue ;
 		}
 
-		print_data(data);
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
 		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
 
 		/* TODO: ejecutor */
+		executor(data);
 
+		/* TODO: liberamos memoria */
+		print_data(data);
+		free_cmds(data);
+		
 		/********************************** Temporal para poder salir de la terminal bien **********************************/
 		if (data->input && !strcmp("exit", data->input))
 			end = 1;

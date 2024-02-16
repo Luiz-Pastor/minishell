@@ -42,3 +42,16 @@
 No hay nada abierto ->			     Se interpreta ->     /Users…
 Hay comillas dobles abiertas->    Se interpreta ->      /Users/…
 Hay comillas simples abiertas -> No se interpreta -> $PATH
+
+=====================================================
+					ORDEN
+
+-> Miramos comillas correctas (si se abre se cierra)
+	· Guardamos en el historial todo esto
+
+-> Expandimos variables
+
+-> Parseamos y guardamos en la estructura
+
+=====================================================
+
