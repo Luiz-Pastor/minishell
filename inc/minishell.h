@@ -141,10 +141,11 @@ void	*create_commands(t_msh *msh);
 
 void	*add_infile(t_file_type type, char *name, t_cmd *cmd);
 void	*add_outfile(t_file_type type, char *name, t_cmd *cmd);
+char	**add_command(int start, int end, t_msh *msh, char **res);
 void	*check_command(int *index, t_cmd *cmd, t_msh *msh);
 void	*check_argument(int *index, t_cmd *cmd, t_msh *msh);
-void	*check_infile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh);
-void	*check_outfile(int start, int *index, char **input, t_cmd *cmd, t_msh *msh);
+void	*check_infile(int start, int *index, t_cmd *cmd, t_msh *msh);
+void	*check_outfile(int start, int *index, t_cmd *cmd, t_msh *msh);
 
 /* Errores */
 void	*set_error(t_error error, t_msh *msh);
