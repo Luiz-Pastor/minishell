@@ -8,8 +8,12 @@
 # include <signal.h>
 # include <string.h>
 
+# define TEMP_FOLDER	"/tmp/"
+
 # define MALLOC_MSG C_RED"Malloc error"CLEAR
 # define ERROR_MSG "Bad use: ./minishell"
+# define ERROR_FORK_MSG "Fork"
+# define ERROR_PIPE_MSG "Pipe"
 
 #define BAD_SYNTAX_EXPORT "Bad syntax on export command"
 
@@ -57,7 +61,9 @@ typedef enum e_error
 {
 	NONE = 0,
 	CTR_D,
-	SYNTAX
+	SYNTAX,
+	FORK,
+	PIPE
 }			t_error;
 
 struct s_msh
@@ -156,6 +162,7 @@ void	*set_error(t_error error, t_msh *msh);
 void	check_error(t_msh *msh);
 int		is_error(t_msh *msh);
 void	exit_malloc(void);
+void	exit_fork_pipe(t_error error);
 
 /* Expand */
 # define FIRST_LETTER 1
@@ -195,12 +202,13 @@ void	*free_expand(char *str1, char *str2);
 
 /* executor */
 int		executor(t_msh *msh);
+int		open_infile(t_io_file *infiles, int count);
+int		open_outfile(t_io_file *outfiles, int count);
+char	*here_doc(char *del);
 void    exe_built_ins(t_msh *msh);
 
 /* signals */
 void	signals_manage(t_msh *msh);
 
-/* Executer */
-int	ejecuter(t_msh *msh);
 
 #endif

@@ -1,6 +1,4 @@
-#include "../inc/minishell.h"
-
-# define TEMP_FOLDER	"/tmp/"
+#include "../../inc/minishell.h"
 
 static char	*check_ava_name(char *del)
 {
@@ -51,7 +49,6 @@ static int	get_data(int fd, char *filename, char *del)
 	if (!full_del)
 		return (0);
 
-
 	/* Leemos hasta que se encuentre el delimitador o ctrl+D */
 	buffer = get_next_line(0);
 	while (buffer && ft_strcmp(buffer, full_del))
@@ -95,9 +92,4 @@ char	*here_doc(char *del)
 	/* Cerramos el archivo de escritura y devolvemos el nombre del archivo */
 	close(fd);
 	return (name);
-}
-
-int main()
-{
-	here_doc("del");
 }

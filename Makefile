@@ -52,8 +52,10 @@ PATH_SIGNALS=src/signals/
 SIGNALS =	signals.c
 
 PATH_EXECUTOR=src/executor/
-EXECUTOR =	executor.c \
-			exe_one_cmd.c
+EXECUTOR =	executor.c		\
+			exe_one_cmd.c	\
+			manage_io_files.c	\
+			here_doc.c
 
 OBJ_DIR = obj/
 OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \

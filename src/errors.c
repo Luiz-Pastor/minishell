@@ -13,6 +13,15 @@ void	exit_malloc(void)
 	exit(1);
 }
 
+void	exit_fork_pipe(t_error error)
+{
+	if (error == PIPE)
+		perror(ERROR_PIPE_MSG);
+	else if (error == FORK)
+		perror(ERROR_FORK_MSG);
+	exit(1);
+}
+
 void	check_error(t_msh *msh)
 {
 	t_error error;

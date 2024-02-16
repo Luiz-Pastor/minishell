@@ -72,7 +72,7 @@ int	manage(t_msh *data)
 	while (1)
 	{
 		// signals_manage(data);
-		/* TODO: Leemos comandos y añadirlos al historial */
+		/* Leemos comandos y añadirlos al historial */
 		data->input = readline("minishell> ");
 		if (!data->input)
 		{
@@ -109,15 +109,14 @@ int	manage(t_msh *data)
 		/* TODO: ejecutor */
 		executor(data);
 
-		/* TODO: liberamos memoria */
+		/* printeamos data */
 		print_data(data);
-		free_cmds(data);
 		
 		/********************************** Temporal para poder salir de la terminal bien **********************************/
 		if (data->input && !strcmp("exit", data->input))
 			end = 1;
 
-		/* TODO: liberamos memoria */
+		/* liberamos memoria */
 		free_cmds(data);
 
 		if (end)

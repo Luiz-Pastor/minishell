@@ -1,81 +1,58 @@
 #include "../../inc/minishell.h"
 
-char    *here_doc(char *uwu)
+void	exe_built_ins(t_msh *msh)
 {
-    uwu = NULL;
-    return (uwu);
-}
-static int  open_infile(t_io_file *infiles, int count)
-{
-    int i;
-    int fd;
-    char *name;
+	int	fd_in;
+	int	fd_out;
 
-    i = 0;
-    if (count == 0)
-        return (STDIN_FILENO);
-    while(i < count)
-    {
-        if (infiles[i].type == INFILE)
-        {
-            fd = open(infiles[i].name, O_RDONLY);
-            if (fd < 0)
-                perror(infiles[i].name);
-        }
-        else
-        {
-            name = here_doc(infiles[i].name);
-            if (!name)
-                perror(infiles[i].name);
-            fd = open(name, O_RDONLY);
-            if (fd < 0)
-                perror(name);
-        }
-        if (i != count - 1)
-            close(fd);
-        i++;
-    }
-    return (fd);
-        
+	/* Nos quedamos con el infile y el outfile que necesitamos */
+	fd_in = open_infile(msh->cmds[0].infiles, msh->cmds[0].infiles_count);
+	if (fd_in < 0)
+		return ;
+	fd_out = open_outfile(msh->cmds[0].outfiles, msh->cmds[0].outfiles_count);
+	if (fd_out < 0)
+		return ;
+	
+	/* Rederigimos la entrada y la salida  */
+	dup2(fd_in, STDIN_FILENO);
+	close(fd_in);
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd_out);
+
+	/* Ejecutamos el built-in*/
+	built_ins(msh, 0);
+
+	/* Volvemos a rederigir la entrada y salida */
+	dup2(STDIN_FILENO, fd_in);
+	dup2(STDOUT_FILENO, fd_out);
 }
 
-static int open_outfile(t_io_file *outfiles, int count)
+void	child(t_cmd cmds, char **envp)
 {
-    int i;
-    int fd;
+	int		fd_in;
+	int		fd_out;
+	char	*path;
 
-    i = 0;
-    if (count == 0)
-        return (STDOUT_FILENO);
-    while(i < count)
-    {
-        if (outfiles[i].type == TRUNC)
-            fd = open(outfiles[i].name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-        else
-            fd = open(outfiles[i].name, O_WRONLY | O_CREAT | O_APPEND, 0777);
-        if (fd < 0)
-            perror(outfiles[i].name);
-        if (i != count - 1)
-            close(fd);
-        i++;
-    }
-    return (fd);
+	fd_in = open_infile(cmds.infiles, cmds.infiles_count);
+	if (fd_in < 0)
+		return ;
+	fd_out = open_outfile(cmds.outfiles, cmds.outfiles_count);
+	if (fd_out < 0)
+		return ;
+	path = get_path(&cmds, envp);
+	
+	execve();
 }
-
-void    exe_built_ins(t_msh *msh)
+void	exe_one_cmd(t_msh *msh)
 {
-    int fd_in;
-    int fd_out;
+	pid_t	pid;
+	int		status;
 
-    fd_in = open_infile(msh->cmds[0].infiles, msh->cmds[0].infiles_count);
-    if (fd_in < 0)
-        return ;
-    fd_out = open_outfile(msh->cmds[0].outfiles, msh->cmds[0].outfiles_count);
-    if (fd_out < 0)
-        return ;
-    dup2(fd_in, STDIN_FILENO);
-    dup2(fd_out, STDOUT_FILENO);
-    built_ins(msh, 0);
-    dup2(STDIN_FILENO, fd_in);
-    dup2(STDOUT_FILENO, fd_out);
+	pid = fork();
+	if (pid < 0)
+		exit_fork_pipe(FORK);
+	if (pid == 0)
+		child(msh->cmds[0], msh->envp);
+	waitpid(pid, &status, 0);
+	msh->last_out = WEXITSTATUS(status);
 }
