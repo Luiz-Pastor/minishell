@@ -8,3 +8,24 @@ int	is_space(char ch)
 		return (1);
 	return (0);
 }
+
+char	*string_add(char *str, char ch)
+{
+	int		i;
+	char	*new;
+
+	i = 0;
+	new = malloc(ft_strlen(str) + 2);
+	if (!new)
+		exit_malloc();
+	while (str && str[i])
+	{
+		new[i] = str[i];
+		i++;
+	}
+	if (str)
+		free(str);
+	new[i] = ch;
+	new[i + 1] = '\0';
+	return (new);
+}

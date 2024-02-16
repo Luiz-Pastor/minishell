@@ -7,10 +7,11 @@ static void	*clean_env(char *envp[], int max)
 	i = 0;
 	if (max < 0)
 	{
-		while (envp[i])
+		while (envp && envp[i])
 			free(envp[i++]);
 	}
-	else{
+	else
+	{
 		while (i < max)
 			free(envp[i++]);
 	}
@@ -28,13 +29,14 @@ void	*free_msh(t_msh *data)
 	return (NULL);
 }
 
-static	char	**small_envp()
+static char	**small_envp(void)
 {
 	char	*path;
 	char	**new_env;
-	new_env = malloc(4 * sizeof(char*));
+
+	new_env = malloc(4 * sizeof(char *));
 	if (!new_env)
-		return (NULL);
+		exit_malloc();
 	path = getcwd(NULL, 0);
 	new_env[0] = ft_strjoin("PWD=", path);
 	free(path);
@@ -46,12 +48,12 @@ static	char	**small_envp()
 	new_env[2] = ft_strdup("_=/usr/bin/env");
 	if (!new_env[2])
 		return (clean_env(new_env, 2));
-	return new_env;
+	return (new_env);
 }
 
 static char	**copy_env(char *envp[])
 {
-	int	i;
+	int		i;
 	char	**new_env;
 
 	i = 0;
@@ -59,9 +61,9 @@ static char	**copy_env(char *envp[])
 		return (small_envp());
 	while (envp[i])
 		i++;
-	new_env = ft_calloc((i + 1),sizeof(char*));
+	new_env = ft_calloc((i + 1), sizeof(char *));
 	if (!new_env)
-		return (NULL);
+		exit_malloc();
 	i = 0;
 	while (envp[i])
 	{
@@ -79,9 +81,9 @@ t_msh	*init_msh(char *envp[])
 
 	data = malloc (sizeof(t_msh));
 	if (!data)
-		return (NULL); // malloc error
+		exit_malloc();
 	ft_memset(data, 0, sizeof(t_msh));
-	data->envp =  copy_env(envp);
+	data->envp = copy_env(envp);
 	if (!data->envp)
 		return (free_msh(data));
 	return (data);

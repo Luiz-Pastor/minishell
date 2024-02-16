@@ -5,13 +5,12 @@ char	**add_part(char *str, char **mtx)
 	char	**res;
 	int		index;
 
-
 	index = 0;
 	while (mtx && mtx[index])
 		index++;
 	res = ft_calloc(index + 2, sizeof(char **));
 	if (!res)
-		free_parts(NULL, mtx);
+		exit_malloc();
 	index = 0;
 	while (mtx && mtx[index])
 	{
