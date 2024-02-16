@@ -1,6 +1,5 @@
 #include "../../inc/minishell.h"
 
-/* TODO: hace cosas raretas */
 static int	is_full_path(t_cmd *cmds)
 {
 	if (cmds->main[0] == '/')
@@ -81,14 +80,12 @@ char	*get_path(t_cmd *cmds, char **envp)
 
 	/* me guardo tods los posibles path mirar si existe la variable path y hacerle un split de esa linea por : */
 	path_list = get_path_list(envp);
-	printf("........... %s ...........\n", path_list[1]);
 	/* si la variable path_list en nula podemos crear un posible path con el nombre del comando */
 
 	/* construir el path de donde esta el cmd */
 	path_cmd = build_path(cmds, path_list);
 	if (!path_cmd)
 		exit (1);
-	printf("........... %s ...........\n", path_cmd);
 	free(path_list);
 	return (path_cmd);
 }

@@ -15,9 +15,7 @@ void	exe_built_ins(t_msh *msh)
 	
 	/* Rederigimos la entrada y la salida  */
 	dup2(fd_in, STDIN_FILENO);
-	close(fd_in);
 	dup2(fd_out, STDOUT_FILENO);
-	close(fd_out);
 
 	/* Ejecutamos el built-in*/
 	built_ins(msh, 0);
@@ -25,6 +23,30 @@ void	exe_built_ins(t_msh *msh)
 	/* Volvemos a rederigir la entrada y salida */
 	dup2(STDIN_FILENO, fd_in);
 	dup2(STDOUT_FILENO, fd_out);
+}
+char 	**join_cmd_args(char *cmds, char **arguments)
+{
+	int i;
+	char **res;
+	int j;
+
+	i = 0;
+	while (arguments[i])
+		i++;
+	res = malloc (sizeof(char*) * i + 2);
+	if(!res)
+		return(NULL);
+	i = 0;
+	res[0] = cmds;
+	j = 1;
+	while (arguments[i] != NULL)
+	{
+		res[j] = arguments[i];
+		i++;
+		j++;
+	}
+	res[j] = NULL;
+	return(res);
 }
 
 static void	child(t_cmd cmds, char **envp)
@@ -34,6 +56,7 @@ static void	child(t_cmd cmds, char **envp)
 	char	*path;
 	char	**complete_cmd;
 
+	printf("%sentro en el hijo%s\n", C_GREENFOSFI, CLEAR);
 	/* Nos quedamos con el infile y el outfile que necesitamos */
 	fd_in = open_infile(cmds.infiles, cmds.infiles_count);
 	if (fd_in < 0)
@@ -41,23 +64,26 @@ static void	child(t_cmd cmds, char **envp)
 	fd_out = open_outfile(cmds.outfiles, cmds.outfiles_count);
 	if (fd_out < 0)
 		exit (0);
-	
 	/* Rederigimos la entrada y la salida  */
 	dup2(fd_in, STDIN_FILENO);
-	close(fd_in);
 	dup2(fd_out, STDOUT_FILENO);
-	close(fd_out);
 
 	/* sacamos la ruta donde esta el comando */
 	path = get_path(&cmds, envp);
 	if (!path)
 		exit (0); // no se si no existe el comando hay que mandar allgun msg de error 
-	
+	printf("path ---> %s\n", path);
 	/* TODO: Creamos el array bidimensional con el cmd y sus argumentos */
-	// complete_cmd = join_cmd_args(cmds.main, cmds.arguments);
-	// if (!complete_cmd)
-	// 	exit (0);
-
+	complete_cmd = join_cmd_args(cmds.main, cmds.arguments);
+	if (!complete_cmd)
+		exit (0);
+	int i = 0;
+	printf("%sseñal%s\n", C_GREENFOSFI, CLEAR);
+	while (complete_cmd[i])
+	{
+		printf("---->------ %s\n", complete_cmd[i]);
+		i++;
+	}
 	/* ejecutamos el cmd en caso de que falle exit */
 	execve(path, complete_cmd, envp);
 	exit (0);

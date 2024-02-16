@@ -11,7 +11,6 @@ static void	one_command(t_msh *msh)
     {
 		/* TODO: Ejecutar un comando alone */
 		exe_one_cmd(msh);
-        return ;
     }
 }
 
