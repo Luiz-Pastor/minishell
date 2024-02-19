@@ -2,6 +2,7 @@
 
 void	exe_built_ins(t_msh *msh)
 {
+	printf("Ejecutando built-in\n");
 	int	fd_in;
 	int	fd_out;
 
@@ -14,17 +15,17 @@ void	exe_built_ins(t_msh *msh)
 		return ;
 	
 	/* Rederigimos la entrada y la salida  */
-	dup2(fd_in, STDIN_FILENO);
+	/*dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	dup2(fd_out, STDOUT_FILENO);
-	close(fd_out);
+	close(fd_out);*/
 
 	/* Ejecutamos el built-in*/
 	built_ins(msh, 0);
 
 	/* Volvemos a rederigir la entrada y salida */
-	dup2(STDIN_FILENO, fd_in);
-	dup2(STDOUT_FILENO, fd_out);
+	/*dup2(STDIN_FILENO, fd_in);
+	dup2(STDOUT_FILENO, fd_out);*/
 }
 
 void	child(t_cmd cmds, char **envp)
@@ -41,7 +42,7 @@ void	child(t_cmd cmds, char **envp)
 		return ;
 	path = get_path(&cmds, envp);
 	
-	execve();
+	// execve();
 }
 void	exe_one_cmd(t_msh *msh)
 {

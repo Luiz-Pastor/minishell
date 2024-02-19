@@ -39,8 +39,20 @@
 // 	}
 // 	return (path);
 // }
+
+static char **get_path_list()
+{
+	return NULL;
+}
+
+static char *build_path()
+{
+	return NULL;
+}
+
 char	*get_path(t_cmd *cmds, char **envp)
 {
+	(void)envp, (void)cmds;
 	char **path_list;
 	char	*path_cmd;
 
