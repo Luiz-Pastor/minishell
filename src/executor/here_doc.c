@@ -39,7 +39,7 @@ static char	*check_ava_name(char *del)
 	return (res);
 }
 
-static int	get_data(int fd, char *filename, char *del)
+static int	get_data(int fd, char *del)
 {
 	char	*full_del;
 	char	*buffer;
@@ -81,7 +81,7 @@ char	*here_doc(char *del)
 	}
 
 	/* Pedimos los datos al usuario */
-	if (!get_data(fd, name, del))
+	if (!get_data(fd, del))
 	{
 		/* Error al leer del usuario o por memoria */
 		free(name);
