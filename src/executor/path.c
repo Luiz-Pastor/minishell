@@ -2,12 +2,15 @@
 
 static int	is_full_path(t_cmd *cmds)
 {
-	if (cmds->main[0] == '/')
-		return (1);
-	if (!ft_strncmp(cmds->main, "../", 3))
-		return (1);
-	if (!ft_strncmp(cmds->main, "./", 2))
-		return (1);
+	int i;
+
+	i = 0;
+	while (cmds->main[i])
+	{
+		if (cmds->main[i] == '/')
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
@@ -19,7 +22,11 @@ static char	*build_path(t_cmd *cmds, char **path_list)
 	i = 0;
 	/* si no hay posibles rutas o si el cmd que nos pasan tiene una ruta le decimos que nuestro path sera el arguento que nos pasan como cmd */
 	if (path_list == NULL || is_full_path(cmds) == 1)
+	{
 		path = ft_strdup(cmds->main);
+		if (!path)
+			exit_malloc();
+	}
 	else
 	{
 		/* Si tenemos posibles rutas iteramos sobre ellas viendo si esta el cmd dentro de esas rutas*/
@@ -68,7 +75,7 @@ static char	**get_path_list(char **envp)
 		/* Hacemos un split de la variable path ara sacar todas las posibles rutas en las que encontrar el cmd*/
 		path_list = ft_split(&envp[i][5], ':');
 		if (!path_list)
-			return (NULL);
+			exit_malloc();
 	}
 	return (path_list);
 }
@@ -85,7 +92,7 @@ char	*get_path(t_cmd *cmds, char **envp)
 	/* construir el path de donde esta el cmd */
 	path_cmd = build_path(cmds, path_list);
 	if (!path_cmd)
-		exit (1);
+		exit_malloc();
 	free(path_list);
 	return (path_cmd);
 }

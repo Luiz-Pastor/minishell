@@ -18,6 +18,11 @@ void	print_data(t_msh *data)
 			printf("\t\t· [%s]\n", data->cmds[index].arguments[j++]);
 		
 		j = 0;
+		printf("\tMain + Arguments:\n");
+		while (data->cmds[index].complete_cmd && data->cmds[index].complete_cmd[j])
+			printf("\t\t· [%s]\n", data->cmds[index].complete_cmd[j++]);
+
+		j = 0;
 		printf("\tInfiles (%d):\n", data->cmds[index].infiles_count);
 		while (j < data->cmds[index].infiles_count)
 		{
@@ -102,16 +107,15 @@ int	manage(t_msh *data)
 			continue ;
 		}
 
-
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
 		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
 
 		/* TODO: ejecutor */
 		executor(data);
-
-		/* printeamos data */
-		print_data(data);
 		
+		/* printeamos data */
+		// print_data(data);
+
 		/********************************** Temporal para poder salir de la terminal bien **********************************/
 		if (data->input && !strcmp("exit", data->input))
 			end = 1;

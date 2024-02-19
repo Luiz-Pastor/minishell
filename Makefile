@@ -56,7 +56,8 @@ EXECUTOR =	executor.c		\
 			exe_one_cmd.c	\
 			manage_io_files.c	\
 			here_doc.c \
-			path.c
+			path.c \
+			childs.c
 
 OBJ_DIR = obj/
 OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \

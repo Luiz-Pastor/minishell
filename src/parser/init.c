@@ -83,6 +83,8 @@ t_msh	*init_msh(char *envp[])
 	if (!data)
 		exit_malloc();
 	ft_memset(data, 0, sizeof(t_msh));
+	data->cpy_stdin = dup(STDIN_FILENO);
+	data->cpy_stdout = dup(STDOUT_FILENO);
 	data->envp = copy_env(envp);
 	if (!data->envp)
 		return (free_msh(data));

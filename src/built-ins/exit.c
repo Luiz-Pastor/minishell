@@ -20,7 +20,7 @@ int	check_if_nb(t_msh *msh, int nb_comand)
 
 void	bd_exit(t_msh *msh, int nb_comand)
 {
-	printf("exit");
+	printf("exit\n");
 	if (matrix_length(msh->cmds[nb_comand].arguments) > 1)
 	{
 		msh->last_out = 1;

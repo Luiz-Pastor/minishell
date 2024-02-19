@@ -38,3 +38,10 @@ int		is_error(t_msh *msh)
 {
 	return (msh->error);
 }
+
+void	exit_execve(t_msh *msh)
+{
+	dup2(msh->cpy_stdout, msh->cpy_last_out);
+	printf("command not found\n");
+	exit (127);
+}
