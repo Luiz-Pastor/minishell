@@ -64,6 +64,22 @@ void	free_cmds(t_msh *data)
 	ft_mfree(2, &data->input, &data->cmds);
 }
 
+int	is_input_empty(char *input)
+{
+	int	index;
+
+	index = 0;
+	if (!input)
+		return (1);
+	while (input[index])
+	{
+		if (!is_space(input[index]))
+			return (0);
+		input++;
+	}
+	return (1);
+}
+
 int	manage(t_msh *data)
 {
 	int		end;
@@ -80,8 +96,8 @@ int	manage(t_msh *data)
 			printf("\n");
 			continue ;
 		}
-		// if (is_empty(data->input)) /*TODO: uwu*/
-		// 	continue ;
+		if (is_input_empty(data->input))
+			continue ;
 
 		/* Mirar comillas y pedir mas data si hace falta */
 		data->input = check_quots(data);
@@ -104,12 +120,13 @@ int	manage(t_msh *data)
 
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
-		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
+		// printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
 
 		/* TODO: ejecutor */
 		executor(data);
 
 		/* printeamos data */
+		printf("\n\n\n===========================\n");
 		print_data(data);
 		
 		/********************************** Temporal para poder salir de la terminal bien **********************************/

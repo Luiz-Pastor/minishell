@@ -206,9 +206,16 @@ int		open_infile(t_io_file *infiles, int count);
 int		open_outfile(t_io_file *outfiles, int count);
 char	*here_doc(char *del);
 void    exe_built_ins(t_msh *msh);
+void	exe_one_cmd(t_msh *msh);
+char	*get_path(t_cmd *cmds, char **envp);
 
 /* signals */
 void	signals_manage(t_msh *msh);
+
+/* Envp utils */
+int		search_envp(char **envp, char *var);
+char	**insert_envp(char **envp, char *var);
+void	change_envp(char **envp, char *search, char *data);
 
 
 #endif
