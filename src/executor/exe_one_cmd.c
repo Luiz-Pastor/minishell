@@ -29,6 +29,7 @@ void	exe_built_ins(t_msh *msh)
 	/* Volvemos a rederigir la entrada y salida */
 	dup2(msh->cpy_stdin, msh->cpy_last_in);
 	dup2(msh->cpy_stdout, msh->cpy_last_out);
+
 }
 
 static void	child(t_cmd cmds, t_msh *msh)

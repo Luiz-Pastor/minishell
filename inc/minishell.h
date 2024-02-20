@@ -80,7 +80,8 @@ struct s_msh
 
 	/* Salida del ultimo comando */
 	int		last_out;
-	int		end;
+	int		executing;
+
 
 	/* stdin , stdout */
 	int		cpy_stdin;
@@ -214,15 +215,21 @@ int		open_outfile(t_io_file *outfiles, int count);
 char	*here_doc(char *del);
 void    exe_built_ins(t_msh *msh);
 void	exe_one_cmd(t_msh *msh);
+
 /* Path */
 char	*get_path(t_cmd *cmds, char **envp);
 /* childs */
 void	first_child(t_msh *msh, int *fd, t_cmd *cmds);
+
 
 /* signals */
 void	signals_manage(t_msh *msh);
 void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds);
 void	last_child(t_msh *msh, int *fd, t_cmd *cmds);
 
+/* Envp utils */
+int		search_envp(char **envp, char *var);
+char	**insert_envp(char **envp, char *var);
+void	change_envp(char **envp, char *search, char *data);
 
 #endif

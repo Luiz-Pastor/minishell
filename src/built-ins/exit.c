@@ -27,7 +27,6 @@ void	bd_exit(t_msh *msh, int nb_comand)
 		printf("msh: exit: too many arguments");
 		return ;
 	}
-	msh->end = 1;
 	if (matrix_length(msh->cmds[nb_comand].arguments))
 	{
 		/* Si no es un numero completo, exit de 255 */

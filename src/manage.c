@@ -69,6 +69,22 @@ void	free_cmds(t_msh *data)
 	ft_mfree(2, &data->input, &data->cmds);
 }
 
+int	is_input_empty(char *input)
+{
+	int	index;
+
+	index = 0;
+	if (!input)
+		return (1);
+	while (input[index])
+	{
+		if (!is_space(input[index]))
+			return (0);
+		input++;
+	}
+	return (1);
+}
+
 int	manage(t_msh *data)
 {
 	int		end;
@@ -76,17 +92,18 @@ int	manage(t_msh *data)
 	end = 0;
 	while (1)
 	{
-		// signals_manage(data);
+		signals_manage(data);
+
 		/* Leemos comandos y añadirlos al historial */
 		data->input = readline("minishell> ");
 		if (!data->input)
 		{
-			/* TODO: Esto es el ctr+d */
-			printf("\n");
-			continue ;
+			rl_replace_line("", 0);
+        	printf("exit\n");
+			exit(0);
 		}
-		// if (is_empty(data->input)) /*TODO: uwu*/
-		// 	continue ;
+		if (is_input_empty(data->input))
+			continue ;
 
 		/* Mirar comillas y pedir mas data si hace falta */
 		data->input = check_quots(data);
@@ -108,23 +125,21 @@ int	manage(t_msh *data)
 		}
 
 		/* Imprimimos el texto del input correcto (con las comillas bien) y las variables expandidas */
-		printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
+		// printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
 
 		/* TODO: ejecutor */
+		data->executing = 1;
 		executor(data);
-		
-		/* printeamos data */
-		// print_data(data);
+		data->executing = 0;
 
-		/********************************** Temporal para poder salir de la terminal bien **********************************/
-		if (data->input && !strcmp("exit", data->input))
-			end = 1;
+		/* printeamos data */
+		printf("\n\n\n===========================\n");
+		print_data(data);
+	
 
 		/* liberamos memoria */
 		free_cmds(data);
 
-		if (end)
-			break ;
 	}
 	return (0);
 }

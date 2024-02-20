@@ -14,12 +14,12 @@ CFLAGS =-Wall -Werror -Wextra -g3
 # librarys
 LIB = libft/libft.a
 
-PATH_SRC=src/
+VPATH = src:src/built-ins:src/parser:src/signals:src/executor
+
 SRC =		main.c 		\
 			manage.c	\
-			errors.c	
-
-PATH_BUILT_INS=src/built-ins/
+			errors.c	\
+			envp_utils.c
 
 BUILT_INS =	built_ins.c \
 			export.c \
@@ -33,7 +33,6 @@ BUILT_INS =	built_ins.c \
 			export_alone.c \
 			export_2.c
 
-PATH_PARSER=src/parser/
 PARSER =	expand.c  \
 			quots.c		\
 			divide_args.c	\
@@ -48,10 +47,8 @@ PARSER =	expand.c  \
 			check_cmd_arg.c	\
 			add_elements.c
 
-PATH_SIGNALS=src/signals/
 SIGNALS =	signals.c
 
-PATH_EXECUTOR=src/executor/
 EXECUTOR =	executor.c		\
 			exe_one_cmd.c	\
 			manage_io_files.c	\
@@ -73,33 +70,13 @@ $(NAME): $(OBJ)
 	$(MAKE) -sC ./libft
 	@echo "$(GREEN)librarys compiled correctly\n$(CLEAR)"
 	@echo "$(PINK)Compiling the minishell.$(CLEAR)"
-	$(CC) $(OBJ) $(LIB) -o $(NAME) -lreadline
+	$(CC) $(OBJ) $(LIB) -o $(NAME) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 	@echo "$(GREEN)[OK]\n$(CLEAR)$(GREEN)Success!$(CLEAR)\n"
 
-$(OBJ_DIR)%.o: $(PATH_SRC)%.c
+$(OBJ_DIR)%.o: %.c
 	@echo "$(PINK)Compiling Object.$(CLEAR)"
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)%.o: $(PATH_BUILT_INS)%.c
-	@echo "$(PINK)Compiling Object.$(CLEAR)"
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)%.o: $(PATH_SIGNALS)%.c
-	@echo "$(PINK)Compiling Object.$(CLEAR)"
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)%.o: $(PATH_PARSER)%.c
-	@echo "$(PINK)Compiling Object.$(CLEAR)"
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)%.o: $(PATH_EXECUTOR)%.c
-	@echo "$(PINK)Compiling Object.$(CLEAR)"
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -I/Users/$(USER)/.brew/opt/readline/include -o $@
 
 clean:
 	@echo "$(PINK)Removing compiled files.$(CLEAR)"

@@ -82,6 +82,7 @@ static char	**get_path_list(char **envp)
 
 char	*get_path(t_cmd *cmds, char **envp)
 {
+	(void)envp, (void)cmds;
 	char **path_list;
 	char	*path_cmd;
 
