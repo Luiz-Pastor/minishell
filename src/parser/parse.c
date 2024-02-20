@@ -55,6 +55,7 @@ void	*analize_input(t_msh *msh, int index)
 	}
 	return (msh);
 }
+
 static char	**join_cmd_args(char *cmds, char **arguments)
 {
 	int		i;

@@ -11,7 +11,7 @@
 # define TEMP_FOLDER	"/tmp/"
 
 # define MALLOC_MSG C_RED"Malloc error"CLEAR
-# define ERROR_MSG "Bad use: ./minishell"
+# define ERROR_MSG "Bad arguments input."
 # define MINISHELL_MSG "minishell> "
 # define ERROR_FORK_MSG "Fork"
 # define ERROR_PIPE_MSG "Pipe"

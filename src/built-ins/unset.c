@@ -1,5 +1,19 @@
 #include "../../inc/minishell.h"
 
+static int	func(t_msh *msh, char *aux)
+{
+	int	i;
+
+	i = 0;
+	while (msh->envp && msh->envp[i] != NULL)
+	{
+		if (!ft_strncmp(msh->envp[i], aux, ft_strlen(aux)))
+			break ;
+		i++;
+	}
+	return (i);
+}
+
 static void	remove_var(t_msh *msh, char *argument)
 {
 	int		i;
@@ -13,13 +27,7 @@ static void	remove_var(t_msh *msh, char *argument)
 		free(aux);
 		return ;
 	}
-	i = 0;
-	while (msh->envp[i] != NULL)
-	{
-		if (!ft_strncmp(msh->envp[i], aux, ft_strlen(aux)))
-			break ;
-		i++;
-	}
+	i = func(msh, aux);
 	free(aux);
 	if (msh->envp[i] == NULL)
 		return ;

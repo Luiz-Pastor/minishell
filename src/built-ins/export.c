@@ -64,7 +64,7 @@ void	bd_export(t_msh *msh, int nb_comand)
 		&& msh->cmds[nb_comand].arguments == NULL)
 		export_alone(msh);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
-			&& msh->cmds[nb_comand].arguments != NULL)
+		&& msh->cmds[nb_comand].arguments != NULL)
 		manage_export(msh, nb_comand, 0);
 	return ;
 }

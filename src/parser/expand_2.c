@@ -85,7 +85,7 @@ void	*expand_var(t_msh *msh, int *i, int aux)
 
 	while (ft_correct_var_char(msh->input[*i], MID_LETTER) == 1)
 		(*i)++;
-	variable = ft_substr(msh->input, aux, (size_t)*i - aux);
+	variable = ft_substr(msh->input, aux, (size_t)(*i) - aux);
 	if (!variable)
 		exit_malloc();
 	variable = ft_gnl_strjoin(variable, "=");

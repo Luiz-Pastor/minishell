@@ -2,14 +2,15 @@
 
 int	check_if_nb(t_msh *msh, int nb_comand)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (msh->cmds[nb_comand].arguments[0][i])
 	{
 		if (!ft_isdigit(msh->cmds->arguments[0][i]))
 		{
-			printf("msh: exit: %s: numeric argument required", msh->cmds[nb_comand].arguments[0]);
+			printf("msh: exit: %s: numeric argument required", \
+				msh->cmds[nb_comand].arguments[0]);
 			msh->last_out = 255;
 			return (1);
 		}

@@ -10,7 +10,7 @@ int	is_builtin(char *cmds)
 		return (1);
 	else if (!ft_strcmp(cmds, "pwd"))
 		return (1);
-	else if (!ft_strcmp(cmds, "cd")) 
+	else if (!ft_strcmp(cmds, "cd"))
 		return (1);
 	else if (!ft_strcmp(cmds, "unset"))
 		return (1);
@@ -30,7 +30,7 @@ void	built_ins(t_msh *msh, int nb_comand)
 		bd_env(msh);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "pwd"))
 		bd_pwd(msh);
-	else if (!ft_strcmp(msh->cmds[nb_comand].main, "cd")) 
+	else if (!ft_strcmp(msh->cmds[nb_comand].main, "cd"))
 		bd_cd(msh, nb_comand);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "unset"))
 		bd_unset(msh, nb_comand);

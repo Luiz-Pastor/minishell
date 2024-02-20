@@ -2,7 +2,7 @@
 
 static int	check_flag(char *argument)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (argument[i] == '-')

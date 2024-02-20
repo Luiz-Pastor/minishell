@@ -2,11 +2,10 @@
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	(void) argv;
 	t_msh	*data;
 
 	if (argc != 1)
-		return (printf("%s\n", ERROR_MSG));
+		return (printf("%s Try: %s\n", ERROR_MSG, argv[0]));
 	data = init_msh(envp);
 	if (!data)
 		exit_malloc();

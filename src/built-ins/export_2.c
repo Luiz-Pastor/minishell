@@ -98,7 +98,7 @@ char	**replace_content(t_msh *msh, char *variable, char *content)
 
 t_bool	check_if_var_exist(t_msh *msh, char *variable)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (msh->envp[i] != NULL)

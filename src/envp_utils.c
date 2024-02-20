@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-int search_envp(char **envp, char *var)
+int	search_envp(char **envp, char *var)
 {
 	int		index;
 	char	*full;
@@ -24,7 +24,7 @@ int search_envp(char **envp, char *var)
 
 char	**insert_envp(char **envp, char *var)
 {
-	int	length;
+	int		length;
 	char	**new_envp;
 
 	length = 0;
@@ -37,7 +37,7 @@ char	**insert_envp(char **envp, char *var)
 	while (envp && envp[++length])
 		new_envp[length] = envp[length];
 	new_envp[length] = var;
-	return (new_envp);		
+	return (new_envp);
 }
 
 void	change_envp(char **envp, char *search, char *data)
