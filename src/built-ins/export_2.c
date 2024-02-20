@@ -12,7 +12,7 @@ char	*get_variable(char *arguments)
 		i++;
 	variable = malloc(sizeof(char) * (i + 1));
 	if (!variable)
-		return (NULL);
+		exit_malloc();
 	i = 0;
 	while (arguments[i] != '\0' && arguments[i] != '=')
 	{
@@ -49,7 +49,7 @@ char	*get_content(char *arguments)
 	}
 	content = malloc(sizeof(char) * (size + 1));
 	if (!content)
-		return (NULL);
+		exit_malloc();
 	size = 0;
 	while (arguments[aux] != '\0')
 		content[size++] = arguments[aux++];
@@ -88,7 +88,7 @@ char	**replace_content(t_msh *msh, char *variable, char *content)
 			free(msh->envp[i]);
 			msh->envp[i] = ft_strjoin(variable, content);
 			if (!msh->envp)
-				return (NULL);
+				exit_malloc();
 			break ;
 		}
 		i++;

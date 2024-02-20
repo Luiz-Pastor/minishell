@@ -80,8 +80,17 @@ struct s_msh
 
 	/* Salida del ultimo comando */
 	int		last_out;
-
 	int		end;
+
+	/* stdin , stdout */
+	int		cpy_stdin;
+	int		cpy_stdout;
+	int		cpy_last_in;
+	int		cpy_last_out;
+
+	/* ids  procesos*/
+	pid_t	final_pid;
+	int		last_status;
 
 	/* Último error */
 	t_error	error;
@@ -98,6 +107,9 @@ struct s_cmd
 	/* Argumentos (y flags) del comando*/
 	char		**arguments;
 
+	/* Comando completo */
+	char		**complete_cmd;
+	
 	/* Archivos infile */
 	t_io_file	*infiles;
 	int			infiles_count;
@@ -143,7 +155,6 @@ int		is_quot(char *input, int index);
 /* Utils */
 int		is_space(char ch);
 char	*string_add(char *str, char ch);
-int		is_redirection(char ch);
 
 /* Parser */
 void	*parse(t_msh *msh);
@@ -163,6 +174,7 @@ void	check_error(t_msh *msh);
 int		is_error(t_msh *msh);
 void	exit_malloc(void);
 void	exit_fork_pipe(t_error error);
+void	exit_execve(t_msh *msh);
 
 /* Expand */
 # define FIRST_LETTER 1
@@ -171,11 +183,6 @@ void	exit_fork_pipe(t_error error);
 char	*expand(t_msh *data);
 char	*last_state(t_msh *data, int *i);
 void	*expand_var(t_msh *msh, int *i, int aux);
-
-/* Errores */
-void	*set_error(t_error error, t_msh *msh);
-void	check_error(t_msh *msh);
-int		is_error(t_msh *msh);
 
 /* build ins*/
 void	built_ins(t_msh *msh, int nb_comand);
@@ -206,9 +213,16 @@ int		open_infile(t_io_file *infiles, int count);
 int		open_outfile(t_io_file *outfiles, int count);
 char	*here_doc(char *del);
 void    exe_built_ins(t_msh *msh);
+void	exe_one_cmd(t_msh *msh);
+/* Path */
+char	*get_path(t_cmd *cmds, char **envp);
+/* childs */
+void	first_child(t_msh *msh, int *fd, t_cmd *cmds);
 
 /* signals */
 void	signals_manage(t_msh *msh);
+void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds);
+void	last_child(t_msh *msh, int *fd, t_cmd *cmds);
 
 
 #endif

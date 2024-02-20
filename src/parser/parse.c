@@ -55,6 +55,46 @@ void	*analize_input(t_msh *msh, int index)
 	}
 	return (msh);
 }
+static char	**join_cmd_args(char *cmds, char **arguments)
+{
+	int		i;
+	char	**res;
+	int		j;
+
+	i = 0;
+	while (arguments && arguments[i])
+		i++;
+	res = malloc(sizeof(char *) * (i + 2));
+	if (!res)
+		return (NULL);
+	i = 0;
+	res[0] = cmds;
+	j = 1;
+	while (arguments && arguments[i])
+	{
+		res[j] = arguments[i];
+		i++;
+		j++;
+	}
+	printf("\n\n");
+	res[j] = NULL;
+	return (res);
+}
+
+void	merge_cmds(t_msh *msh)
+{
+	int	i;
+
+	i = 0;
+	while (i < msh->cmds_count)
+	{
+		msh->cmds[i].complete_cmd = join_cmd_args(msh->cmds[i].main,
+				msh->cmds[i].arguments);
+		if (!msh->cmds[i].complete_cmd)
+			exit_malloc();
+		i++;
+	}
+}
 
 void	*parse(t_msh *msh)
 {
@@ -77,5 +117,6 @@ void	*parse(t_msh *msh)
 		index++;
 	}
 	free_parts(NULL, cmds);
+	merge_cmds(msh);
 	return (msh);
 }

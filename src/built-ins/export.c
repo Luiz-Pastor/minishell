@@ -9,13 +9,13 @@ char	**add_to_envp(t_msh *msh, char *variable, char *content)
 	new_envp = NULL;
 	new_line = ft_strjoin(variable, content);
 	if (!new_line)
-		return (NULL);
+		exit_malloc();
 	i = 0;
 	while (msh->envp[i] != NULL)
 		i++;
 	new_envp = malloc(sizeof(char *) * (i + 2));
 	if (!new_envp)
-		return (NULL);
+		exit_malloc();
 	i = 0;
 	while (msh->envp[i] != NULL)
 	{
@@ -40,10 +40,10 @@ void	manage_export(t_msh *msh, int nb_comand, int i)
 		{
 			variable = get_variable(msh->cmds[nb_comand].arguments[i]);
 			if (!variable)
-				return ; // liberar cosas
+				exit_malloc();
 			content = get_content(msh->cmds[nb_comand].arguments[i]);
 			if (!content)
-				return ; // liberar cosas
+				exit_malloc();
 			if (check_if_var_exist(msh, variable) == TRUE)
 				msh->envp = replace_content(msh, variable, content);
 			else
@@ -60,7 +60,6 @@ void	manage_export(t_msh *msh, int nb_comand, int i)
 
 void	bd_export(t_msh *msh, int nb_comand)
 {
-	/* TODO: hay que esperar a ver como gestionamos las comillas ahora mismo se guardan y no deberia*/
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
 		&& msh->cmds[nb_comand].arguments == NULL)
 		export_alone(msh);
@@ -69,4 +68,5 @@ void	bd_export(t_msh *msh, int nb_comand)
 		manage_export(msh, nb_comand, 0);
 	return ; // se sale si no es export el comando
 }
-/* TODO: el export solo el path no lo imprime gestionar lo de variables sin =??¿?*/
+/* TODO: el export solo gestionar lo de variables sin =??¿? */
+/* TODO: en el export solo la variable PATH n la imprime */

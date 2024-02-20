@@ -22,20 +22,21 @@ int	is_builtin(char *cmds)
 
 void	built_ins(t_msh *msh, int nb_comand)
 {
+	/* TODO: cada comando sale con un valor añadir a la variable msh->last_out sus respectivos valores*/
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export"))
-		bd_export(msh, nb_comand); /*TODO: solo falta gestinar el uso de comillas */
+		bd_export(msh, nb_comand); /*TODO: 2 todo en el archvo */
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "echo"))
-		bd_echo(msh, nb_comand); /*TODO: normi  revisar si falta algo*/
+		bd_echo(msh, nb_comand);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "env"))
-		bd_env(msh, nb_comand); /*TODO: enpezdo*/
+		bd_env(msh, nb_comand);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "pwd"))
-		bd_pwd(msh, nb_comand); /*TODO: enpezdo*/
+		bd_pwd(msh, nb_comand);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "cd")) 
 		bd_cd(msh, nb_comand); /*TODO: sin empezar*/
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "unset"))
-		bd_unset(msh, nb_comand); /*TODO: empezado mirar posibles errores*/
+		bd_unset(msh, nb_comand);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "exit"))
-		bd_exit(msh, nb_comand); /*TODO: sin empezar*/
+		bd_exit(msh, nb_comand);
 	else
 		return ;
 }
