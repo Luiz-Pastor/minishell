@@ -21,7 +21,6 @@ int	is_builtin(char *cmds)
 
 void	built_ins(t_msh *msh, int nb_comand)
 {
-	/* TODO: cada comando sale con un valor añadir a la variable msh->last_out sus respectivos valores */
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export"))
 		bd_export(msh, nb_comand);
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "echo"))

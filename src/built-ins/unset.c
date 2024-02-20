@@ -64,6 +64,7 @@ void	bd_unset(t_msh *msh, int nb_comand)
 	int	i;
 
 	i = 0;
+	msh->last_out = 0;
 	if (msh->cmds[nb_comand].arguments != NULL)
 	{
 		while (msh->cmds[nb_comand].arguments[i] != NULL)

@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-char	**add_to_envp(t_msh *msh, char *variable, char *content)
+static char	**add_to_envp(t_msh *msh, char *variable, char *content)
 {
 	char	*new_line;
 	char	**new_envp;
@@ -29,29 +29,34 @@ char	**add_to_envp(t_msh *msh, char *variable, char *content)
 	return (new_envp);
 }
 
-void	manage_export(t_msh *msh, int nb_comand, int i)
+static void	do_ok_var(t_msh *msh, int nb_comand, int i)
 {
 	char	*variable;
 	char	*content;
 
+	variable = get_variable(msh->cmds[nb_comand].arguments[i]);
+	if (!variable)
+		exit_malloc();
+	content = get_content(msh->cmds[nb_comand].arguments[i]);
+	if (!content)
+		exit_malloc();
+	if (check_if_var_exist(msh, variable) == TRUE)
+		msh->envp = replace_content(msh, variable, content);
+	else
+		msh->envp = add_to_envp(msh, variable, content);
+}
+
+static void	manage_export(t_msh *msh, int nb_comand, int i)
+{
 	while (msh->cmds[nb_comand].arguments[i] != NULL)
 	{
 		if (check_if_variable_ok(msh->cmds[nb_comand].arguments[i]) == TRUE)
-		{
-			variable = get_variable(msh->cmds[nb_comand].arguments[i]);
-			if (!variable)
-				exit_malloc();
-			content = get_content(msh->cmds[nb_comand].arguments[i]);
-			if (!content)
-				exit_malloc();
-			if (check_if_var_exist(msh, variable) == TRUE)
-				msh->envp = replace_content(msh, variable, content);
-			else
-				msh->envp = add_to_envp(msh, variable, content);
-		}
+			do_ok_var(msh, nb_comand, i);
 		else
 		{
-			printf("%s", BAD_SYNTAX_EXPORT);
+			msh->last_out = 1;
+			printf("uwu: export: '%s': not a valid identifier\n",
+				msh->cmds[nb_comand].arguments[i]);
 			break ;
 		}
 		i++;
@@ -60,6 +65,7 @@ void	manage_export(t_msh *msh, int nb_comand, int i)
 
 void	bd_export(t_msh *msh, int nb_comand)
 {
+	msh->last_out = 0;
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
 		&& msh->cmds[nb_comand].arguments == NULL)
 		export_alone(msh);
