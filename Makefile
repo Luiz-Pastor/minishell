@@ -52,8 +52,9 @@ SIGNALS =	signals.c
 EXECUTOR =	executor.c		\
 			exe_one_cmd.c	\
 			manage_io_files.c	\
-			here_doc.c	\
-			path.c
+			here_doc.c \
+			path.c \
+			childs.c
 
 OBJ_DIR = obj/
 OBJ =	$(SRC:%.c=$(OBJ_DIR)%.o) \
@@ -71,31 +72,6 @@ $(NAME): $(OBJ)
 	@echo "$(PINK)Compiling the minishell.$(CLEAR)"
 	$(CC) $(OBJ) $(LIB) -o $(NAME) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 	@echo "$(GREEN)[OK]\n$(CLEAR)$(GREEN)Success!$(CLEAR)\n"
-
-# $(OBJ_DIR)%.o: $(PATH_SRC)%.c
-# 	@echo "$(PINK)Compiling Object.$(CLEAR)"
-# 	@mkdir -p $(OBJ_DIR)
-# 	$(CC) $(CFLAGS) -c $< -o $@
-
-# $(OBJ_DIR)%.o: $(PATH_BUILT_INS)%.c
-# 	@echo "$(PINK)Compiling Object.$(CLEAR)"
-# 	@mkdir -p $(OBJ_DIR)
-# 	$(CC) $(CFLAGS) -c $< -o $@
-
-# $(OBJ_DIR)%.o: $(PATH_SIGNALS)%.c
-# 	@echo "$(PINK)Compiling Object.$(CLEAR)"
-# 	@mkdir -p $(OBJ_DIR)
-# 	$(CC) $(CFLAGS) -c $< -o $@
-
-# $(OBJ_DIR)%.o: $(PATH_PARSER)%.c
-# 	@echo "$(PINK)Compiling Object.$(CLEAR)"
-# 	@mkdir -p $(OBJ_DIR)
-# 	$(CC) $(CFLAGS) -c $< -o $@
-
-# $(OBJ_DIR)%.o: $(PATH_EXECUTOR)%.c
-# 	@echo "$(PINK)Compiling Object.$(CLEAR)"
-# 	@mkdir -p $(OBJ_DIR)
-# 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR)%.o: %.c
 	@echo "$(PINK)Compiling Object.$(CLEAR)"

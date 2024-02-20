@@ -7,9 +7,12 @@ static void	remove_var(t_msh *msh, char *argument)
 
 	aux = ft_strjoin(argument, "=");
 	if (!aux)
+		exit_malloc();
+	if (!ft_strncmp(aux, "_=", 2))
+	{
+		free(aux);
 		return ;
-	if (!ft_strncmp(argument, "_=", 2))
-		return ; // liberar memoria
+	}
 	i = 0;
 	while (msh->envp[i] != NULL)
 	{
@@ -37,6 +40,8 @@ void	bd_unset(t_msh *msh, int nb_comand)
 	{
 		while (msh->cmds[nb_comand].arguments[i] != NULL)
 		{
+			/* TODO: maybe hay que ver si los caracteres del unset puden ser variables y en el caso de que no devolver error*/
+			/* si son */
 			remove_var(msh, msh->cmds[nb_comand].arguments[i]);
 			i++;
 		}

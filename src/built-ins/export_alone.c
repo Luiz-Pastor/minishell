@@ -38,7 +38,7 @@ static char	**order_alf_envp(char **envp)
 		lines++;
 	new_envp = malloc(sizeof(char *) * (lines + 1));
 	if (!new_envp)
-		return (NULL);
+		exit_malloc();
 	i = 0;
 	while (envp[i])
 	{
@@ -59,7 +59,7 @@ void	export_alone(t_msh *msh)
 	i = -1;
 	order_envp = order_alf_envp(msh->envp);
 	if (!order_envp)
-		return ; // malloc error
+		exit_malloc();
 	while (order_envp[++i])
 	{
 		j = 0;

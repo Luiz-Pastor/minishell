@@ -20,7 +20,7 @@ int	check_if_nb(t_msh *msh, int nb_comand)
 
 void	bd_exit(t_msh *msh, int nb_comand)
 {
-	printf("exit");
+	printf("exit\n");
 	if (matrix_length(msh->cmds[nb_comand].arguments) > 1)
 	{
 		msh->last_out = 1;
@@ -29,7 +29,7 @@ void	bd_exit(t_msh *msh, int nb_comand)
 	}
 	if (matrix_length(msh->cmds[nb_comand].arguments))
 	{
-		/* TODO: Si no es un numero completo, exit de 255 */
+		/* Si no es un numero completo, exit de 255 */
 		if (check_if_nb(msh, nb_comand) == 1)
 			return ;
 		else /* Sino, el numero que sea */
