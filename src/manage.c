@@ -87,14 +87,15 @@ int	manage(t_msh *data)
 	end = 0;
 	while (1)
 	{
-		// signals_manage(data);
+		signals_manage(data);
+
 		/* Leemos comandos y añadirlos al historial */
 		data->input = readline("minishell> ");
 		if (!data->input)
 		{
-			/* TODO: Esto es el ctr+d */
-			printf("\n");
-			continue ;
+			rl_replace_line("", 0);
+        	printf("exit\n");
+			exit(0);
 		}
 		if (is_input_empty(data->input))
 			continue ;
@@ -123,21 +124,17 @@ int	manage(t_msh *data)
 		// printf("========================\n\nFull: {%s}\n\n========================\n", data->input);
 
 		/* TODO: ejecutor */
+		data->executing = 1;
 		executor(data);
+		data->executing = 0;
 
 		/* printeamos data */
 		printf("\n\n\n===========================\n");
 		print_data(data);
-		
-		/********************************** Temporal para poder salir de la terminal bien **********************************/
-		if (data->input && !strcmp("exit", data->input))
-			end = 1;
-
+	
 		/* liberamos memoria */
 		free_cmds(data);
 
-		if (end)
-			break ;
 	}
 	return (0);
 }

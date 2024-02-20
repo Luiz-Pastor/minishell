@@ -69,7 +69,7 @@ $(NAME): $(OBJ)
 	$(MAKE) -sC ./libft
 	@echo "$(GREEN)librarys compiled correctly\n$(CLEAR)"
 	@echo "$(PINK)Compiling the minishell.$(CLEAR)"
-	$(CC) $(OBJ) $(LIB) -o $(NAME) -lreadline
+	$(CC) $(OBJ) $(LIB) -o $(NAME) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
 	@echo "$(GREEN)[OK]\n$(CLEAR)$(GREEN)Success!$(CLEAR)\n"
 
 # $(OBJ_DIR)%.o: $(PATH_SRC)%.c
@@ -100,7 +100,7 @@ $(NAME): $(OBJ)
 $(OBJ_DIR)%.o: %.c
 	@echo "$(PINK)Compiling Object.$(CLEAR)"
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -I/Users/$(USER)/.brew/opt/readline/include -o $@
 
 clean:
 	@echo "$(PINK)Removing compiled files.$(CLEAR)"
