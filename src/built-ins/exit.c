@@ -9,7 +9,7 @@ int	check_if_nb(t_msh *msh, int nb_comand)
 	{
 		if (!ft_isdigit(msh->cmds->arguments[0][i]))
 		{
-			printf("msh: exit: %s: numeric argument required", \
+			printf("msh: exit: %s: numeric argument required\n", \
 				msh->cmds[nb_comand].arguments[0]);
 			msh->last_out = 255;
 			return (1);
@@ -26,7 +26,7 @@ void	bd_exit(t_msh *msh, int nb_comand)
 	if (matrix_length(msh->cmds[nb_comand].arguments) > 1)
 	{
 		msh->last_out = 1;
-		printf("msh: exit: too many arguments");
+		printf("msh: exit: too many arguments\n");
 		return ;
 	}
 	if (matrix_length(msh->cmds[nb_comand].arguments))

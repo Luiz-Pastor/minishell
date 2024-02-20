@@ -4,6 +4,8 @@ static char	*expand_manage(t_msh *msh, t_quotes *quotes, int *i)
 {
 	int	aux;
 
+	if (msh->input[*i] == '$')
+		(*i)++;
 	if (quotes->flag == 1 && quotes->type == '\'')
 		return (msh->input);
 	aux = *i;
@@ -14,7 +16,7 @@ static char	*expand_manage(t_msh *msh, t_quotes *quotes, int *i)
 		(*i)++;
 		msh->input = expand_var(msh, i, aux);
 	}
-	*i = aux;
+	*i = aux - 1;
 	return (msh->input);
 }
 
@@ -50,7 +52,6 @@ char	*expand(t_msh *data)
 		}
 		if (data->input[i] == '$')
 		{
-			i++;
 			data->input = expand_manage(data, &quotes, &i);
 			if (!data->input)
 				exit_malloc();
