@@ -2,7 +2,6 @@
 
 void	exe_built_ins(t_msh *msh)
 {
-	printf("Ejecutando built-in\n");
 	int	fd_in;
 	int	fd_out;
 
