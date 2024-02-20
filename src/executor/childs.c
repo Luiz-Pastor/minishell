@@ -88,7 +88,6 @@ void	last_child(t_msh *msh, int *fd, t_cmd *cmds)
 		msh->cpy_last_in = dup2(fd[0], STDIN_FILENO);
 		msh->cpy_last_out = dup2(fd_out, STDOUT_FILENO);
 		close(fd[0]);
-		close(fd_out);
 		if (fd_out != 1 && fd_out != 2)
 			close(fd_out);
 		execve(path, cmds->complete_cmd, msh->envp);
