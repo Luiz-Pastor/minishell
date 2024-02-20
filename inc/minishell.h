@@ -81,7 +81,7 @@ struct s_msh
 	/* Salida del ultimo comando */
 	int		last_out;
 
-	int		end;
+	int		executing;
 
 	/* Último error */
 	t_error	error;
@@ -216,6 +216,5 @@ void	signals_manage(t_msh *msh);
 int		search_envp(char **envp, char *var);
 char	**insert_envp(char **envp, char *var);
 void	change_envp(char **envp, char *search, char *data);
-
 
 #endif
