@@ -16,8 +16,6 @@
 # define ERROR_FORK_MSG "Fork"
 # define ERROR_PIPE_MSG "Pipe"
 
-#define BAD_SYNTAX_EXPORT "Bad syntax on export command"
-
 /*
  * brief	Bool type
 */

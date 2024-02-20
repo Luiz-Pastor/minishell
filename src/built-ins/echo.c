@@ -51,6 +51,7 @@ void	bd_echo(t_msh *msh, int nb_comand)
 	int	i;
 	int	flag;
 
+	msh->last_out = 0;
 	flag = 0;
 	i = 0;
 	if (msh->cmds[nb_comand].arguments == NULL)
