@@ -66,7 +66,5 @@ void	bd_export(t_msh *msh, int nb_comand)
 	else if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
 			&& msh->cmds[nb_comand].arguments != NULL)
 		manage_export(msh, nb_comand, 0);
-	return ; // se sale si no es export el comando
+	return ;
 }
-/* TODO: el export solo gestionar lo de variables sin =??¿? */
-/* TODO: en el export solo la variable PATH n la imprime */

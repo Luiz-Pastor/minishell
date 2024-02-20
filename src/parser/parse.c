@@ -66,7 +66,7 @@ static char	**join_cmd_args(char *cmds, char **arguments)
 		i++;
 	res = malloc(sizeof(char *) * (i + 2));
 	if (!res)
-		return (NULL);
+		exit_malloc();
 	i = 0;
 	res[0] = cmds;
 	j = 1;
@@ -76,7 +76,6 @@ static char	**join_cmd_args(char *cmds, char **arguments)
 		i++;
 		j++;
 	}
-	printf("\n\n");
 	res[j] = NULL;
 	return (res);
 }

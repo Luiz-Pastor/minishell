@@ -3,15 +3,9 @@
 static void	one_command(t_msh *msh)
 {
 	if (is_builtin(msh->cmds[0].main))
-	{
-		/* Ejecutar el built-in */
 		exe_built_ins(msh);
-	}
     else
-    {
-		/* Ejecutar un comando alone */
 		exe_one_cmd(msh);
-    }
 }
 void	wait_childs(t_msh *msh)
 {
@@ -62,17 +56,9 @@ static void	two_or_more_cmds(t_msh *msh)
 
 int	executor(t_msh *msh)
 {
-	/* Miramos el numero de comandos que hay que ejecutar */
 	if (msh->cmds_count == 1)
-	{
-		/* Solo ejecutamos un comando */
         one_command(msh);
-        return (0);
-	}
 	else
-	{
-		/* Ejecutamos varios comandos */
 		two_or_more_cmds(msh);
-		return (0);
-	}
+	return (0);
 }

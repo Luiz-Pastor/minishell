@@ -17,7 +17,5 @@ int	ft_correct_var_char(char c, int flag)
 		return (1);
 	else if (flag == MID_LETTER && ft_isdigit(c) == 1)
 		return (1);
-	else
-		return (0);
-	// los numeros son validos siempre y cuando no esten el primero
+	return (0);
 }

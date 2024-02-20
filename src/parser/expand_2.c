@@ -20,7 +20,7 @@ static char	*content_var(char *variable, t_msh *data)
 		content = ft_substr(data->envp[i], ft_strlen(variable),
 				ft_strlen(data->envp[i]) - ft_strlen(variable));
 		if (!content)
-			return (NULL);
+			exit_malloc();
 	}
 	else
 		return (ft_strdup(""));
@@ -36,12 +36,11 @@ static char	*mod_infile_expand(t_msh *data, char *content, char *variable,
 	int		z;
 	int		aux;
 
-	// variable + $ es el valor a sustituir por content en el input
 	size = (ft_strlen(data->input) - (ft_strlen(variable) - 1)
 			+ ft_strlen(content));
 	new_input = malloc(sizeof(char) * size + 1);
 	if (!new_input)
-		return (NULL);
+		exit_malloc();
 	j = 0;
 	z = 0;
 	aux = 0;
@@ -64,17 +63,16 @@ char	*last_state(t_msh *data, int *i)
 
 	variable = ft_strdup("?");
 	if (!variable)
-		return (NULL); // malloc error
+		exit_malloc();
 	variable = ft_gnl_strjoin(variable, "=");
 	if (!variable)
-		return (NULL);
-	// printf("%d\n", data->last_out);
+		exit_malloc();
 	content = ft_itoa(data->last_out);
 	if (!content)
-		return (free_expand(variable, NULL)); // malloc error
+		exit_malloc();
 	data->input = mod_infile_expand(data, content, variable, *i);
 	if (!data->input)
-		return (free_expand(variable, content));
+		exit_malloc();
 	*i += ft_strlen(content) - ft_strlen(variable);
 	free_expand(variable, content);
 	return (data->input);
@@ -87,21 +85,18 @@ void	*expand_var(t_msh *msh, int *i, int aux)
 
 	while (ft_correct_var_char(msh->input[*i], MID_LETTER) == 1)
 		(*i)++;
-	// guardar en variable el = antes de mirarlo
 	variable = ft_substr(msh->input, aux, (size_t)*i - aux);
 	if (!variable)
-		return (NULL); // malloc error
+		exit_malloc();
 	variable = ft_gnl_strjoin(variable, "=");
 	if (!variable)
-		return (NULL);
-	// buscar variable si no esta nada ignorar ni el siguiente espacio
+		exit_malloc();
 	content = content_var(variable, msh);
 	if (!content)
-		return (free_expand(variable, NULL)); // error
+		exit_malloc();
 	msh->input = mod_infile_expand(msh, content, variable, aux);
 	if (!msh->input)
-		return (free_expand(variable, content));
-	// puede haber cosas justo despues pero solo un puntoo
+		exit_malloc();
 	*i += ft_strlen(content) - ft_strlen(variable);
 	free_expand(variable, content);
 	return (msh->input);

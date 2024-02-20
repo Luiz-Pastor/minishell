@@ -12,6 +12,7 @@
 
 # define MALLOC_MSG C_RED"Malloc error"CLEAR
 # define ERROR_MSG "Bad use: ./minishell"
+# define MINISHELL_MSG "minishell> "
 # define ERROR_FORK_MSG "Fork"
 # define ERROR_PIPE_MSG "Pipe"
 
@@ -197,9 +198,9 @@ t_bool	check_if_var_exist(t_msh *msh, char *variable);
 char	*get_variable(char *arguments);
 char	*get_content(char *arguments);
 /* */
-void	bd_env(t_msh *msh, int nb_comand);
+void	bd_env(t_msh *msh);
 void	bd_echo(t_msh *msh, int nb_comand);
-void	*bd_pwd(t_msh *msh, int nb_comand);
+void	*bd_pwd(t_msh *msh);
 void	bd_cd(t_msh *msh, int nb_comand);
 void	bd_exit(t_msh *msh, int nb_comand);
 void	bd_unset(t_msh *msh, int nb_comand);

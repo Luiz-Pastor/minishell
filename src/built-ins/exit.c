@@ -29,10 +29,9 @@ void	bd_exit(t_msh *msh, int nb_comand)
 	}
 	if (matrix_length(msh->cmds[nb_comand].arguments))
 	{
-		/* Si no es un numero completo, exit de 255 */
 		if (check_if_nb(msh, nb_comand) == 1)
 			return ;
-		else /* Sino, el numero que sea */
+		else
 		{
 			msh->last_out = ft_atoi(msh->cmds[nb_comand].arguments[0]);
 			if (msh->last_out > 255 || msh->last_out < 0)

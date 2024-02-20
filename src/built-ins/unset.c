@@ -40,8 +40,7 @@ void	bd_unset(t_msh *msh, int nb_comand)
 	{
 		while (msh->cmds[nb_comand].arguments[i] != NULL)
 		{
-			/* TODO: maybe hay que ver si los caracteres del unset puden ser variables y en el caso de que no devolver error*/
-			/* si son */
+			/* TODO: maybe hay que ver si los caracteres del unset puden ser variables y en el caso de que no devolver error */
 			remove_var(msh, msh->cmds[nb_comand].arguments[i]);
 			i++;
 		}

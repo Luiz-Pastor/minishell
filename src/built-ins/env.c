@@ -1,9 +1,8 @@
 #include "../../inc/minishell.h"
 
-void	bd_env(t_msh *msh, int nb_comand)
+void	bd_env(t_msh *msh)
 {
 	int	index;
-	(void)nb_comand;
 
 	index = 0;
 	while (msh->envp[index])

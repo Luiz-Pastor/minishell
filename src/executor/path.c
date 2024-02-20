@@ -20,7 +20,6 @@ static char	*build_path(t_cmd *cmds, char **path_list)
 	char	*path;
 
 	i = 0;
-	/* si no hay posibles rutas o si el cmd que nos pasan tiene una ruta le decimos que nuestro path sera el arguento que nos pasan como cmd */
 	if (path_list == NULL || is_full_path(cmds) == 1)
 	{
 		path = ft_strdup(cmds->main);
@@ -29,7 +28,6 @@ static char	*build_path(t_cmd *cmds, char **path_list)
 	}
 	else
 	{
-		/* Si tenemos posibles rutas iteramos sobre ellas viendo si esta el cmd dentro de esas rutas*/
 		while (path_list[i])
 		{
 			path = ft_strdup(path_list[i]);
@@ -41,7 +39,6 @@ static char	*build_path(t_cmd *cmds, char **path_list)
 			path = ft_gnl_strjoin(path, cmds->main);
 			if (!path)
 				return (NULL);
-			/* Cuando encuentra el cmd en una carpeta salimos con la ruta ya guardada*/
 			if (access(path, F_OK) == 0)
 				break ;
 			free(path);
@@ -62,7 +59,6 @@ static char	**get_path_list(char **envp)
 	{
 		i = 0;
 
-		/* Buscamos si existe la variable path */
 		while (envp[i] != NULL)
 		{
 			if (!ft_strncmp(envp[i], "PATH=", 5))
@@ -70,9 +66,7 @@ static char	**get_path_list(char **envp)
 			i++;
 		}
 		if (envp[i] == NULL)
-			return (NULL); // si no existe la variable path
-		
-		/* Hacemos un split de la variable path ara sacar todas las posibles rutas en las que encontrar el cmd*/
+			return (NULL);
 		path_list = ft_split(&envp[i][5], ':');
 		if (!path_list)
 			exit_malloc();
@@ -86,11 +80,7 @@ char	*get_path(t_cmd *cmds, char **envp)
 	char **path_list;
 	char	*path_cmd;
 
-	/* me guardo tods los posibles path mirar si existe la variable path y hacerle un split de esa linea por : */
 	path_list = get_path_list(envp);
-	/* si la variable path_list en nula podemos crear un posible path con el nombre del comando */
-
-	/* construir el path de donde esta el cmd */
 	path_cmd = build_path(cmds, path_list);
 	if (!path_cmd)
 		exit_malloc();

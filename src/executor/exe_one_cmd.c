@@ -5,7 +5,6 @@ void	exe_built_ins(t_msh *msh)
 	int	fd_in;
 	int	fd_out;
 
-	/* Nos quedamos con el infile y el outfile que necesitamos */
 	fd_in = open_infile(msh->cmds[0].infiles, msh->cmds[0].infiles_count);
 	if (fd_in < 0)
 	{
@@ -18,18 +17,11 @@ void	exe_built_ins(t_msh *msh)
 		msh->last_out = 1;
 		return ; 
 	}
-	
-	/* Rederigimos la entrada y la salida  */
 	msh->cpy_last_in = dup2(fd_in, STDIN_FILENO);
 	msh->cpy_last_out = dup2(fd_out, STDOUT_FILENO);
-
-	/* Ejecutamos el built-in*/
 	built_ins(msh, 0);
-
-	/* Volvemos a rederigir la entrada y salida */
 	dup2(msh->cpy_stdin, msh->cpy_last_in);
 	dup2(msh->cpy_stdout, msh->cpy_last_out);
-
 }
 
 static void	child(t_cmd cmds, t_msh *msh)
@@ -38,23 +30,17 @@ static void	child(t_cmd cmds, t_msh *msh)
 	int		fd_out;
 	char	*path;
 
-	printf("%sentro en el hijo%s\n", C_GREENFOSFI, CLEAR);
-	/* Nos quedamos con el infile y el outfile que necesitamos */
 	fd_in = open_infile(cmds.infiles, cmds.infiles_count);
 	if (fd_in < 0)
 		exit (1);
 	fd_out = open_outfile(cmds.outfiles, cmds.outfiles_count);
 	if (fd_out < 0)
 		exit (1);
-	/* Rederigimos la entrada y la salida  */
 	msh->cpy_last_in = dup2(fd_in, STDIN_FILENO);
 	msh->cpy_last_out = dup2(fd_out, STDOUT_FILENO);
-
-	/* sacamos la ruta donde esta el comando */
 	path = get_path(&cmds, msh->envp);
 	if (!path)
 		exit_malloc();
-	/* ejecutamos el cmd en caso de que falle exit */
 	execve(path, cmds.complete_cmd, msh->envp);
 	exit_execve(msh);
 }
@@ -64,14 +50,11 @@ void	exe_one_cmd(t_msh *msh)
 	pid_t	pid;
 	int		status;
 
-	/* Creamos el proceso hijo paa ejecutar el cmd */
 	pid = fork();
 	if (pid < 0)
 		exit_fork_pipe(FORK);
 	if (pid == 0)
 		child(msh->cmds[0], msh);
-	
-	/* esperamos a que acabe el proceso hijo y sacamos el valor con el que sale */
 	waitpid(pid, &status, 0);
 	msh->last_out = WEXITSTATUS(status);
 }

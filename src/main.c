@@ -1,53 +1,17 @@
 #include "../inc/minishell.h"
 
-int	print_error(char *msg)
-{
-	printf("UwU: %s\n", msg);
-	return (1);
-}
-
-void leaks()
-{
-	system("leaks -q minishell");
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
 	(void) argv;
 	t_msh	*data;
 
-	/* atexit(leaks); */
-
-	/* Test de argumentos: no se requiere ninguno */
 	if (argc != 1)
-		return (print_error(ERROR_MSG));
-
-	/* Inicializar la estructura */
+		return (printf("%s\n", ERROR_MSG));
 	data = init_msh(envp);
 	if (!data)
 		exit_malloc();
-
-	/*	TODO: bucle de comandos
-			1. Parseo
-				-> Mirar comillas
-				-> Coge cmd (comando con flags)
-				-> Guarda los infiles
-				-> Guarda los outfiles
-				-> Miramos pipes
-			2. Paso intermedio
-				-> Nos quitamos los infiles/outfiles useless
-				-> Almacenamos ordenadamente la info
-			3. Ejecutor
-				-> Si es buid-in, ejecuamos su funcion
-				-> Sino, pipex
-			4. Free memory
-				-> xd
-	*/
 	if (manage(data))
 		exit_malloc();
-
-	/* Liberar toda la memoria */
 	free_msh(data);
-
 	return (0);
 }

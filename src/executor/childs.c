@@ -10,9 +10,7 @@ void	first_child(t_msh *msh, int *fd, t_cmd *cmds)
 	msh->final_pid = fork();
 	if (msh->final_pid == 0)
 	{
-		printf("%sentro en el primero hijo%s\n", C_GREENFOSFI, CLEAR);
 		close(fd[0]);
-		/* Nos quedamos con el infile y el outfile que necesitamos */
 		fd_in = open_infile(cmds->infiles, cmds->infiles_count);
 		if (fd_in < 0)
 			exit(1);
@@ -44,7 +42,6 @@ void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds)
 	msh->final_pid = fork();
 	if (msh->final_pid == 0)
 	{
-		printf("%sentro en el 2 hijo%s\n", C_GREENFOSFI, CLEAR);
 		close(fd[1]);
 		close(new[0]);
 		fd_in = open_infile(cmds->infiles, cmds->infiles_count);
@@ -56,8 +53,8 @@ void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds)
 		path = get_path(cmds, msh->envp);
 		if (!path)
 			exit_malloc();
-		dup2(fd[0], STDIN_FILENO);
-		dup2(new[1], STDOUT_FILENO);
+		msh->cpy_last_in = dup2(fd[0], STDIN_FILENO);
+		msh->cpy_last_out = dup2(new[1], STDOUT_FILENO);
 		close(fd[0]);
 		close(new[1]);
 		if (fd_out != 1 && fd_out != 2)
@@ -78,7 +75,6 @@ void	last_child(t_msh *msh, int *fd, t_cmd *cmds)
 	msh->final_pid = fork();
 	if (msh->final_pid == 0)
 	{
-		printf("%sentro en el ultimo hijo%s\n", C_GREENFOSFI, CLEAR);
 		close(fd[1]);
 		fd_in = open_infile(cmds->infiles, cmds->infiles_count);
 		if (fd_in < 0)
@@ -89,16 +85,14 @@ void	last_child(t_msh *msh, int *fd, t_cmd *cmds)
 		path = get_path(cmds, msh->envp);
 		if (!path)
 			exit_malloc();
-		
-		dup2(fd[0], STDIN_FILENO);
+		msh->cpy_last_in = dup2(fd[0], STDIN_FILENO);
+		msh->cpy_last_out = dup2(fd_out, STDOUT_FILENO);
 		close(fd[0]);
-		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
 		if (fd_out != 1 && fd_out != 2)
 			close(fd_out);
-
 		execve(path, cmds->complete_cmd, msh->envp);
-		printf("==> HOLA\n");
-		// exit_execve(msh);
+		exit_execve(msh);
 	}
 	else if (msh->final_pid < 0)
 		exit_fork_pipe(FORK);

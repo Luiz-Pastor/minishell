@@ -28,7 +28,7 @@ static void	echo_flag_n(char **arguments, int i)
 		{
 			printf("%s", arguments[i]);
 			if (arguments[i + 1] != NULL)
-			printf(" ");
+				printf(" ");
 			i++;
 		}
 	}

@@ -1,20 +1,9 @@
 #include "../../inc/minishell.h"
 
-// NOTE: prblemmas angie futuro: algun $ mas?¿?¿?
-// flag de si estan abiertas las comillas  no
-// {} bro no se gestiona
-// $ espacio
-// $?
-// variables solo pueden empezar por letra y tener numeros
-// al generar la variable mete el =
-// $PATH$HOME no me lo coge bien, el home no me lo expande :(
-
 static char	*expand_manage(t_msh *msh, t_quotes *quotes, int *i)
 {
 	int	aux;
 
-	// char	*variable;
-	// char	*content;
 	if (quotes->flag == 1 && quotes->type == '\'')
 		return (msh->input);
 	aux = *i;
@@ -26,33 +15,26 @@ static char	*expand_manage(t_msh *msh, t_quotes *quotes, int *i)
 		msh->input = expand_var(msh, i, aux);
 	}
 	*i = aux;
-	//  la i cambia actualizarla a la ueva posicion donde seguir iterando en la funcion expand
 	return (msh->input);
 }
-
-// No hay nada abierto ->				Se interpreta ->    /Users… 0
-// Hay comillas dobles abiertas->    Se interpreta ->    /Users/… 0
-// Hay comillas simples abiertas ->  No se interpreta -> $PATH  1
-
 static void	manage_quotes(t_quotes *quotes, char c)
 {
-	/* Comprobar si está abierta -> si se puede cerrar */
 	if (quotes->flag == 1 && quotes->type == c)
 	{
 		quotes->flag = !quotes->flag;
 		quotes->type = 0;
 	}
-	else if (quotes->flag == 0) /* Si esta cerrada, se abre */
+	else if (quotes->flag == 0)
 	{
-		quotes->flag = !quotes->flag; // 0 esta cerrado 1 esta abierto
-		quotes->type = c;             // que comillas son las que estan abiertas
+		quotes->flag = !quotes->flag;
+		quotes->type = c;
 	}
 }
 
 char	*expand(t_msh *data)
 {
 	int			i;
-	t_quotes	quotes; // flag para saber si hay comillas o no
+	t_quotes	quotes;
 	
 	i = 0;
 	quotes.flag = 0;
@@ -70,7 +52,7 @@ char	*expand(t_msh *data)
 			i++;
 			data->input = expand_manage(data, &quotes, &i);
 			if (!data->input)
-				return (NULL);
+				exit_malloc();
 		}
 		i++;
 	}
