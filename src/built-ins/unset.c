@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static int	func(t_msh *msh, char *aux)
+static int	search_var(t_msh *msh, char *aux)
 {
 	int	i;
 
@@ -14,11 +14,31 @@ static int	func(t_msh *msh, char *aux)
 	return (i);
 }
 
+static int	search_valid_var(t_msh *msh, char *argument)
+{
+	int	i;
+
+	i = 0;
+	while (argument && argument[i] != '\0')
+	{
+		if (ft_correct_var_char(argument[i], MID_LETTER) != 1)
+		{
+			msh->last_out = 1;
+			printf("uwu: unset: '%c': not a valid identifier\n", argument[i]);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 static void	remove_var(t_msh *msh, char *argument)
 {
 	int		i;
 	char	*aux;
 
+	if (search_valid_var(msh, argument) == 1)
+		return ;
 	aux = ft_strjoin(argument, "=");
 	if (!aux)
 		exit_malloc();
@@ -27,7 +47,7 @@ static void	remove_var(t_msh *msh, char *argument)
 		free(aux);
 		return ;
 	}
-	i = func(msh, aux);
+	i = search_var(msh, aux);
 	free(aux);
 	if (msh->envp[i] == NULL)
 		return ;
@@ -48,7 +68,6 @@ void	bd_unset(t_msh *msh, int nb_comand)
 	{
 		while (msh->cmds[nb_comand].arguments[i] != NULL)
 		{
-			/* TODO: maybe hay que ver si los caracteres del unset puden ser variables y en el caso de que no devolver error */
 			remove_var(msh, msh->cmds[nb_comand].arguments[i]);
 			i++;
 		}
