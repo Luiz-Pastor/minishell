@@ -6,6 +6,8 @@ static char	*get_filename(int start, int *index, char **input)
 
 	if (input[*index][start])
 	{
+		if (input[*index][start] == '>' || input[*index][start] == '<')
+			return (NULL);
 		if (input[*index][start] == '\"' || input[*index][start] == '\'')
 			name = ft_substr(input[*index], start + 1, \
 					ft_strlen(input[*index]) - start - 2);
@@ -67,7 +69,7 @@ void	*check_outfile(int start, int *index, t_cmd *cmd, t_msh *msh)
 		tp = APPEND;
 		start++;
 	}
-	if (!input[*index])
+	if (!input[*index][start] && !input[*index + 1])
 	{
 		set_error(SYNTAX, msh);
 		return (msh);
