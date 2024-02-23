@@ -12,11 +12,11 @@ void	ctrl_c_manage(int sig)
 {
 	// tengo que ignorar la señal ctr c y hacer que se abra una nueva linea para escribir 
 	(void)sig;
-	// rl_replace_line("", 0);
-	// printf("\n");
-	// rl_on_new_line();
-	// printf("minishell> ");
-	// return ;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	rl_replace_line("\n", 0);
+	return ;
 	exit(0);
 }
 
