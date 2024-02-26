@@ -209,8 +209,8 @@ void	*free_expand(char *str1, char *str2);
 
 /* executor */
 int		executor(t_msh *msh);
-int		open_infile(t_io_file *infiles, int count);
-int		open_outfile(t_io_file *outfiles, int count);
+int		open_infile(t_io_file *infiles, int count, int pipe);
+int		open_outfile(t_io_file *outfiles, int count, int pipe);
 char	*here_doc(char *del);
 void    exe_built_ins(t_msh *msh);
 void	exe_one_cmd(t_msh *msh);

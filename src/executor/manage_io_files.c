@@ -1,6 +1,19 @@
 #include "../../inc/minishell.h"
 
-int	open_infile(t_io_file *infiles, int count)
+int	select_file(int input, int pipe, int predetermined)
+{
+	if (input > 0)
+	{
+		if (pipe > 0)
+			close(pipe);
+		return (input);
+	}
+	if (pipe > 0) /* por ende, input < 0*/
+		return (pipe);
+	return (predetermined);
+}
+
+int	open_infile(t_io_file *infiles, int count, int pipe)
 {
 	int		i;
 	int		fd;
@@ -10,8 +23,7 @@ int	open_infile(t_io_file *infiles, int count)
 	error = 0;
 
 	i = 0;
-	if (count == 0)
-		return (STDIN_FILENO);
+	fd = -1;
 	while (i < count)
 	{
 		if (infiles[i].type == INFILE)
@@ -45,10 +57,10 @@ int	open_infile(t_io_file *infiles, int count)
 			close(fd);
 		return (-1);
 	}
-	return (fd);
+	return (select_file(fd, pipe, STDIN_FILENO));
 }
 
-int	open_outfile(t_io_file *outfiles, int count)
+int	open_outfile(t_io_file *outfiles, int count, int pipe)
 {
 	int	i;
 	int	fd;
@@ -80,5 +92,5 @@ int	open_outfile(t_io_file *outfiles, int count)
 			close(fd);
 		return (-1);
 	}
-	return (fd);
+	return (select_file(fd, pipe, STDOUT_FILENO));
 }
