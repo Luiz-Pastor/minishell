@@ -28,9 +28,9 @@ void	check_error(t_msh *msh)
 
 	error = msh->error;
 	if (error == SYNTAX)
-		printf(C_RED"\nmsh: syntax error\n"CLEAR);
+		printf("uwu: syntax error near unexpected token\n");
 	else if (error == CTR_D)
-		printf(C_RED"\nmsh: syntax error: unexpected end of file\n"CLEAR);
+		printf("uwu: syntax error: unexpected end of file\n");
 	msh->error = NONE;
 }
 
@@ -39,9 +39,9 @@ int		is_error(t_msh *msh)
 	return (msh->error);
 }
 
-void	exit_execve(t_msh *msh)
+void	exit_execve(t_msh *msh, t_cmd *cmds)
 {
 	dup2(msh->cpy_stdout, msh->cpy_last_out);
-	printf("command not found\n");
+	printf("uwu: %s: command not found\n", cmds->main);
 	exit (127);
 }
