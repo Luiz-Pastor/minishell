@@ -80,7 +80,7 @@ int	manage(t_msh *data)
 	signals_manage(data);
 	while (1)
 	{
-		data->input = readline("minishell> ");
+		data->input = readline("UwUshell> ");
 		if (!data->input)
 		{
 			rl_replace_line("", 0);

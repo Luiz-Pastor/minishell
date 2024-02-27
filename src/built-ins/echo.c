@@ -36,7 +36,6 @@ static void	echo_flag_n(char **arguments, int i)
 
 static void	echo_no_flag(char **arguments, int i)
 {
-	printf("hola\n");
 	while (arguments[i])
 	{
 		printf("%s", arguments[i]);

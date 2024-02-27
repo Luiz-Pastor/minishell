@@ -227,6 +227,7 @@ void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds);
 void	last_child(t_msh *msh, int *fd, t_cmd *cmds);
 
 /* Envp utils */
+char	**mod_envp_shlvl(char **envp);
 int		search_envp(char **envp, char *var);
 char	**insert_envp(char **envp, char *var);
 void	change_envp(char **envp, char *search, char *data);
