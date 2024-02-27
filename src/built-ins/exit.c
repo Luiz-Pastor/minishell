@@ -22,7 +22,7 @@ int	check_if_nb(t_msh *msh, int nb_comand)
 void	bd_exit(t_msh *msh, int nb_comand)
 {
 	printf("exit\n");
-	msh->last_out = 1;
+	msh->last_out = 0;
 	if (matrix_length(msh->cmds[nb_comand].arguments) > 1)
 	{
 		msh->last_out = 1;
@@ -36,8 +36,7 @@ void	bd_exit(t_msh *msh, int nb_comand)
 		else
 		{
 			msh->last_out = ft_atoi(msh->cmds[nb_comand].arguments[0]);
-			if (msh->last_out > 255 || msh->last_out < 0)
-				msh->last_out = msh->last_out % 256;
+			msh->last_out = msh->last_out % 256;
 		}
 	}
 	exit(msh->last_out);
