@@ -9,13 +9,14 @@ void	exe_built_ins(t_msh *msh)
 	if (fd_in < 0)
 	{
 		msh->last_out = 1;
-		return ; 
+		return ;
 	}
-	fd_out = open_outfile(msh->cmds[0].outfiles, msh->cmds[0].outfiles_count, -1);
+	fd_out = open_outfile(msh->cmds[0].outfiles, \
+						msh->cmds[0].outfiles_count, -1);
 	if (fd_out < 0)
 	{
 		msh->last_out = 1;
-		return ; 
+		return ;
 	}
 	msh->cpy_last_in = dup2(fd_in, STDIN_FILENO);
 	msh->cpy_last_out = dup2(fd_out, STDOUT_FILENO);
