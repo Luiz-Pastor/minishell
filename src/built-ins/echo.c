@@ -9,7 +9,7 @@ static int	check_flag(char *argument)
 		i++;
 	else
 		return (0);
-	while (argument[i] != '\0')
+	while (argument[i] && argument[i] != '\0')
 	{
 		if (argument[i] != 'n')
 			return (0);
@@ -36,6 +36,7 @@ static void	echo_flag_n(char **arguments, int i)
 
 static void	echo_no_flag(char **arguments, int i)
 {
+	printf("hola\n");
 	while (arguments[i])
 	{
 		printf("%s", arguments[i]);
@@ -60,7 +61,8 @@ void	bd_echo(t_msh *msh, int nb_comand)
 	}
 	else if (msh->cmds[nb_comand].arguments != NULL)
 	{
-		while (check_flag(msh->cmds[nb_comand].arguments[i]) == 1)
+		while (msh->cmds[nb_comand].arguments[i]
+				&& check_flag(msh->cmds[nb_comand].arguments[i]) == 1)
 		{
 			flag = 1;
 			i++;
