@@ -62,9 +62,11 @@ static void	manage_export(t_msh *msh, int nb_comand, int i)
 		i++;
 	}
 }
+void	print_data(t_msh *data);
 
 void	bd_export(t_msh *msh, int nb_comand)
 {
+	print_data(msh);
 	msh->last_out = 0;
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
 		&& msh->cmds[nb_comand].arguments == NULL)

@@ -85,7 +85,7 @@ t_msh	*init_msh(char *envp[])
 	ft_memset(data, 0, sizeof(t_msh));
 	data->cpy_stdin = dup(STDIN_FILENO);
 	data->cpy_stdout = dup(STDOUT_FILENO);
-	data->envp = copy_env(envp);
+	data->envp = mod_envp_shlvl(copy_env(envp));
 	if (!data->envp)
 		return (free_msh(data));
 	return (data);

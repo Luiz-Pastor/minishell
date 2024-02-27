@@ -1,5 +1,27 @@
 #include "../inc/minishell.h"
 
+char	**mod_envp_shlvl(char **envp)
+{
+	int		i;
+	int		nb;
+	char 	*aux;
+
+	i = search_envp(envp, "SHLVL");
+	if (i == -1)
+		return (NULL);
+	nb = ft_atoi(&envp[i][6]);
+	free(envp[i]);
+	nb += 1;
+	aux = ft_itoa(nb);
+	if (!aux)
+		exit_malloc();
+	envp[i] = ft_strjoin("SHLVL=", aux);
+	if (!envp[i])
+		exit_malloc();
+	free(aux);
+	return (envp);
+}
+
 int	search_envp(char **envp, char *var)
 {
 	int		index;
