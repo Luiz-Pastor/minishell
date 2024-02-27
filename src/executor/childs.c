@@ -11,19 +11,19 @@ void	first_child(t_msh *msh, int *fd, t_cmd *cmds)
 	if (msh->final_pid == 0)
 	{
 		close(fd[0]);
-		fd_in = open_infile(cmds->infiles, cmds->infiles_count);
+		fd_in = open_infile(cmds->infiles, cmds->infiles_count, -1);
 		if (fd_in < 0)
 			exit(1);
-		fd_out = open_outfile(cmds->outfiles, cmds->outfiles_count);
+		fd_out = open_outfile(cmds->outfiles, cmds->outfiles_count, fd[1]);
 		if (fd_out < 0)
 			exit(1);
 		path = get_path(cmds, msh->envp);
 		if (!path)
 			exit_malloc();
 		msh->cpy_last_in = dup2(fd_in, STDIN_FILENO);
-		msh->cpy_last_out = dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		close(fd_in);
+		msh->cpy_last_out = dup2(fd_out, STDOUT_FILENO);
+		if (fd_in != 0)
+			close(fd_in);
 		if (fd_out != 1 && fd_out != 2)
 			close(fd_out);
 		execve(path, cmds->complete_cmd, msh->envp);
@@ -44,19 +44,19 @@ void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds)
 	{
 		close(fd[1]);
 		close(new[0]);
-		fd_in = open_infile(cmds->infiles, cmds->infiles_count);
+		fd_in = open_infile(cmds->infiles, cmds->infiles_count, fd[0]);
 		if (fd_in < 0)
 			exit(1);
-		fd_out = open_outfile(cmds->outfiles, cmds->outfiles_count);
+		fd_out = open_outfile(cmds->outfiles, cmds->outfiles_count, new[1]);
 		if (fd_out < 0)
 			exit(1);
 		path = get_path(cmds, msh->envp);
 		if (!path)
 			exit_malloc();
-		msh->cpy_last_in = dup2(fd[0], STDIN_FILENO);
-		msh->cpy_last_out = dup2(new[1], STDOUT_FILENO);
-		close(fd[0]);
-		close(new[1]);
+		msh->cpy_last_in = dup2(fd_in, STDIN_FILENO);
+		msh->cpy_last_out = dup2(fd_out, STDOUT_FILENO);
+		if (fd_in != 0)
+			close(fd_in);
 		if (fd_out != 1 && fd_out != 2)
 			close(fd_out);
 		execve(path, cmds->complete_cmd, msh->envp);
@@ -76,18 +76,19 @@ void	last_child(t_msh *msh, int *fd, t_cmd *cmds)
 	if (msh->final_pid == 0)
 	{
 		close(fd[1]);
-		fd_in = open_infile(cmds->infiles, cmds->infiles_count);
+		fd_in = open_infile(cmds->infiles, cmds->infiles_count, fd[0]);
 		if (fd_in < 0)
 			exit(1);
-		fd_out = open_outfile(cmds->outfiles, cmds->outfiles_count);
+		fd_out = open_outfile(cmds->outfiles, cmds->outfiles_count, -1);
 		if (fd_out < 0)
 			exit(1);
 		path = get_path(cmds, msh->envp);
 		if (!path)
 			exit_malloc();
-		msh->cpy_last_in = dup2(fd[0], STDIN_FILENO);
+		msh->cpy_last_in = dup2(fd_in, STDIN_FILENO);
 		msh->cpy_last_out = dup2(fd_out, STDOUT_FILENO);
-		close(fd[0]);
+		if (fd_in != 0)
+			close(fd_in);
 		if (fd_out != 1 && fd_out != 2)
 			close(fd_out);
 		execve(path, cmds->complete_cmd, msh->envp);
