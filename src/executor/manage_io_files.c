@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-int	select_file(int input, int pipe, int predetermined)
+static int	select_file(int input, int pipe, int predetermined)
 {
 	if (input > 0)
 	{
@@ -8,45 +8,53 @@ int	select_file(int input, int pipe, int predetermined)
 			close(pipe);
 		return (input);
 	}
-	if (pipe > 0) /* por ende, input < 0*/
+	if (pipe > 0)
 		return (pipe);
 	return (predetermined);
+}
+
+static void	auxiliar_error_open(int *error, char *msg)
+{
+	perror(msg);
+	*error = 1;
+}
+
+static int aux_open_infile(t_io_file infile, int *error)
+{
+	int		fd;
+	char	*name;
+
+	if (infile.type == INFILE)
+	{
+		fd = open(infile.name, O_RDONLY);
+		if (fd < 0)
+			auxiliar_error_open(error, infile.name);
+	}
+	else
+	{
+		name = here_doc(infile.name);
+		if (!name)
+			exit_malloc();
+		fd = open(name, O_RDONLY);
+		if (fd < 0)
+			auxiliar_error_open(error, name);
+		free(name);
+	}
+	return (fd);
 }
 
 int	open_infile(t_io_file *infiles, int count, int pipe)
 {
 	int		i;
 	int		fd;
-	char	*name;
 	int		error;
-	
-	error = 0;
 
+	error = 0;
 	i = 0;
 	fd = -1;
 	while (i < count)
 	{
-		if (infiles[i].type == INFILE)
-		{
-			fd = open(infiles[i].name, O_RDONLY);
-			if (fd < 0)
-			{
-				perror(infiles[i].name);
-				error = 1;
-			}
-		}
-		else
-		{
-			name = here_doc(infiles[i].name);
-			if (!name)
-				perror(infiles[i].name);
-			fd = open(name, O_RDONLY);
-			if (fd < 0)
-			{
-				perror(name);
-				error = 1;
-			}
-		}
+		fd = aux_open_infile(infiles[i], &error);
 		if (i != count - 1)
 			close(fd);
 		i++;
@@ -64,10 +72,9 @@ int	open_outfile(t_io_file *outfiles, int count, int pipe)
 {
 	int	i;
 	int	fd;
-	int		error;
-	
-	error = 0;
+	int	error;
 
+	error = 0;
 	i = 0;
 	if (count == 0)
 		return (STDOUT_FILENO);
