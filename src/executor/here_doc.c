@@ -1,5 +1,7 @@
 #include "../../inc/minishell.h"
 
+extern int	signal_control;
+
 static char	*check_ava_name(char *del)
 {
 	char	*checker[2];

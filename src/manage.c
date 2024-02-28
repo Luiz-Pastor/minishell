@@ -78,6 +78,7 @@ static int	is_input_empty(char *input)
 int	manage(t_msh *data)
 {
 	signals_manage(data);
+	ctrl_c_disable();
 	while (1)
 	{
 		data->input = readline("UwUshell> ");
@@ -102,7 +103,9 @@ int	manage(t_msh *data)
 			continue ;
 		}
 		data->executing = 1;
+		signal_control = 1;
 		executor(data);
+		signal_control = 0;
 		data->executing = 0;
 		// print_data(data);
 		free_cmds(data);

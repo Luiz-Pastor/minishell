@@ -27,7 +27,7 @@ void	first_child(t_msh *msh, int *fd, t_cmd *cmds)
 		if (fd_out != 1 && fd_out != 2)
 			close(fd_out);
 		execve(path, cmds->complete_cmd, msh->envp);
-		exit_execve(msh);
+		exit_execve(msh, cmds);
 	}
 	else if (msh->final_pid < 0)
 		exit_fork_pipe(FORK);
@@ -60,7 +60,7 @@ void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds)
 		if (fd_out != 1 && fd_out != 2)
 			close(fd_out);
 		execve(path, cmds->complete_cmd, msh->envp);
-		exit_execve(msh);
+		exit_execve(msh, cmds);
 	}
 	else if (msh->final_pid < 0)
 		exit_fork_pipe(FORK);
@@ -92,7 +92,7 @@ void	last_child(t_msh *msh, int *fd, t_cmd *cmds)
 		if (fd_out != 1 && fd_out != 2)
 			close(fd_out);
 		execve(path, cmds->complete_cmd, msh->envp);
-		exit_execve(msh);
+		exit_execve(msh, cmds);
 	}
 	else if (msh->final_pid < 0)
 		exit_fork_pipe(FORK);
