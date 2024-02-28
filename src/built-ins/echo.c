@@ -61,7 +61,7 @@ void	bd_echo(t_msh *msh, int nb_comand)
 	else if (msh->cmds[nb_comand].arguments != NULL)
 	{
 		while (msh->cmds[nb_comand].arguments[i]
-				&& check_flag(msh->cmds[nb_comand].arguments[i]) == 1)
+			&& check_flag(msh->cmds[nb_comand].arguments[i]) == 1)
 		{
 			flag = 1;
 			i++;
