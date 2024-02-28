@@ -4,9 +4,10 @@ static void	one_command(t_msh *msh)
 {
 	if (is_builtin(msh->cmds[0].main))
 		exe_built_ins(msh);
-    else
+	else
 		exe_one_cmd(msh);
 }
+
 void	wait_childs(t_msh *msh)
 {
 	pid_t	current_pid;
@@ -57,7 +58,7 @@ static void	two_or_more_cmds(t_msh *msh)
 int	executor(t_msh *msh)
 {
 	if (msh->cmds_count == 1)
-        one_command(msh);
+		one_command(msh);
 	else
 		two_or_more_cmds(msh);
 	return (0);

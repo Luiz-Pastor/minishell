@@ -1,33 +1,42 @@
 #include "../../inc/minishell.h"
 
-extern int	signal_control;
+static char *getfullpath(char *del, int try)
+{
+	char	*main_path;
+	char	*full_path;
+	char	*try_text;
+
+	try_text = ft_itoa(try);
+	if (!try_text)
+		exit_malloc();
+
+	main_path = ft_strjoin(TEMP_FOLDER, del);
+	if (!main_path)
+		exit_malloc();
+
+	full_path = ft_strjoin(main_path, try_text);
+	ft_mfree(2, &try_text, &main_path);
+	if (!full_path)
+		exit_malloc();
+	return (full_path);
+}
 
 static char	*check_ava_name(char *del)
 {
-	char	*checker[2];
-	char	*try_text;
+	char	*checker;
 	int		try;
 	char	*res;
 
 	try = 1;
 	while(1)
 	{
-		try_text = ft_itoa(try);
-		if (!try_text)
-			return (NULL);
-		checker[0] = ft_strjoin(TEMP_FOLDER, del);
-		if (!checker[0])
-			return (ft_mfree(1, &try_text));
-		checker[1] = ft_strjoin(checker[0], try_text);
-		ft_mfree(2, &try_text, &checker[0]);
-		if (!checker[1])
-			return (ft_mfree(1, &checker[0]));
-		if (access(checker[1], F_OK) == -1)
+		checker = getfullpath(del, try);
+		if (access(checker, F_OK) == -1)
 		{
-			res = checker[1];
+			res = checker;
 			break ;
 		}
-		free(checker[1]);
+		free(checker);
 		try++;
 	}
 	return (res);
