@@ -7,6 +7,7 @@
 # include "../libft/includes/libft.h"
 # include <signal.h>
 # include <string.h>
+# include <termios.h>
 
 # define TEMP_FOLDER	"/tmp/"
 
@@ -15,6 +16,8 @@
 # define MINISHELL_MSG "minishell> "
 # define ERROR_FORK_MSG "Fork"
 # define ERROR_PIPE_MSG "Pipe"
+
+int		signal_control;
 
 /*
  * brief	Bool type
@@ -174,7 +177,7 @@ void	check_error(t_msh *msh);
 int		is_error(t_msh *msh);
 void	exit_malloc(void);
 void	exit_fork_pipe(t_error error);
-void	exit_execve(t_msh *msh);
+void	exit_execve(t_msh *msh, t_cmd *cmds);
 
 /* Expand */
 # define FIRST_LETTER 1
@@ -219,12 +222,13 @@ void	exe_one_cmd(t_msh *msh);
 char	*get_path(t_cmd *cmds, char **envp);
 /* childs */
 void	first_child(t_msh *msh, int *fd, t_cmd *cmds);
+void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds);
+void	last_child(t_msh *msh, int *fd, t_cmd *cmds);
 
 
 /* signals */
 void	signals_manage(t_msh *msh);
-void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds);
-void	last_child(t_msh *msh, int *fd, t_cmd *cmds);
+void	ctrl_c_disable(void);
 
 /* Envp utils */
 char	**mod_envp_shlvl(char **envp);

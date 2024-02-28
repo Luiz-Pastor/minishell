@@ -1,5 +1,6 @@
 #include "../../inc/minishell.h"
 
+
 void	exe_built_ins(t_msh *msh)
 {
 	int	fd_in;
@@ -43,7 +44,7 @@ static void	child(t_cmd cmds, t_msh *msh)
 	if (!path)
 		exit_malloc();
 	execve(path, cmds.complete_cmd, msh->envp);
-	exit_execve(msh);
+	exit_execve(msh, &cmds);
 }
 
 void	exe_one_cmd(t_msh *msh)

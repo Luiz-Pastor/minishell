@@ -4,6 +4,7 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	t_msh	*data;
 
+	signal_control = 0;
 	if (argc != 1)
 		return (printf("%s Try: %s\n", ERROR_MSG, argv[0]));
 	data = init_msh(envp);
