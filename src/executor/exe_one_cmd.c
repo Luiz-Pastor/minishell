@@ -1,6 +1,5 @@
 #include "../../inc/minishell.h"
 
-
 void	exe_built_ins(t_msh *msh)
 {
 	int	fd_in;

@@ -22,8 +22,6 @@ void	ctrl_c_disable(void)
 void	ctrl_4_manage(int sig)
 {
 	(void)sig;
-	rl_replace_line("", 0);
-	rl_redisplay();
 	return ;
 }
 
@@ -46,17 +44,6 @@ void	ctrl_c_manage(int sig)
 void	signals_manage(t_msh *msh)
 {
 	(void)msh;
-
-	/* Manear ctrl+c */
 	signal(SIGINT, ctrl_c_manage);
-
-	/* Manejar ctrl+4 // ctrl+/ */
 	signal(SIGQUIT, ctrl_4_manage);
 }
-
-// void	signal_ctlc_heredoc(int sig)
-// {
-// 	if (sig == SIGINT)
-// 		close(STDIN_FILENO);
-// 	exit(0);
-// }

@@ -19,6 +19,7 @@ VPATH = src:src/built-ins:src/parser:src/signals:src/executor
 SRC =		main.c 		\
 			manage.c	\
 			errors.c	\
+			errors_2.c	\
 			envp_utils.c
 
 BUILT_INS =	built_ins.c \

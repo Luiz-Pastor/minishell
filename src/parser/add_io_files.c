@@ -1,29 +1,28 @@
 #include "../../inc/minishell.h"
 
-static char	*get_filename(int start, int *index, char **input)
+static char	*get_filename(int start, int *i, char **input)
 {
 	char	*name;
 
-	if (input[*index][start])
+	if (input[*i][start])
 	{
-		if (input[*index][start] == '>' || input[*index][start] == '<')
+		if (input[*i][start] == '>' || input[*i][start] == '<')
 			return (NULL);
-		if (input[*index][start] == '\"' || input[*index][start] == '\'')
-			name = ft_substr(input[*index], start + 1, \
-					ft_strlen(input[*index]) - start - 2);
+		if (input[*i][start] == '\"' || input[*i][start] == '\'')
+			name = ft_substr(input[*i], start + 1, \
+					ft_strlen(input[*i]) - start - 2);
 		else
-			name = ft_substr(input[*index], start, \
-					ft_strlen(input[*index]) - 1);
+			name = ft_substr(input[*i], start, ft_strlen(input[*i]) - 1);
 	}
 	else
 	{
-		(*index)++;
-		if (input[*index][0] == '>' || input[*index][0] == '<')
+		(*i)++;
+		if (input[*i][0] == '>' || input[*i][0] == '<')
 			return (NULL);
-		if (input[*index][0] == '\"' || input[*index][0] == '\'')
-			name = ft_substr(input[*index], 1, ft_strlen(input[*index]) - 2);
+		if (input[*i][0] == '\"' || input[*i][0] == '\'')
+			name = ft_substr(input[*i], 1, ft_strlen(input[*i]) - 2);
 		else
-			name = ft_substr(input[*index], 0, ft_strlen(input[*index]));
+			name = ft_substr(input[*i], 0, ft_strlen(input[*i]));
 	}
 	if (!name)
 		exit_malloc();

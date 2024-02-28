@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static char *getfullpath(char *del, int try)
+static char	*getfullpath(char *del, int try)
 {
 	char	*main_path;
 	char	*full_path;
@@ -9,11 +9,9 @@ static char *getfullpath(char *del, int try)
 	try_text = ft_itoa(try);
 	if (!try_text)
 		exit_malloc();
-
 	main_path = ft_strjoin(TEMP_FOLDER, del);
 	if (!main_path)
 		exit_malloc();
-
 	full_path = ft_strjoin(main_path, try_text);
 	ft_mfree(2, &try_text, &main_path);
 	if (!full_path)
@@ -28,7 +26,7 @@ static char	*check_ava_name(char *del)
 	char	*res;
 
 	try = 1;
-	while(1)
+	while (1)
 	{
 		checker = getfullpath(del, try);
 		if (access(checker, F_OK) == -1)

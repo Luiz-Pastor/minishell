@@ -24,7 +24,7 @@ void	exit_fork_pipe(t_error error)
 
 void	check_error(t_msh *msh)
 {
-	t_error error;
+	t_error	error;
 
 	error = msh->error;
 	if (error == SYNTAX)
@@ -34,14 +34,7 @@ void	check_error(t_msh *msh)
 	msh->error = NONE;
 }
 
-int		is_error(t_msh *msh)
+int	is_error(t_msh *msh)
 {
 	return (msh->error);
-}
-
-void	exit_execve(t_msh *msh, t_cmd *cmds)
-{
-	dup2(msh->cpy_stdout, msh->cpy_last_out);
-	printf("uwu: %s: command not found\n", cmds->main);
-	exit (127);
 }

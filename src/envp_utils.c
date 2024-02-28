@@ -4,7 +4,7 @@ char	**mod_envp_shlvl(char **envp)
 {
 	int		i;
 	int		nb;
-	char 	*aux;
+	char	*aux;
 
 	i = search_envp(envp, "SHLVL");
 	if (i == -1)
