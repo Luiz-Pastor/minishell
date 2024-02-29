@@ -109,7 +109,6 @@ int	manage(t_msh *data)
 		executor(data);
 		signal_control = 0;
 		data->executing = 0;
-		// print_data(data);
 		free_cmds(data);
 	}
 	return (0);

@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static int	select_file(int input, int pipe, int predetermined)
+static int	select_file(int input, int pipe, int predetermined, int count)
 {
 	if (input > 0)
 	{
@@ -10,7 +10,9 @@ static int	select_file(int input, int pipe, int predetermined)
 	}
 	if (pipe > 0)
 		return (pipe);
-	return (predetermined);
+	if (count == 0)
+		return (predetermined);
+	return (-1);
 }
 
 static void	auxiliar_error_open(int *error, char *msg)
@@ -65,7 +67,7 @@ int	open_infile(t_io_file *infiles, int count, int pipe)
 			close(fd);
 		return (-1);
 	}
-	return (select_file(fd, pipe, STDIN_FILENO));
+	return (select_file(fd, pipe, STDIN_FILENO, count));
 }
 
 int	open_outfile(t_io_file *outfiles, int count, int pipe)
@@ -76,8 +78,6 @@ int	open_outfile(t_io_file *outfiles, int count, int pipe)
 
 	error = 0;
 	i = 0;
-	if (count == 0)
-		return (STDOUT_FILENO);
 	while (i < count)
 	{
 		if (outfiles[i].type == TRUNC)
@@ -99,5 +99,5 @@ int	open_outfile(t_io_file *outfiles, int count, int pipe)
 			close(fd);
 		return (-1);
 	}
-	return (select_file(fd, pipe, STDOUT_FILENO));
+	return (select_file(fd, pipe, STDOUT_FILENO, count));
 }
