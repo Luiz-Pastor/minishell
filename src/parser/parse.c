@@ -112,8 +112,11 @@ void	*parse(t_msh *msh)
 	while (cmds[index])
 	{
 		msh->cmds[index].input = divide_cmd_args(cmds[index], WITH_QUOT);
-		if (!analize_input(msh, index))
+		if (!analize_input(msh, index) || !msh->cmds[index].main)
+		{
+			set_error(SYNTAX, msh);
 			return (free_parts(NULL, cmds));
+		}
 		index++;
 	}
 	free_parts(NULL, cmds);
