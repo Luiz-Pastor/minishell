@@ -55,7 +55,8 @@ static void	free_cmds(t_msh *data)
 		while (++j < data->cmds[index].outfiles_count)
 			free(data->cmds[index].outfiles[j].name);
 		ft_mfree(2, &data->cmds[index].infiles, &data->cmds[index].outfiles);
-		free_parts(NULL, data->cmds[index].complete_cmd);
+		free(data->cmds[index].complete_cmd);
+		
 	}
 	ft_mfree(2, &data->input, &data->cmds);
 }

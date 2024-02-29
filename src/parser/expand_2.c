@@ -97,7 +97,7 @@ void	*expand_var(t_msh *msh, int *i, int aux)
 	msh->input = mod_infile_expand(msh, content, variable, aux);
 	if (!msh->input)
 		exit_malloc();
-	*i += ft_strlen(content) - ft_strlen(variable);
+	*i += ft_strlen(content) - ft_strlen(variable) - 1;
 	free_expand(variable, content);
 	return (msh->input);
 }

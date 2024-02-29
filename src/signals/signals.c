@@ -1,7 +1,5 @@
 #include "../../inc/minishell.h"
 
-#include <termios.h>
-
 void	ctrl_c_disable(void)
 {
 	struct termios	termios;
@@ -22,6 +20,8 @@ void	ctrl_c_disable(void)
 void	ctrl_4_manage(int sig)
 {
 	(void)sig;
+	if (signal_control == 1)
+		write(STDERR_FILENO, "^\\Quit: 3\n", 10);
 	return ;
 }
 

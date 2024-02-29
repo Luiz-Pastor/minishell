@@ -6,9 +6,9 @@ static char	*expand_manage(t_msh *msh, t_quotes *quotes, int *i)
 
 	if (msh->input[*i] == '$')
 		(*i)++;
+	aux = *i;
 	if (quotes->flag == 1 && quotes->type == '\'')
 		return (msh->input);
-	aux = *i;
 	if (msh->input[*i] == '?')
 		return (last_state(msh, i));
 	if (ft_correct_var_char(msh->input[*i], FIRST_LETTER) == 1)
@@ -16,7 +16,6 @@ static char	*expand_manage(t_msh *msh, t_quotes *quotes, int *i)
 		(*i)++;
 		msh->input = expand_var(msh, i, aux);
 	}
-	*i = aux - 1;
 	return (msh->input);
 }
 
