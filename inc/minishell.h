@@ -17,7 +17,7 @@
 # define ERROR_FORK_MSG "Fork"
 # define ERROR_PIPE_MSG "Pipe"
 
-int		signal_control;
+extern int signal_control;
 
 /*
  * brief	Bool type

@@ -41,10 +41,8 @@ static char	*built_aux(t_cmd *cmds, char **path_list)
 
 static char	*build_path(t_cmd *cmds, char **path_list)
 {
-	int		i;
 	char	*path;
 
-	i = 0;
 	if (path_list == NULL || is_full_path(cmds) == 1)
 	{
 		path = ft_strdup(cmds->main);
