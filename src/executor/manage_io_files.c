@@ -84,6 +84,7 @@ int	open_outfile(t_io_file *outfiles, int count, int pipe)
 
 	error = 0;
 	i = 0;
+	fd = -1;
 	while (i < count)
 	{
 		if (outfiles[i].type == TRUNC)

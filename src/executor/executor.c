@@ -46,9 +46,10 @@ static void	two_or_more_cmds(t_msh *msh)
 		close(new[1]);
 		fd[0] = new[0];
 		counter++;
+		if (counter >= (msh->cmds_count - 1))
+			close(new[0]);
 	}
-	last_child(msh, fd, &msh->cmds[counter]);
-	close(new[0]);
+	last_child(msh, fd, &msh->cmds[msh->cmds_count - 1]);
 	wait_childs(msh);
 }
 

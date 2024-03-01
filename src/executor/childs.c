@@ -45,6 +45,7 @@ void	mid_child(t_msh *msh, int *fd, int *new, t_cmd *cmds)
 	msh->final_pid = fork();
 	if (msh->final_pid == 0)
 	{
+		printf("uwu\n");
 		close(fd[1]);
 		close(new[0]);
 		fd_in = open_infile(cmds->infiles, cmds->infiles_count, fd[0]);
