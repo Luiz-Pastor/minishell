@@ -41,6 +41,7 @@ void	*check_infile(int start, int *index, t_cmd *cmd, t_msh *msh)
 	{
 		tp = HERE_DOC;
 		start++;
+		msh->here_doc_flag = 2;
 	}
 	if (!input[*index][start] && !input[*index + 1])
 	{

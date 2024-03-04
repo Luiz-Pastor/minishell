@@ -84,6 +84,8 @@ struct s_msh
 	int		last_out;
 	int		executing;
 
+	/* Flag para señales herdoc */
+	int		here_doc_flag;
 
 	/* stdin , stdout */
 	int		cpy_stdin;
@@ -229,6 +231,7 @@ void	last_child(t_msh *msh, int *fd, t_cmd *cmds);
 /* signals */
 void	signals_manage(t_msh *msh);
 void	ctrl_c_disable(void);
+void	signals_here_doc();
 
 /* Envp utils */
 char	**mod_envp_shlvl(char **envp);

@@ -31,6 +31,7 @@ static void	child(t_cmd cmds, t_msh *msh)
 	int		fd_out;
 	char	*path;
 
+	signals_here_doc();
 	fd_in = open_infile(cmds.infiles, cmds.infiles_count, -1);
 	if (fd_in < 0)
 		exit (1);
