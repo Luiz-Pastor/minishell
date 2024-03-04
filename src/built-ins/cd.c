@@ -56,24 +56,26 @@ static void	update_env(t_msh *msh, char *old, char *new)
 			exit_malloc();
 	}
 	else
-		change_envp(msh->envp, "OLDPWD", new);
+		change_envp(msh->envp, "OLDPWD", old);
 }
 
 void	bd_cd(t_msh *msh, int nb_comand)
 {
-	char	*new_path;
+	char	*target;
 	char	*old_path;
+	char	*new_path;
 	t_cmd	*current;
 
 	current = &msh->cmds[nb_comand];
-	new_path = get_target(msh, current);
-	if (!new_path)
+	target = get_target(msh, current);
+	if (!target)
 		return ;
 	old_path = getcwd(NULL, 0);
-	if (chdir(new_path) < 0)
-		return (error_cd(msh, old_path, new_path, NULL));
+	if (chdir(target) < 0)
+		return (error_cd(msh, old_path, target, NULL));
+	new_path = getcwd(NULL, 0);
 	msh->last_out = 0;
 	update_env(msh, old_path, new_path);
-	ft_mfree(2, &old_path, &new_path);
+	ft_mfree(3, &old_path, &new_path, &target);
 	return ;
 }
