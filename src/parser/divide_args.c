@@ -21,13 +21,11 @@ char	*add_ch(char *str, char ch)
 	return (new);
 }
 
-char	*get_part2(char *input, int *index)
+char	*get_part(char *input, int *index)
 {
 	char	in_quot;
-	int		start;
 	char	*new;
 
-	start = *index;
 	in_quot = 0;
 	new = NULL;
 	while (input[*index])
@@ -60,7 +58,7 @@ char	**divide_cmd_args(char *input, int limit)
 	{
 		while (is_space(input[index]))
 			index++;
-		new = get_part2(input, &index);
+		new = get_part(input, &index);
 		if (!new)
 			exit_malloc();
 		res = add_part(new, res);
