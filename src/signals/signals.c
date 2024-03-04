@@ -23,7 +23,10 @@ void	ctrl_4_manage(int sig)
 	if (signal_control == 2)
 		return ;
 	else if (signal_control == 1)
+	{
 		write(STDERR_FILENO, "^\\Quit: 3\n", 10);
+		signal_control = 131;
+	}
 	return ;
 }
 

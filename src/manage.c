@@ -110,8 +110,13 @@ int	manage(t_msh *data)
 		else
 			signal_control = 1;
 		executor(data);
+
+		if (signal_control == 131)
+			data->last_out = 131;
+
 		signal_control = 0;
 		data->executing = 0;
+
 		free_cmds(data);
 	}
 	return (0);
