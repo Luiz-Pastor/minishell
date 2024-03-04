@@ -73,9 +73,10 @@ void	bd_cd(t_msh *msh, int nb_comand)
 	old_path = getcwd(NULL, 0);
 	if (chdir(target) < 0)
 		return (error_cd(msh, old_path, target, NULL));
-	new_path = getcwd(NULL, 0);
 	msh->last_out = 0;
-	update_env(msh, old_path, new_path);
+	new_path = getcwd(NULL, 0);
+	if (ft_strcmp(old_path, new_path))
+		update_env(msh, old_path, new_path);
 	ft_mfree(3, &old_path, &new_path, &target);
 	return ;
 }
