@@ -15,13 +15,7 @@ static int	select_file(int input, int pipe, int predetermined, int count)
 	return (-1);
 }
 
-static void	auxiliar_error_open(int *error, char *msg)
-{
-	perror(msg);
-	*error = 1;
-}
-
-static int aux_open_infile(t_io_file infile, int *error)
+static int	aux_open_infile(t_io_file infile, int i, int count, int *error)
 {
 	int		fd;
 	char	*name;
@@ -42,26 +36,26 @@ static int aux_open_infile(t_io_file infile, int *error)
 			auxiliar_error_open(error, name);
 		free(name);
 	}
+	if (i != count - 1)
+	{
+		close(fd);
+		fd = -1;
+	}
 	return (fd);
 }
 
 int	open_infile(t_io_file *infiles, int count, int pipe)
 {
-	int		i;
-	int		fd;
-	int		error;
+	int	i;
+	int	fd;
+	int	error;
 
 	error = 0;
 	i = 0;
 	fd = -1;
 	while (i < count)
 	{
-		fd = aux_open_infile(infiles[i], &error);
-		if (i != count - 1)
-		{
-			close(fd);
-			fd = -1;
-		}
+		fd = aux_open_infile(infiles[i], i, count, &error);
 		i++;
 	}
 	if (error == 1)
@@ -76,6 +70,29 @@ int	open_infile(t_io_file *infiles, int count, int pipe)
 	return (select_file(fd, pipe, STDIN_FILENO, count));
 }
 
+static int	aux_open_outfile(t_io_file *outfiles, int i, int count, int *error)
+{
+	int	fd;
+
+	fd = -1;
+	if (outfiles[i].type == TRUNC)
+		fd = open(outfiles[i].name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else
+		fd = open(outfiles[i].name, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	if (fd < 0)
+	{
+		perror(outfiles[i].name);
+		*error = -1;
+	}
+	if (i != count - 1)
+	{
+		close(fd);
+		fd = -1;
+	}
+	i++;
+	return (fd);
+}
+
 int	open_outfile(t_io_file *outfiles, int count, int pipe)
 {
 	int	i;
@@ -87,20 +104,7 @@ int	open_outfile(t_io_file *outfiles, int count, int pipe)
 	fd = -1;
 	while (i < count)
 	{
-		if (outfiles[i].type == TRUNC)
-			fd = open(outfiles[i].name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		else
-			fd = open(outfiles[i].name, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		if (fd < 0)
-		{
-			perror(outfiles[i].name);
-			error = -1;
-		}
-		if (i != count - 1)
-		{
-			close(fd);
-			fd = -1;
-		}
+		fd = aux_open_outfile(outfiles, i, count, &error);
 		i++;
 	}
 	if (error == 1)

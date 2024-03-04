@@ -9,7 +9,7 @@ CLEAR	=	\033[0m
 NAME =minishell
 
 CC = gcc
-CFLAGS =-Wall -Werror -Wextra -g3
+CFLAGS =-Wall -Werror -Wextra 
 
 # librarys
 LIB = libft/libft.a
@@ -48,10 +48,12 @@ PARSER =	expand.c  \
 			check_cmd_arg.c	\
 			add_elements.c
 
-SIGNALS =	signals.c
+SIGNALS =	signals.c \
+			signals_heredoc.c
 
 EXECUTOR =	executor.c		\
 			exe_one_cmd.c	\
+			aux_manage_files.c	\
 			manage_io_files.c	\
 			here_doc.c \
 			path.c \

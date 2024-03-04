@@ -20,12 +20,12 @@ void	ctrl_c_disable(void)
 void	ctrl_4_manage(int sig)
 {
 	(void)sig;
-	if (signal_control == 2)
+	if (g_signal_control == 2)
 		return ;
-	else if (signal_control == 1)
+	else if (g_signal_control == 1)
 	{
 		write(STDERR_FILENO, "^\\Quit: 3\n", 10);
-		signal_control = 131;
+		g_signal_control = 131;
 	}
 	return ;
 }
@@ -33,14 +33,14 @@ void	ctrl_4_manage(int sig)
 void	ctrl_c_manage(int sig)
 {
 	(void)sig;
-	if (signal_control == 0)
+	if (g_signal_control == 0)
 	{
 		write(STDERR_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (signal_control == 2)
+	else if (g_signal_control == 2)
 		return ;
 	else
 	{
@@ -53,13 +53,4 @@ void	signals_manage(t_msh *msh)
 	(void)msh;
 	signal(SIGINT, ctrl_c_manage);
 	signal(SIGQUIT, ctrl_4_manage);
-}
-void	ctrl_c_here(int sig)
-{
-	(void)sig;
-	exit(0);
-}
-void	signals_here_doc()
-{
-	signal(SIGINT, ctrl_c_here);
 }
