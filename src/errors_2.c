@@ -1,8 +1,16 @@
 #include "../inc/minishell.h"
 
-void	exit_execve(t_msh *msh, t_cmd *cmds)
+void	exit_execve(t_cmd *cmds)
 {
-	dup2(msh->cpy_stdout, msh->cpy_last_out);
-	printf("uwu: %s: command not found\n", cmds->main);
-	exit (127);
+	ft_putstr_fd("uwu: ", STDERR_FILENO);
+	ft_putstr_fd(cmds->main, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	exit(127);
+}
+
+void	error_export(char *arg)
+{
+	ft_putstr_fd("uwu: export: '", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }

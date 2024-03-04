@@ -28,9 +28,9 @@ void	wait_childs(t_msh *msh)
 
 static void	two_or_more_cmds(t_msh *msh)
 {
-	int		new[2];
-	int		fd[2];
-	int		counter;
+	int	new[2];
+	int	fd[2];
+	int	counter;
 
 	if (pipe(fd) < 0)
 		exit_fork_pipe(PIPE);
@@ -46,10 +46,9 @@ static void	two_or_more_cmds(t_msh *msh)
 		close(new[1]);
 		fd[0] = new[0];
 		counter++;
-		if (counter >= (msh->cmds_count - 1))
-			close(new[0]);
 	}
 	last_child(msh, fd, &msh->cmds[msh->cmds_count - 1]);
+	close(fd[0]);
 	wait_childs(msh);
 }
 

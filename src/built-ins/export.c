@@ -44,6 +44,8 @@ static void	do_ok_var(t_msh *msh, int nb_comand, int i)
 		msh->envp = replace_content(msh, variable, content);
 	else
 		msh->envp = add_to_envp(msh, variable, content);
+	free(variable);
+	free(content);
 }
 
 static void	manage_export(t_msh *msh, int nb_comand, int i)
@@ -55,18 +57,15 @@ static void	manage_export(t_msh *msh, int nb_comand, int i)
 		else
 		{
 			msh->last_out = 1;
-			printf("uwu: export: '%s': not a valid identifier\n",
-				msh->cmds[nb_comand].arguments[i]);
+			error_export(msh->cmds[nb_comand].arguments[i]);
 			break ;
 		}
 		i++;
 	}
 }
-void	print_data(t_msh *data);
 
 void	bd_export(t_msh *msh, int nb_comand)
 {
-	print_data(msh);
 	msh->last_out = 0;
 	if (!ft_strcmp(msh->cmds[nb_comand].main, "export")
 		&& msh->cmds[nb_comand].arguments == NULL)

@@ -28,9 +28,11 @@ void	check_error(t_msh *msh)
 
 	error = msh->error;
 	if (error == SYNTAX)
-		printf("uwu: syntax error near unexpected token\n");
+		ft_putstr_fd("uwu: syntax error near unexpected token\n",
+			STDERR_FILENO);
 	else if (error == CTR_D)
-		printf("uwu: syntax error: unexpected end of file\n");
+		ft_putstr_fd("uwu: syntax error: unexpected end of file\n",
+			STDERR_FILENO);
 	msh->error = NONE;
 }
 
