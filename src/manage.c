@@ -105,7 +105,10 @@ int	manage(t_msh *data)
 			continue ;
 		}
 		data->executing = 1;
-		signal_control = 1;
+		if (data->here_doc_flag == 2)
+			signal_control = 2;
+		else
+			signal_control = 1;
 		executor(data);
 		signal_control = 0;
 		data->executing = 0;

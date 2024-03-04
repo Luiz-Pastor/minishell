@@ -20,7 +20,9 @@ void	ctrl_c_disable(void)
 void	ctrl_4_manage(int sig)
 {
 	(void)sig;
-	if (signal_control == 1)
+	if (signal_control == 2)
+		return ;
+	else if (signal_control == 1)
 		write(STDERR_FILENO, "^\\Quit: 3\n", 10);
 	return ;
 }
@@ -35,6 +37,8 @@ void	ctrl_c_manage(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+	else if (signal_control == 2)
+		return ;
 	else
 	{
 		write(STDERR_FILENO, "\n", 1);
@@ -46,4 +50,13 @@ void	signals_manage(t_msh *msh)
 	(void)msh;
 	signal(SIGINT, ctrl_c_manage);
 	signal(SIGQUIT, ctrl_4_manage);
+}
+void	ctrl_c_here(int sig)
+{
+	(void)sig;
+	exit(0);
+}
+void	signals_here_doc()
+{
+	signal(SIGINT, ctrl_c_here);
 }
