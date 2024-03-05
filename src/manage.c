@@ -72,7 +72,10 @@ int	manage(t_msh *data)
 	{
 		manage_readline(data);
 		if (is_input_empty(data->input))
+		{
+			free(data->input);
 			continue ;
+		}
 		data->input = check_quots(data);
 		if (!data->input)
 		{

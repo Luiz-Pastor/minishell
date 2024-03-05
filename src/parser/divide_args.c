@@ -59,8 +59,8 @@ char	**divide_cmd_args(char *input, int limit)
 		while (is_space(input[index]))
 			index++;
 		new = get_part(input, &index);
-		if (!new)
-			exit_malloc();
+		// if (!new)
+		// 	exit_malloc();
 		res = add_part(new, res);
 		if (!res)
 			return (free_parts(new, NULL));
