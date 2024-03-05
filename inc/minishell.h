@@ -186,6 +186,7 @@ void						exit_malloc(void);
 void						exit_fork_pipe(t_error error);
 void						exit_execve(t_cmd *cmds);
 void						error_export(char *arg);
+void						error_env(char *arg);
 
 /* Expand */
 # define FIRST_LETTER 1
@@ -208,7 +209,7 @@ t_bool						check_if_var_exist(t_msh *msh, char *variable);
 char						*get_variable(char *arguments);
 char						*get_content(char *arguments);
 /* */
-void						bd_env(t_msh *msh);
+void						bd_env(t_msh *msh, int nb_comand);
 void						bd_echo(t_msh *msh, int nb_comand);
 void						*bd_pwd(t_msh *msh);
 void						bd_cd(t_msh *msh, int nb_comand);
