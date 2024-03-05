@@ -14,3 +14,10 @@ void	error_export(char *arg)
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }
+
+void	error_env(char *arg)
+{
+	ft_putstr_fd("uwu: ", STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+}

@@ -9,7 +9,7 @@ CLEAR	=	\033[0m
 NAME =minishell
 
 CC = gcc
-CFLAGS =-Wall -Werror -Wextra 
+CFLAGS =-Wall -Werror -Wextra -fsanitize=address -g3
 
 # librarys
 LIB = libft/libft.a
@@ -73,7 +73,7 @@ $(NAME): $(OBJ)
 	$(MAKE) -sC ./libft
 	@echo "$(GREEN)librarys compiled correctly\n$(CLEAR)"
 	@echo "$(PINK)Compiling the minishell.$(CLEAR)"
-	$(CC) $(OBJ) $(LIB) -o $(NAME) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline
+	$(CC) $(OBJ) $(LIB) -o $(NAME) -L/Users/$(USER)/.brew/opt/readline/lib -lreadline -fsanitize=address -g3
 	@echo "$(GREEN)[OK]\n$(CLEAR)$(GREEN)Success!$(CLEAR)\n"
 
 $(OBJ_DIR)%.o: %.c
