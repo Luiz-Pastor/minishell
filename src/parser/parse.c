@@ -38,6 +38,7 @@ void	*analize_input(t_msh *msh, int index)
 	i = 0;
 	while (cmd->input[i])
 	{
+		printf("Mirando: [%s]\n", cmd->input[i]);
 		if (cmd->input[i][0] == '<')
 			check_infile(1, &i, cmd, msh);
 		else if (cmd->input[i][0] == '>')
@@ -111,7 +112,15 @@ void	*parse(t_msh *msh)
 	index = 0;
 	while (cmds[index])
 	{
+		printf("Dividiendo: [%s]\n", cmds[index]);
 		msh->cmds[index].input = divide_cmd_args(cmds[index], WITH_QUOT);
+		printf("Hola2\n");
+
+		int i = -1;
+		while (msh->cmds[index].input[++i])
+			printf("\t--> {%s}\n", msh->cmds[index].input[i]);
+
+
 		if (!analize_input(msh, index) || !msh->cmds[index].main)
 		{
 			set_error(SYNTAX, msh);

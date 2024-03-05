@@ -63,6 +63,8 @@ int	open_infile(t_io_file *infiles, int count, int pipe)
 		if (fd > 0)
 		{
 			close(fd);
+			if (pipe > 0)
+				close(pipe);
 			fd = -1;
 		}
 		return (-1);
@@ -112,6 +114,8 @@ int	open_outfile(t_io_file *outfiles, int count, int pipe)
 		if (fd > 0)
 		{
 			close(fd);
+			if (pipe > 0)
+				close(pipe);
 			fd = -1;
 		}
 		return (-1);
