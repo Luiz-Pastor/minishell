@@ -9,6 +9,8 @@ static int	check_flag(char *argument)
 		i++;
 	else
 		return (0);
+	if (argument[i] != 'n')
+		return(0);
 	while (argument[i] && argument[i] != '\0')
 	{
 		if (argument[i] != 'n')
