@@ -4,7 +4,7 @@ static char	*expand_manage(t_msh *msh, t_quotes *quotes, int *i)
 {
 	int	aux;
 
-	if (msh->input[*i] == '$')
+	if (msh->input[*i] == '$' && msh->input[*i + 1])
 		(*i)++;
 	aux = *i;
 	if (quotes->flag == 1 && quotes->type == '\'')
@@ -45,10 +45,7 @@ char	*expand(t_msh *data)
 	{
 		if (data->input[i] == '\'' || (data->input[i] == '\"' && (i == 0
 					|| data->input[i - 1] != '\\')))
-		{
 			manage_quotes(&quotes, data->input[i]);
-			i++;
-		}
 		if (data->input[i] == '$')
 		{
 			data->input = expand_manage(data, &quotes, &i);
