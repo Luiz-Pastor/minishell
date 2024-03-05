@@ -55,7 +55,7 @@ char	**divide_cmd_args(char *input, int limit)
 	{
 		while (is_space(input[index]))
 			index++;
-		new = get_part(input, &index);	
+		new = get_part(input, &index);
 		res = add_part(new, res);
 		if (input[index])
 			index++;

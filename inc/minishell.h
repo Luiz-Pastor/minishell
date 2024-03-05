@@ -105,7 +105,7 @@ struct						s_cmd
 {
 	/* number of comd */
 	int						nb;
-	
+
 	/* Input divisido por bloques */
 	char					**input;
 
@@ -143,6 +143,7 @@ typedef struct s_quotes
 /* Init struct msh */
 t_msh						*init_msh(char *envp[]);
 void						*free_msh(t_msh *data);
+void						free_cmds(t_msh *data);
 
 /* Bucle */
 int							manage(t_msh *data);
@@ -183,7 +184,7 @@ void						*check_outfile(int start, int *index, t_cmd *cmd,
 
 /* Errores */
 void						*set_error(t_error error, t_msh *msh);
-void						check_error(t_msh *msh);
+void						check_error(t_msh *msh, int flag);
 int							is_error(t_msh *msh);
 void						exit_malloc(void);
 void						exit_fork_pipe(t_error error);

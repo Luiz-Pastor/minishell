@@ -22,7 +22,7 @@ void	exit_fork_pipe(t_error error)
 	exit(1);
 }
 
-void	check_error(t_msh *msh)
+void	check_error(t_msh *msh, int flag)
 {
 	t_error	error;
 
@@ -34,6 +34,8 @@ void	check_error(t_msh *msh)
 		ft_putstr_fd("uwu: syntax error: unexpected end of file\n",
 			STDERR_FILENO);
 	msh->error = NONE;
+	if (flag)
+		free_cmds(msh);
 }
 
 int	is_error(t_msh *msh)

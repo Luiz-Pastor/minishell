@@ -65,10 +65,7 @@ void	export_alone(t_msh *msh)
 		j = 0;
 		printf("declare -x ");
 		while (order_envp[i][j] != '=' && order_envp[i][j] != '\0')
-		{
-			printf("%c", order_envp[i][j]);
-			j++;
-		}
+			printf("%c", order_envp[i][j++]);
 		printf("%c\"", order_envp[i][j++]);
 		while (order_envp[i][j] != '\0')
 		{

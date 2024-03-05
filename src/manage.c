@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-static void	free_cmds(t_msh *data)
+void	free_cmds(t_msh *data)
 {
 	int	index;
 	int	j;
@@ -87,14 +87,13 @@ int	manage(t_msh *data)
 		data->input = check_quots(data);
 		if (!data->input)
 		{
-			check_error(data);
+			check_error(data, 0);
 			continue ;
 		}
 		add_history(data->input);
 		if (!parse(data))
 		{
-			free_cmds(data);
-			check_error(data);
+			check_error(data, 1);
 			continue ;
 		}
 		manage_exec(data);

@@ -21,7 +21,6 @@ static void	child_aux(t_msh *msh, t_cmd *cmds, int fd_in, int fd_out)
 		exit_execve(cmds);
 	}
 	exit(msh->last_out);
-	
 }
 
 void	first_child(t_msh *msh, int *fd, t_cmd *cmds)
