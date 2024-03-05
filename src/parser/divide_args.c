@@ -32,10 +32,7 @@ char	*get_part(char *input, int *index)
 	{
 		if (input[*index] == ' ' && !in_quot)
 			break ;
-		if (!is_quot(input, *index))
-			new = add_ch(new, input[*index]);
-		else if (is_quot(input, *index) && in_quot && input[*index] != in_quot)
-			new = add_ch(new, input[*index]);
+		new = add_ch(new, input[*index]);
 		if (is_quot(input, *index) && !in_quot)
 			in_quot = input[*index];
 		else if (is_quot(input, *index) && in_quot == input[*index])
@@ -58,12 +55,8 @@ char	**divide_cmd_args(char *input, int limit)
 	{
 		while (is_space(input[index]))
 			index++;
-		new = get_part(input, &index);
-		// if (!new)
-		// 	exit_malloc();
+		new = get_part(input, &index);	
 		res = add_part(new, res);
-		if (!res)
-			return (free_parts(new, NULL));
 		if (input[index])
 			index++;
 	}
