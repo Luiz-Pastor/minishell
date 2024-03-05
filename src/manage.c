@@ -48,6 +48,10 @@ static void	manage_exec(t_msh *data)
 	executor(data);
 	if (g_signal_control == 131)
 		data->last_out = 131;
+	else if (g_signal_control == 130)
+		data->last_out = 130;
+	else if (g_signal_control == 555)
+		data->last_out = 1;
 	g_signal_control = 0;
 	data->executing = 0;
 	free_cmds(data);
