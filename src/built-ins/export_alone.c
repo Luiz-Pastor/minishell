@@ -77,4 +77,5 @@ void	export_alone(t_msh *msh)
 		}
 		printf("\"\n");
 	}
+	free(order_envp);
 }
