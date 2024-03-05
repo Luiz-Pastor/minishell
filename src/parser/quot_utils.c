@@ -6,5 +6,5 @@ int	is_quot(char *input, int index)
 		return (0);
 	if (input[index] == '\'')
 		return (1);
-	return (input == 0 || input[index - 1] != '\\');
+	return (index == 0 || input[index - 1] != '\\');
 }

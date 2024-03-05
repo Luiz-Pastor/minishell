@@ -103,6 +103,9 @@ struct						s_msh
 
 struct						s_cmd
 {
+	/* number of comd */
+	int						nb;
+	
 	/* Input divisido por bloques */
 	char					**input;
 
