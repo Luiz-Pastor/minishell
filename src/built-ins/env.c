@@ -4,7 +4,7 @@ void	bd_env(t_msh *msh, int nb_comand)
 {
 	int	index;
 
-	if (msh->cmds[nb_comand].arguments[0] != NULL)
+	if (msh->cmds[nb_comand].arguments != NULL)
 	{
 		error_env(msh->cmds[nb_comand].arguments[0]);
 		return ;
