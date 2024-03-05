@@ -9,16 +9,21 @@ static void	free_cmds(t_msh *data)
 	while (++index < data->cmds_count)
 	{
 		free_parts(data->cmds[index].main, data->cmds[index].input);
+		data->cmds[index].main = NULL;
+		data->cmds[index].input = NULL;
 		free_parts(NULL, data->cmds[index].arguments);
+		data->cmds[index].arguments = NULL;
 		j = -1;
 		while (++j < data->cmds[index].infiles_count)
-			free(data->cmds[index].infiles[j].name);
+			ft_mfree(1, &data->cmds[index].infiles[j].name);
 		j = -1;
 		while (++j < data->cmds[index].outfiles_count)
-			free(data->cmds[index].outfiles[j].name);
+			ft_mfree(1, &data->cmds[index].outfiles[j].name);
 		ft_mfree(2, &data->cmds[index].infiles, &data->cmds[index].outfiles);
 		free(data->cmds[index].complete_cmd);
+		data->cmds[index].complete_cmd = NULL;
 	}
+	printf("Libero\n");
 	ft_mfree(2, &data->input, &data->cmds);
 }
 
@@ -85,6 +90,7 @@ int	manage(t_msh *data)
 		add_history(data->input);
 		if (!parse(data))
 		{
+			free_cmds(data);
 			check_error(data);
 			continue ;
 		}
