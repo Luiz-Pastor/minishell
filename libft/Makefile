@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abarrio- <abarrio-@student.42.fr>          +#+  +:+       +#+         #
+#    By: lpastor- <lpastor-@student.42madrid>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/12 11:55:51 by abarrio-          #+#    #+#              #
-#    Updated: 2024/03/05 09:26:14 by abarrio-         ###   ########.fr        #
+#    Updated: 2024/03/05 09:44:41 by lpastor-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ NAME = libft.a
 # COMPILER OPTIONS
 AR = ar -crs
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS = -Wall -Werror -Wextra -g3
 #CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf
 
