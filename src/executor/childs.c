@@ -70,7 +70,6 @@ void	last_child(t_msh *msh, int *fd, t_cmd *cmds)
 	if (msh->final_pid == 0)
 	{
 		signals_here_doc();
-		close(fd[1]);
 		fd_in = open_infile(cmds->infiles, cmds->infiles_count, fd[0]);
 		if (fd_in < 0)
 			exit(1);
