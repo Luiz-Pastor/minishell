@@ -90,6 +90,7 @@ int	manage(t_msh *data)
 		add_history(data->input);
 		if (!parse(data))
 		{
+			free_cmds(data);
 			check_error(data);
 			continue ;
 		}
