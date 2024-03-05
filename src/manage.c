@@ -23,7 +23,6 @@ static void	free_cmds(t_msh *data)
 		free(data->cmds[index].complete_cmd);
 		data->cmds[index].complete_cmd = NULL;
 	}
-	printf("Libero\n");
 	ft_mfree(2, &data->input, &data->cmds);
 }
 
