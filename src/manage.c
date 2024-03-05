@@ -1,45 +1,5 @@
 #include "../inc/minishell.h"
 
-void	print_data(t_msh *data)
-{
-	printf("####################################################################\n\n");
-	printf("\nNumero de comandos: %d\n", data->cmds_count);
-	int index = 0;
-	while (index < data->cmds_count)
-	{
-		int j;
-		printf("--> MAIN: [%s]\n", data->cmds[index].main);
-
-		j = 0;
-		printf("\tArguments:\n");
-		while (data->cmds[index].arguments && data->cmds[index].arguments[j])
-			printf("\t\t· [%s]\n", data->cmds[index].arguments[j++]);
-
-		j = 0;
-		printf("\tMain + Arguments:\n");
-		while (data->cmds[index].complete_cmd && data->cmds[index].complete_cmd[j])
-			printf("\t\t· [%s]\n", data->cmds[index].complete_cmd[j++]);
-
-		j = 0;
-		printf("\tInfiles (%d):\n", data->cmds[index].infiles_count);
-		while (j < data->cmds[index].infiles_count)
-		{
-			printf("\t\t-> {[%s], %d}\n", data->cmds[index].infiles[j].name, data->cmds[index].infiles[j].type);
-			j++;
-		}
-		j = 0;
-		printf("\tOutfiles (%d):\n", data->cmds[index].outfiles_count);
-		while (j < data->cmds[index].outfiles_count)
-		{
-			printf("\t\t-> {[%s], %d}\n", data->cmds[index].outfiles[j].name, data->cmds[index].outfiles[j].type);
-			j++;
-		}
-		printf("\n==============================================\n\n");
-		index++;
-	}
-	printf("####################################################################\n\n");
-}
-
 static void	free_cmds(t_msh *data)
 {
 	int	index;
@@ -128,9 +88,6 @@ int	manage(t_msh *data)
 			check_error(data);
 			continue ;
 		}
-
-		print_data(data);
-
 		manage_exec(data);
 	}
 	return (0);
