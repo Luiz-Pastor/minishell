@@ -3,7 +3,7 @@
 static void	ctrl_c_here(int sig)
 {
 	(void)sig;
-	exit(0);
+	exit(1);
 }
 
 void	signals_here_doc(void)

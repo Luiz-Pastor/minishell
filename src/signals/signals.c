@@ -44,6 +44,7 @@ void	ctrl_c_manage(int sig)
 		return ;
 	else
 	{
+		g_signal_control = 130;
 		write(STDERR_FILENO, "\n", 1);
 	}
 }

@@ -13,8 +13,15 @@ static void	child_aux(t_msh *msh, t_cmd *cmds, int fd_in, int fd_out)
 		close(fd_in);
 	if (fd_out != 1 && fd_out != 2)
 		close(fd_out);
-	execve(path, cmds->complete_cmd, msh->envp);
-	exit_execve(cmds);
+	if (is_builtin(cmds->main) == 1)
+		built_ins(msh, cmds->nb);
+	else
+	{
+		execve(path, cmds->complete_cmd, msh->envp);
+		exit_execve(cmds);
+	}
+	exit(msh->last_out);
+	
 }
 
 void	first_child(t_msh *msh, int *fd, t_cmd *cmds)
