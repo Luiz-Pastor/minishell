@@ -45,6 +45,8 @@ Pasos que seguimos:
 			- ~ cat `>> "outfile"`
 			- ~ cat `>>"outfile"` |--| ~ `>>"outfile"` cat
 
+Por ejemplo, para el comando `<<del < . ls >"1" -a >2 -l >>3`, se ejecutará el comando `ls`, con argumentos `-a -l`, con infiles, uno de here_doc con delimitador `del`, y otro de archivo normal `.`, y outfiles, dos de sobreescritura, `1` y `2`, y uno de adición, `3`.
+
 Para guardar todo, usamos arrays en vez de listas enlazadas, por o que siempre hemos de llevar la cuenta del tamaño de la array para evitar seg faults.
 
 Una vez terminado la parte del parseo, la información debería de estar completamente guardada y estructurada.
