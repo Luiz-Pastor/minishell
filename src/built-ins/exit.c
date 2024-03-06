@@ -12,7 +12,7 @@ int	check_if_nb(t_msh *msh, int nb_comand)
 			printf("msh: exit: %s: numeric argument required\n", \
 				msh->cmds[nb_comand].arguments[0]);
 			msh->last_out = 255;
-			return (1);
+			exit (255);
 		}
 		i++;
 	}

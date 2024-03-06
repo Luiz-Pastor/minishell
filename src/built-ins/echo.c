@@ -11,7 +11,7 @@ static int	check_flag(char *argument)
 		return (0);
 	if (argument[i] != 'n')
 		return(0);
-	while (argument[i] && argument[i] != '\0')
+	while (argument[i] != '\0')
 	{
 		if (argument[i] != 'n')
 			return (0);
@@ -73,5 +73,6 @@ void	bd_echo(t_msh *msh, int nb_comand)
 		else
 			echo_no_flag(msh->cmds[nb_comand].arguments, i);
 	}
+	msh->last_out = 0;
 	return ;
 }
