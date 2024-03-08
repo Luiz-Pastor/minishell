@@ -5,9 +5,26 @@ static void	error_cd(t_msh *msh, char *old, char *new, char *msg)
 	msh->last_out = 1;
 	ft_mfree(2, &old, &new);
 	if (!msg)
-		perror("msh: cd");
+		perror("uwu: cd");
 	else
 		printf("%s\n", msg);
+}
+
+static char	*get_prev(t_msh *msh)
+{
+	int		index;
+	char	*target;
+
+	index = search_envp(msh->envp, "OLDPWD");
+	if (index == -1)
+	{
+		error_cd(msh, NULL, NULL, "uwu: cd: OLDPWD not set");
+		return (NULL);
+	}
+	target = ft_strdup(&msh->envp[index][7]);
+	if (!target)
+		exit_malloc();
+	return (target);
 }
 
 static char	*get_target(t_msh *msh, t_cmd *cmd)
@@ -15,8 +32,10 @@ static char	*get_target(t_msh *msh, t_cmd *cmd)
 	int		index;
 	char	*res;
 
-	if (matrix_length(cmd->arguments))
+	if (matrix_length(cmd->arguments) && ft_strcmp(cmd->arguments[0], "~"))
 	{
+		if (!ft_strcmp(cmd->arguments[0], "-"))
+			return (get_prev(msh));
 		res = ft_strdup(cmd->arguments[0]);
 		if (!res)
 			exit_malloc();
@@ -25,7 +44,7 @@ static char	*get_target(t_msh *msh, t_cmd *cmd)
 	index = search_envp(msh->envp, "HOME");
 	if (index < 0)
 	{
-		error_cd(msh, NULL, NULL, "msh: cd: HOME not set");
+		error_cd(msh, NULL, NULL, "uwu: cd: HOME not set");
 		return (NULL);
 	}
 	res = ft_strdup(&msh->envp[index][5]);
@@ -51,7 +70,7 @@ static void	update_env(t_msh *msh, char *old, char *new)
 	index = search_envp(msh->envp, "OLDPWD");
 	if (index == -1)
 	{
-		msh->envp = insert_envp(msh->envp, old);
+		msh->envp = insert_envp(msh->envp, ft_strjoin("OLDPWD=", old));
 		if (!msh->envp)
 			exit_malloc();
 	}
@@ -67,6 +86,11 @@ void	bd_cd(t_msh *msh, int nb_comand)
 	t_cmd	*current;
 
 	current = &msh->cmds[nb_comand];
+	if (current->arguments && !current->arguments[0])
+	{
+		msh->last_out = 0;
+		return ;
+	}
 	target = get_target(msh, current);
 	if (!target)
 		return ;
