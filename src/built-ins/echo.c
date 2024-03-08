@@ -10,7 +10,7 @@ static int	check_flag(char *argument)
 	else
 		return (0);
 	if (argument[i] != 'n')
-		return(0);
+		return (0);
 	while (argument[i] != '\0')
 	{
 		if (argument[i] != 'n')
