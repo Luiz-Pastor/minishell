@@ -34,7 +34,7 @@ static char	**small_envp(void)
 	char	*path;
 	char	**new_env;
 
-	new_env = malloc(4 * sizeof(char *));
+	new_env = ft_calloc(3, sizeof(char *));
 	if (!new_env)
 		exit_malloc();
 	path = getcwd(NULL, 0);
@@ -42,9 +42,6 @@ static char	**small_envp(void)
 	free(path);
 	if (!new_env[0])
 		return (clean_env(new_env, 0));
-	new_env[1] = ft_strdup("SHLVL=1");
-	if (!new_env[1])
-		return (clean_env(new_env, 1));
 	new_env[2] = ft_strdup("_=/usr/bin/env");
 	if (!new_env[2])
 		return (clean_env(new_env, 2));
