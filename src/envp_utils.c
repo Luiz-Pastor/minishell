@@ -5,10 +5,16 @@ char	**mod_envp_shlvl(char **envp)
 	int		i;
 	int		nb;
 	char	*aux;
+	char	*shlvl;
 
 	i = search_envp(envp, "SHLVL");
 	if (i == -1)
-		return (NULL);
+	{
+		shlvl = ft_strjoin("SHLVL=", "1");
+		if (!shlvl)
+			exit_malloc();
+		return (insert_envp(envp, shlvl));
+	}
 	nb = ft_atoi(&envp[i][6]);
 	free(envp[i]);
 	nb += 1;
