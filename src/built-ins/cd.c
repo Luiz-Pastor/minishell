@@ -24,6 +24,7 @@ static char	*get_prev(t_msh *msh)
 	target = ft_strdup(&msh->envp[index][7]);
 	if (!target)
 		exit_malloc();
+	printf("%s\n", target);
 	return (target);
 }
 
