@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abarrio- <abarrio-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:38:09 by abarrio-          #+#    #+#             */
+/*   Updated: 2024/03/21 13:00:45 by abarrio-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	check_if_nb(t_msh *msh, int nb_comand)
@@ -7,7 +19,7 @@ int	check_if_nb(t_msh *msh, int nb_comand)
 	i = 0;
 	while (msh->cmds[nb_comand].arguments[0][i])
 	{
-		if (!ft_isdigit(msh->cmds->arguments[0][i]))
+		if (!ft_isdigit(msh->cmds[nb_comand].arguments[0][i]))
 		{
 			printf("msh: exit: %s: numeric argument required\n", \
 				msh->cmds[nb_comand].arguments[0]);

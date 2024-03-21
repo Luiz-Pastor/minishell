@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abarrio- <abarrio-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:37:51 by abarrio-          #+#    #+#             */
+/*   Updated: 2024/03/21 12:47:50 by abarrio-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 static void	one_command(t_msh *msh)
@@ -19,10 +31,7 @@ void	wait_childs(t_msh *msh)
 		if (current_pid <= 0)
 			break ;
 		if (current_pid == msh->final_pid)
-		{
-			if (WEXITSTATUS(status))
-				msh->last_status = WEXITSTATUS(status);
-		}
+			msh->last_out = WEXITSTATUS(status);
 	}
 }
 

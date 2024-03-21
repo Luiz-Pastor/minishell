@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abarrio- <abarrio-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:38:22 by abarrio-          #+#    #+#             */
+/*   Updated: 2024/03/21 12:47:29 by abarrio-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -95,7 +107,6 @@ struct						s_msh
 
 	/* ids  procesos*/
 	pid_t					final_pid;
-	int						last_status;
 
 	/* Último error */
 	t_error					error;
