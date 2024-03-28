@@ -81,6 +81,8 @@ int	manage(t_msh *data)
 		manage_readline(data);
 		if (is_input_empty(data->input))
 		{
+			data->last_status = 0;
+			data->last_out = 0;
 			free(data->input);
 			continue ;
 		}
