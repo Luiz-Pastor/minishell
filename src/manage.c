@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarrio- <abarrio-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:36:50 by abarrio-          #+#    #+#             */
-/*   Updated: 2024/03/21 12:36:51 by abarrio-         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:16:39 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int	manage(t_msh *data)
 		manage_readline(data);
 		if (is_input_empty(data->input))
 		{
-			data->last_status = 0;
 			data->last_out = 0;
 			free(data->input);
 			continue ;
