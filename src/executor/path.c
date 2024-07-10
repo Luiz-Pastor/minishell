@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarrio- <abarrio-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lpastor- <lpastor-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:37:55 by abarrio-          #+#    #+#             */
-/*   Updated: 2024/03/21 12:37:56 by abarrio-         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:32:51 by lpastor-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ char	*get_path(t_cmd *cmds, char **envp)
 	path_list = get_path_list(envp);
 	path_cmd = build_path(cmds, path_list);
 	if (!path_cmd)
+	{
+		ft_free_split(path_list);
 		exit_malloc();
-	free(path_list);
+	}
+	ft_free_split(path_list);
 	return (path_cmd);
 }
