@@ -11,13 +11,13 @@ Minishell is a project whose main objective is to develop a functional basic ter
 # Compiling and running the project
 1- Clone the repository
 ```bash
-git clone https://github.com/Luiz-Pastor/minishell.git
+git clone https://github.com/Luiz-Pastor/42-minishell.git
 ```
 
 2- Navigate to the directory and run the `make` command
 ```bash
 # Move and compile
-cd minishell
+cd 42-minishell
 make
 
 # Execute the program
